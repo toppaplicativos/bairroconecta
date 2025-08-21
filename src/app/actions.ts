@@ -13,4 +13,3 @@ export async function askQuestion(question: string) {
     console.error(error);
     return { answer: 'Desculpe, não consegui encontrar uma resposta. Tente novamente mais tarde.' };
   }
-}

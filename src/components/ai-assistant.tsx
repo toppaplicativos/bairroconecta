@@ -27,10 +27,11 @@ export default function AIAssistant() {
 
     const newMessages: Message[] = [...messages, { role: 'user', content: input }];
     setMessages(newMessages);
+    const currentInput = input;
     setInput('');
     
     startTransition(async () => {
-      const { answer } = await askQuestion(input);
+      const { answer } = await askQuestion(currentInput);
       setMessages([...newMessages, { role: 'assistant', content: answer }]);
       
       setTimeout(() => {
@@ -111,7 +112,6 @@ export default function AIAssistant() {
           />
           <Button type="submit" size="icon" disabled={isPending || !input.trim()}>
             {isPending ? <Loader className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-            <span className="sr-only">Enviar</span>
           </Button>
         </form>
       </div>
