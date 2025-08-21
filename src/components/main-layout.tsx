@@ -12,6 +12,7 @@ import {
   Store,
   Tags,
   Menu,
+  Megaphone,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -26,9 +27,12 @@ const navItems = [
   { href: '/forum', label: 'Fórum', icon: MessagesSquare },
   { href: '/events', label: 'Eventos', icon: CalendarDays },
   { href: '/classifieds', label: 'Classificados', icon: Tags },
+  { href: '/ouvidoria', label: 'Ouvidoria', icon: Megaphone },
 ];
 
 const mainNavItems = navItems.slice(0, 5);
+const moreNavItems = navItems.slice(5);
+
 
 function BottomNav() {
   const pathname = usePathname();
@@ -154,7 +158,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <DesktopSidebar />
       <div className="flex flex-col flex-1">
         {isMobile && <MobileHeader />}
-        <main className="flex flex-1 flex-col pb-16 md:pb-0">
+        <main className="flex flex-1 flex-col pb-16 md:pb-0 bg-muted/20">
           {children}
         </main>
       </div>
