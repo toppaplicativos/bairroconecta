@@ -14,6 +14,7 @@ import {
   Menu,
   Megaphone,
   Briefcase,
+  Map,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -23,6 +24,7 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/s
 
 const navItems = [
   { href: '/', label: 'Início', icon: LayoutGrid },
+  { href: '/map', label: 'Mapa', icon: Map },
   { href: '/properties', label: 'Imóveis', icon: Building2 },
   { href: '/businesses', label: 'Comércio', icon: Store },
   { href: '/services', label: 'Serviços', icon: Briefcase },
@@ -32,8 +34,13 @@ const navItems = [
   { href: '/ouvidoria', label: 'Ouvidoria', icon: Megaphone },
 ];
 
-const mainNavItems = navItems.slice(0, 5);
-const moreNavItems = navItems.slice(5);
+const mainNavItems = [
+  { href: '/', label: 'Início', icon: LayoutGrid },
+  { href: '/map', label: 'Mapa', icon: Map },
+  { href: '/businesses', label: 'Comércio', icon: Store },
+  { href: '/services', label: 'Serviços', icon: Briefcase },
+  { href: '/forum', label: 'Fórum', icon: MessagesSquare },
+];
 
 
 function BottomNav() {

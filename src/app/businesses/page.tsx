@@ -1,56 +1,7 @@
 import MainLayout from "@/components/main-layout";
 import BusinessCard from "@/components/business-card";
+import { businesses } from "@/lib/data";
 
-const businesses = [
-  {
-    id: 1,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "cozy restaurant",
-    name: "Cantina da Nona",
-    category: "Restaurantes",
-    rating: 4.8,
-  },
-  {
-    id: 2,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "local pharmacy",
-    name: "Farmácia Saúde",
-    category: "Farmácias",
-    rating: 4.5,
-  },
-  {
-    id: 3,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "grocery store",
-    name: "Mercado do Bairro",
-    category: "Mercados",
-    rating: 4.3,
-  },
-  {
-    id: 4,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "modern salon",
-    name: "Salão de Beleza Estilo",
-    category: "Salões de Beleza",
-    rating: 4.9,
-  },
-  {
-    id: 5,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "pet shop",
-    name: "Mundo Pet",
-    category: "Pet Shops",
-    rating: 4.7,
-  },
-  {
-    id: 6,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "local gym",
-    name: "Academia Corpo em Forma",
-    category: "Academias",
-    rating: 4.6,
-  },
-];
 
 export default function BusinessesPage() {
   return (
