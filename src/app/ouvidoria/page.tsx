@@ -55,14 +55,14 @@ export default function OuvidoriaPage() {
     return (
         <MainLayout>
             <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-                <div className="flex items-center justify-between">
-                    <div>
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div className="space-y-1">
                         <h1 className="text-3xl font-bold tracking-tight font-headline">Mural da Ouvidoria</h1>
                         <p className="text-muted-foreground">Acompanhe e registre as demandas do seu bairro.</p>
                     </div>
                      <Dialog>
                       <DialogTrigger asChild>
-                         <Button>
+                         <Button className="w-full md:w-auto">
                             <PlusCircle className="mr-2 h-4 w-4" />
                             Nova Manifestação
                         </Button>
