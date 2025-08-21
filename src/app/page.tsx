@@ -4,12 +4,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sparkles } from "lucide-react";
 
 export default function Home() {
+  const userName = "Visitante";
+  const neighborhoodName = "seu bairro";
+
   return (
     <MainLayout>
       <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
         <div className="flex items-center justify-between space-y-2">
           <h1 className="text-3xl font-bold tracking-tight font-headline">
-            Bem-vindo ao BairroConecta
+            Olá {userName}, bem-vindo ao {neighborhoodName}
           </h1>
         </div>
         <p className="text-muted-foreground">

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -71,7 +71,7 @@ function BottomNav() {
 
 function MobileSidebar() {
     const pathname = usePathname();
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = React.useState(false);
     
     return (
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -90,7 +90,7 @@ function MobileSidebar() {
                       onClick={() => setIsOpen(false)}
                     >
                       <Sparkles className="h-6 w-6 text-primary" />
-                      <span className="font-headline">BairroConecta</span>
+                      <span className="font-headline">Meu Bairro</span>
                     </Link>
                     {navItems.map(({ href, label, icon: Icon }) => (
                       <Link
@@ -121,7 +121,7 @@ function DesktopSidebar() {
       <div className="flex h-16 items-center border-b px-6">
         <Link href="/" className="flex items-center gap-2 font-semibold">
           <Sparkles className="h-6 w-6 text-primary" />
-          <span className="font-headline text-lg">BairroConecta</span>
+          <span className="font-headline text-lg">Meu Bairro</span>
         </Link>
       </div>
       <div className="flex-1 overflow-auto py-2">
@@ -148,7 +148,7 @@ function DesktopSidebar() {
 function MobileHeader() {
     const pathname = usePathname();
     const currentNavItem = navItems.find(item => item.href === pathname);
-    const title = currentNavItem ? currentNavItem.label : "BairroConecta";
+    const title = currentNavItem ? currentNavItem.label : "Meu Bairro";
 
     return (
         <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-background px-4 md:hidden">
