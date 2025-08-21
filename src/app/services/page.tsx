@@ -6,7 +6,7 @@ const serviceProviders = [
     id: 1,
     avatarUrl: "https://placehold.co/40x40.png",
     hint: "man electrician",
-    name: "Roberto "Alemão" Silva",
+    name: "Roberto \"Alemão\" Silva",
     service: "Eletricista",
     rating: 4.9,
     reviews: 85,
