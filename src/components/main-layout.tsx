@@ -13,6 +13,7 @@ import {
   Tags,
   Menu,
   Megaphone,
+  Briefcase,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -24,6 +25,7 @@ const navItems = [
   { href: '/', label: 'Início', icon: LayoutGrid },
   { href: '/properties', label: 'Imóveis', icon: Building2 },
   { href: '/businesses', label: 'Comércio', icon: Store },
+  { href: '/services', label: 'Serviços', icon: Briefcase },
   { href: '/forum', label: 'Fórum', icon: MessagesSquare },
   { href: '/events', label: 'Eventos', icon: CalendarDays },
   { href: '/classifieds', label: 'Classificados', icon: Tags },
