@@ -17,7 +17,7 @@ import {
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
 const navItems = [
   { href: '/', label: 'Início', icon: LayoutGrid },
@@ -69,6 +69,7 @@ function MobileSidebar() {
                 </Button>
             </SheetTrigger>
             <SheetContent side="left" className="p-0">
+                <SheetTitle className="sr-only">Menu de Navegação</SheetTitle>
                  <nav className="grid gap-6 text-lg font-medium p-6">
                     <Link
                       href="/"
