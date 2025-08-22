@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -31,6 +32,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import AIAssistant from './ai-assistant';
+import AuthButton from './auth-button';
 
 
 const navItems = [
@@ -164,11 +166,12 @@ function DesktopSidebar() {
 
   return (
     <aside className="hidden md:flex md:flex-col md:w-64 border-r">
-      <div className="flex h-16 items-center border-b px-6">
+      <div className="flex h-16 items-center border-b px-6 justify-between">
         <Link href="/" className="flex items-center gap-2 font-semibold">
           <Sparkles className="h-6 w-6 text-primary" />
           <span className="font-headline text-lg">Meu Bairro</span>
         </Link>
+        <AuthButton />
       </div>
       <div className="flex-1 overflow-auto py-2">
         <nav className="grid items-start px-4 text-sm font-medium">
@@ -217,7 +220,9 @@ function MobileHeader() {
                  <h1 className="text-xl font-semibold font-headline">{title}</h1>
                  <p className="text-sm text-muted-foreground">{subtitle}</p>
             </div>
-            <div className="w-8"></div>
+             <div className="w-12">
+                <AuthButton />
+            </div>
         </header>
     );
 }

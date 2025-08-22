@@ -1,7 +1,10 @@
+
 'use server';
 
 import { answerNeighborhoodQuestion } from '@/ai/flows/answer-neighborhood-questions';
 import { analyzeReport, AnalyzeReportOutput } from '@/ai/flows/report-analysis-flow';
+import { db } from '@/lib/firebase';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 export async function askQuestion(question: string) {
   if (!question) {
@@ -16,15 +19,30 @@ export async function askQuestion(question: string) {
   }
 }
 
-export async function submitReport(data: { category: string; description: string; address: string; }): Promise<AnalyzeReportOutput> {
+export async function submitReport(
+    data: { category: string; description: string; address: string; },
+    userId: string
+): Promise<AnalyzeReportOutput & { id: string }> {
     try {
         const analysis = await analyzeReport(data);
-        // Em um app real, você salvaria os dados e a análise no banco de dados.
-        // Por enquanto, vamos retornar a análise para o client-side (ou apenas logar no servidor)
-        console.log('Análise da Manifestação:', analysis);
-        return analysis;
+        
+        const reportData = {
+            ...data,
+            analysis,
+            userId,
+            status: "Aberta",
+            createdAt: serverTimestamp(),
+            updates: [
+                { status: "Aberta", date: new Date().toISOString(), comment: "Manifestação recebida e aguardando triagem para encaminhamento." }
+            ]
+        };
+        
+        const docRef = await addDoc(collection(db, "reports"), reportData);
+
+        console.log('Manifestação registrada com o ID:', docRef.id);
+        return { ...analysis, id: docRef.id };
     } catch (error) {
-        console.error('Erro ao analisar a manifestação:', error);
-        throw new Error('Falha ao analisar a manifestação.');
+        console.error('Erro ao analisar e salvar a manifestação:', error);
+        throw new Error('Falha ao processar a manifestação.');
     }
 }

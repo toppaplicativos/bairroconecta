@@ -12,11 +12,13 @@ type ReportUpdate = {
 };
 
 type Report = {
-  protocol: string;
+  id: string; // Previously protocol
   category: string;
   status: "Aberta" | "Em andamento" | "Resolvido";
-  urgency: "Baixa" | "Média" | "Alta" | "Crítica";
-  date: string;
+  analysis: {
+      urgency: "Baixa" | "Média" | "Alta" | "Crítica";
+  };
+  createdAt: { toDate: () => Date };
   description: string;
   updates: ReportUpdate[];
 };
@@ -65,18 +67,19 @@ const getUrgencyTextClass = (urgency: string): string => {
 }
 
 export default function ReportCard({ report }: ReportCardProps) {
+  const urgency = report.analysis?.urgency || "Baixa";
   return (
-    <Card className={cn("shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4", getUrgencyClass(report.urgency))}>
+    <Card className={cn("shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4", getUrgencyClass(urgency))}>
         <CardHeader>
             <div className="flex justify-between items-start gap-4">
                 <div>
-                     <CardDescription>Protocolo: {report.protocol}</CardDescription>
+                     <CardDescription>Protocolo: {report.id.substring(0, 10)}...</CardDescription>
                      <CardTitle className="text-xl font-bold font-headline mt-1">{report.category}</CardTitle>
                 </div>
                 <div className="flex flex-col items-end gap-2">
                     <Badge variant={getStatusVariant(report.status)}>{report.status}</Badge>
-                    <span className={cn("text-xs font-bold", getUrgencyTextClass(report.urgency))}>
-                        URGÊNCIA: {report.urgency.toUpperCase()}
+                    <span className={cn("text-xs font-bold", getUrgencyTextClass(urgency))}>
+                        URGÊNCIA: {urgency.toUpperCase()}
                     </span>
                 </div>
             </div>

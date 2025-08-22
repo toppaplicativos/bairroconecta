@@ -13,6 +13,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { submitReport } from "@/app/actions";
 import { useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/lib/firebase";
 
 const reportSchema = z.object({
     category: z.string({ required_error: "Selecione uma categoria." }),
@@ -22,9 +24,14 @@ const reportSchema = z.object({
 
 type ReportFormValues = z.infer<typeof reportSchema>;
 
-export default function NewReportForm() {
+interface NewReportFormProps {
+    onReportSubmitted: () => void;
+}
+
+export default function NewReportForm({ onReportSubmitted }: NewReportFormProps) {
     const { toast } = useToast();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [user] = useAuthState(auth);
 
     const form = useForm<ReportFormValues>({
         resolver: zodResolver(reportSchema),
@@ -35,15 +42,24 @@ export default function NewReportForm() {
     });
 
     const onSubmit = async (data: ReportFormValues) => {
+        if (!user) {
+             toast({
+                variant: "destructive",
+                title: "Usuário não autenticado",
+                description: "Você precisa fazer login para enviar uma manifestação.",
+            });
+            return;
+        }
+
         setIsSubmitting(true);
         try {
-            const analysis = await submitReport(data);
-            console.log("Análise recebida no front-end:", analysis);
+            const result = await submitReport(data, user.uid);
             toast({
                 title: "Manifestação Enviada!",
-                description: `Sua solicitação foi registrada e classificada com urgência: ${analysis.urgency}.`,
+                description: `Sua solicitação foi registrada com o protocolo ${result.id.substring(0, 10)}... e classificada com urgência: ${result.urgency}.`,
             });
-            // Aqui você pode fechar o dialog ou resetar o formulário
+            form.reset();
+            onReportSubmitted();
         } catch (error) {
             toast({
                 variant: "destructive",
@@ -71,12 +87,12 @@ export default function NewReportForm() {
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                    <SelectItem value="buraco-rua">Buraco na rua</SelectItem>
-                                    <SelectItem value="iluminacao">Iluminação pública</SelectItem>
-                                    <SelectItem value="lixo">Lixo acumulado</SelectItem>
-                                    <SelectItem value="sinalizacao">Sinalização de trânsito</SelectItem>
-                                    <SelectItem value="seguranca">Segurança</SelectItem>
-                                    <SelectItem value="outros">Outros</SelectItem>
+                                    <SelectItem value="Buraco na rua">Buraco na rua</SelectItem>
+                                    <SelectItem value="Iluminação pública">Iluminação pública</SelectItem>
+                                    <SelectItem value="Lixo acumulado">Lixo acumulado</SelectItem>
+                                    <SelectItem value="Sinalização de trânsito">Sinalização de trânsito</SelectItem>
+                                    <SelectItem value="Segurança">Segurança</SelectItem>
+                                    <SelectItem value="Outros">Outros</SelectItem>
                                 </SelectContent>
                             </Select>
                             <FormMessage />
@@ -131,7 +147,7 @@ export default function NewReportForm() {
                     {isSubmitting ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Analisando...
+                            Analisando e Enviando...
                         </>
                     ) : (
                         <>
