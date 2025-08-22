@@ -4,7 +4,7 @@
 import { answerNeighborhoodQuestion } from '@/ai/flows/answer-neighborhood-questions';
 import { analyzeReport, AnalyzeReportOutput, analyzeAllReports, AllReportsAnalysisOutput } from '@/ai/flows/report-analysis-flow';
 import { db } from '@/lib/firebase';
-import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion, getDocs, query, orderBy } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion, getDocs, query, orderBy, increment } from 'firebase/firestore';
 
 export async function askQuestion(question: string) {
   if (!question) {
@@ -139,6 +139,7 @@ export async function createPost(
     authorAvatar: user.photoURL,
     createdAt: serverTimestamp(),
     repliesCount: 0,
+    comments: [],
   };
 
   try {
@@ -148,4 +149,32 @@ export async function createPost(
     console.error("Erro ao criar o post:", error);
     throw new Error("Não foi possível criar o tópico.");
   }
+}
+
+export async function addCommentToPost(postId: string, text: string, user: { uid: string; displayName: string; photoURL: string | null }) {
+    if (!postId || !text || !user) {
+        throw new Error("Dados inválidos para adicionar comentário.");
+    }
+    
+    const commentData = {
+        id: new Date().getTime().toString(), // simple unique id
+        authorId: user.uid,
+        authorName: user.displayName,
+        authorAvatar: user.photoURL,
+        text,
+        createdAt: serverTimestamp(),
+    };
+
+    const postRef = doc(db, "posts", postId);
+
+    try {
+        await updateDoc(postRef, {
+            comments: arrayUnion(commentData),
+            repliesCount: increment(1)
+        });
+        console.log("Comentário adicionado ao post com sucesso!");
+    } catch (error) {
+        console.error("Erro ao adicionar comentário ao post:", error);
+        throw new Error("Não foi possível adicionar o comentário ao tópico.");
+    }
 }
