@@ -7,7 +7,7 @@ import { db } from "@/lib/firebase";
 import { collection, onSnapshot, orderBy, query, where, DocumentData } from "firebase/firestore";
 import { useEffect, useState, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Gauge, ListTodo, CheckCircle, AlertOctagon } from "lucide-react";
+import { ListTodo, CheckCircle, AlertOctagon } from "lucide-react";
 import { ReportsByCategoryChart } from "@/components/reports-by-category-chart";
 import { ReportsByStatusChart } from "@/components/reports-by-status-chart";
 import { Input } from "@/components/ui/input";

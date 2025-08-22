@@ -14,7 +14,7 @@ import {
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import AuthButton from './auth-button';
+import AuthButton from '../components/auth-button';
 
 const navItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -103,10 +103,7 @@ function DesktopSidebar() {
   );
 }
 
-function MobileHeader() {
-    const currentNavItem = navItems.find(item => item.href === usePathname());
-    const title = currentNavItem?.label || 'Painel de Gestão';
-
+function MobileHeader({ title }: { title: string }) {
     return (
         <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-background px-4 md:hidden">
             <MobileSidebar />
@@ -118,12 +115,12 @@ function MobileHeader() {
     );
 }
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({ children, title }: { children: React.ReactNode; title: string; }) {
   return (
     <div className="flex min-h-screen w-full flex-col md:flex-row">
       <DesktopSidebar />
       <div className="flex flex-col flex-1">
-        <MobileHeader />
+        <MobileHeader title={title} />
         <main className="flex flex-1 flex-col bg-muted/40">
           {children}
         </main>
