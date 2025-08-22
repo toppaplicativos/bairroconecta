@@ -19,6 +19,7 @@ const reports = [
     protocol: "202407-001",
     category: "Buraco na rua",
     status: "Resolvido",
+    urgency: "Média",
     date: "20/07/2024",
     description: "Buraco grande na Rua das Flores, próximo ao número 123, causando transtorno para os veículos.",
     updates: [
@@ -31,6 +32,7 @@ const reports = [
     protocol: "202407-002",
     category: "Iluminação pública",
     status: "Em andamento",
+    urgency: "Alta",
     date: "21/07/2024",
     description: "Poste com lâmpada queimada na Praça da Matriz, deixando a área muito escura e insegura à noite.",
     updates: [
@@ -42,6 +44,7 @@ const reports = [
     protocol: "202407-003",
     category: "Lixo acumulado",
     status: "Aberta",
+    urgency: "Baixa",
     date: "22/07/2024",
     description: "Acúmulo de lixo na esquina da Rua das Acácias com a Av. Principal. É preciso reforçar a coleta na região.",
      updates: [

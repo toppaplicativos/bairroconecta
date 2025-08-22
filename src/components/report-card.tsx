@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "./ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
 import ReportTimeline from "./report-timeline";
+import { cn } from "@/lib/utils";
 
 type ReportUpdate = {
   status: string;
@@ -14,6 +15,7 @@ type Report = {
   protocol: string;
   category: string;
   status: "Aberta" | "Em andamento" | "Resolvido";
+  urgency: "Baixa" | "Média" | "Alta" | "Crítica";
   date: string;
   description: string;
   updates: ReportUpdate[];
@@ -36,17 +38,47 @@ const getStatusVariant = (status: string): "default" | "secondary" | "destructiv
     }
 }
 
+const getUrgencyClass = (urgency: string): string => {
+    switch (urgency) {
+        case "Crítica":
+            return "border-red-500 bg-red-50";
+        case "Alta":
+            return "border-orange-500 bg-orange-50";
+        case "Média":
+            return "border-yellow-500 bg-yellow-50";
+        default:
+            return "";
+    }
+}
+
+const getUrgencyTextClass = (urgency: string): string => {
+     switch (urgency) {
+        case "Crítica":
+            return "text-red-600";
+        case "Alta":
+            return "text-orange-600";
+        case "Média":
+            return "text-yellow-600";
+        default:
+            return "text-gray-600";
+    }
+}
 
 export default function ReportCard({ report }: ReportCardProps) {
   return (
-    <Card className="shadow-sm hover:shadow-md transition-shadow duration-300">
+    <Card className={cn("shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4", getUrgencyClass(report.urgency))}>
         <CardHeader>
-            <div className="flex justify-between items-start">
+            <div className="flex justify-between items-start gap-4">
                 <div>
                      <CardDescription>Protocolo: {report.protocol}</CardDescription>
                      <CardTitle className="text-xl font-bold font-headline mt-1">{report.category}</CardTitle>
                 </div>
-                 <Badge variant={getStatusVariant(report.status)}>{report.status}</Badge>
+                <div className="flex flex-col items-end gap-2">
+                    <Badge variant={getStatusVariant(report.status)}>{report.status}</Badge>
+                    <span className={cn("text-xs font-bold", getUrgencyTextClass(report.urgency))}>
+                        URGÊNCIA: {report.urgency.toUpperCase()}
+                    </span>
+                </div>
             </div>
         </CardHeader>
       <CardContent>
