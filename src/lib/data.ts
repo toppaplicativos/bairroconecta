@@ -24,7 +24,7 @@ export const businesses: Business[] = [
   },
   {
     id: 2,
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://images.unsplash.com/photo-1597121870960-7b5391b88b84?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyMHx8RmFybWFjaWF8ZW58MHx8fHwxNzU1ODYzNTAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
     hint: "local pharmacy",
     name: "Farmácia Saúde",
     category: "Farmácias",
