@@ -22,6 +22,15 @@ import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import AIAssistant from './ai-assistant';
+
 
 const navItems = [
   { href: '/', label: 'Início', icon: LayoutGrid },
@@ -37,8 +46,8 @@ const navItems = [
 
 const mainNavItems = [
   { href: '/services', label: 'Serviços', icon: Briefcase },
-  { href: '/businesses', label: 'Empresas', icon: Store },
-  { href: '/forum', label: 'Comunidade', icon: MessagesSquare },
+  { href: '/businesses', label: 'Comércio', icon: Store },
+  { href: '/forum', label: 'Fórum', icon: MessagesSquare },
   { href: '/ouvidoria', label: 'Ouvidoria', icon: Megaphone },
 ];
 
@@ -46,80 +55,59 @@ const mainNavItems = [
 function BottomNav() {
   const pathname = usePathname();
 
-  if (pathname === '/') {
-     return (
-      <nav className="fixed bottom-0 left-0 right-0 z-50 h-20 border-t bg-background/95 backdrop-blur-sm md:hidden">
-        <div className="grid grid-cols-5 h-full items-center">
-            {mainNavItems.slice(0, 2).map(({ href, label, icon: Icon }) => (
-            <Link
-                key={label}
-                href={href}
-                className={cn(
-                'flex flex-col items-center justify-center gap-1 text-xs font-medium transition-colors',
-                pathname === href
-                    ? 'text-primary'
-                    : 'text-muted-foreground hover:text-primary'
-                )}
-            >
-                <Icon className="h-5 w-5" />
-                <span>{label}</span>
-            </Link>
-            ))}
-            
-            <div className="relative flex justify-center items-center">
-                <div className="absolute bottom-4">
-                     <Button size="icon" className="rounded-full h-16 w-16 shadow-lg">
-                        <MessageCircle className="h-8 w-8" />
-                    </Button>
-                </div>
-            </div>
-
-            {mainNavItems.slice(2).map(({ href, label, icon: Icon }) => (
-            <Link
-                key={label}
-                href={href}
-                className={cn(
-                'flex flex-col items-center justify-center gap-1 text-xs font-medium transition-colors',
-                pathname === href
-                    ? 'text-primary'
-                    : 'text-muted-foreground hover:text-primary'
-                )}
-            >
-                <Icon className="h-5 w-5" />
-                <span>{label}</span>
-            </Link>
-            ))}
-        </div>
-      </nav>
-    );
-  }
-
-  const legacyNavItems = [
-    { href: '/', label: 'Início', icon: LayoutGrid },
-    { href: '/map', label: 'Mapa', icon: Map },
-    { href: '/businesses', label: 'Comércio', icon: Store },
-    { href: '/services', label: 'Serviços', icon: Briefcase },
-    { href: '/forum', label: 'Fórum', icon: MessagesSquare },
-  ];
-
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur-sm md:hidden">
-      <div className="grid h-16 grid-cols-5">
-        {legacyNavItems.map(({ href, label, icon: Icon }) => (
+    <nav className="fixed bottom-0 left-0 right-0 z-50 h-20 border-t bg-background/95 backdrop-blur-sm md:hidden">
+      <div className="grid grid-cols-5 h-full items-center">
+          {mainNavItems.slice(0, 2).map(({ href, label, icon: Icon }) => (
           <Link
-            key={label}
-            href={href}
-            className={cn(
+              key={label}
+              href={href}
+              className={cn(
               'flex flex-col items-center justify-center gap-1 text-xs font-medium transition-colors',
               pathname === href
-                ? 'text-primary'
-                : 'text-muted-foreground hover:text-primary'
-            )}
+                  ? 'text-primary'
+                  : 'text-muted-foreground hover:text-primary'
+              )}
           >
-            <Icon className="h-5 w-5" />
-            <span>{label}</span>
+              <Icon className="h-5 w-5" />
+              <span>{label}</span>
           </Link>
-        ))}
+          ))}
+          
+          <Dialog>
+            <DialogTrigger asChild>
+                <div className="relative flex justify-center items-center">
+                    <div className="absolute bottom-4">
+                        <Button size="icon" className="rounded-full h-16 w-16 shadow-lg">
+                            <MessageCircle className="h-8 w-8" />
+                        </Button>
+                    </div>
+                </div>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px] h-3/4 flex flex-col">
+                <DialogHeader>
+                    <DialogTitle>Assistente Local de IA</DialogTitle>
+                </DialogHeader>
+                <AIAssistant />
+            </DialogContent>
+        </Dialog>
+
+
+          {mainNavItems.slice(2).map(({ href, label, icon: Icon }) => (
+          <Link
+              key={label}
+              href={href}
+              className={cn(
+              'flex flex-col items-center justify-center gap-1 text-xs font-medium transition-colors',
+              pathname === href
+                  ? 'text-primary'
+                  : 'text-muted-foreground hover:text-primary'
+              )}
+          >
+              <Icon className="h-5 w-5" />
+              <span>{label}</span>
+          </Link>
+          ))}
       </div>
     </nav>
   );
@@ -203,15 +191,30 @@ function DesktopSidebar() {
 
 function MobileHeader() {
     const pathname = usePathname();
-    const currentNavItem = navItems.find(item => item.href === pathname);
-    const title = currentNavItem ? currentNavItem.label : "Meu Bairro";
     
-    if (pathname === '/') return null;
+    let title = "Meu Bairro";
+    if (pathname === '/') {
+      title = "Olá, Visitante!";
+    } else {
+      const currentNavItem = navItems.find(item => item.href === pathname);
+      if (currentNavItem) {
+        title = currentNavItem.label;
+      }
+    }
+    
+    let subtitle = "O que você precisa, à distância de um clique.";
+    if (pathname !== '/') {
+        subtitle = "Explore e conecte-se com sua comunidade.";
+    }
+
 
     return (
-        <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-background px-4 md:hidden">
+        <header className="sticky top-0 z-40 flex h-20 items-center gap-4 border-b bg-background px-4 md:hidden">
             <MobileSidebar />
-            <h1 className="flex-1 text-center text-xl font-semibold font-headline">{title}</h1>
+            <div className="flex-1 text-center">
+                 <h1 className="text-xl font-semibold font-headline">{title}</h1>
+                 <p className="text-sm text-muted-foreground">{subtitle}</p>
+            </div>
             <div className="w-8"></div>
         </header>
     );
@@ -219,23 +222,13 @@ function MobileHeader() {
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const isMobile = useIsMobile();
-  const pathname = usePathname();
-
-  if (pathname === '/') {
-    return (
-        <div className="flex min-h-screen w-full flex-col">
-            <main className="flex-1">{children}</main>
-            {isMobile && <BottomNav />}
-        </div>
-    );
-  }
   
   return (
     <div className="flex min-h-screen w-full flex-col md:flex-row">
       <DesktopSidebar />
       <div className="flex flex-col flex-1">
         {isMobile && <MobileHeader />}
-        <main className="flex flex-1 flex-col pb-16 md:pb-0 bg-muted/20">
+        <main className="flex flex-1 flex-col pb-20 md:pb-0 bg-muted/20">
           {children}
         </main>
       </div>
