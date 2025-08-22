@@ -4,7 +4,7 @@ import ServiceCard from "@/components/service-card";
 const serviceProviders = [
   {
     id: 1,
-    avatarUrl: "https://placehold.co/40x40.png",
+    avatarUrl: "https://images.unsplash.com/photo-1682345262055-8f95f3c513ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxFbGV0cmljaXN0YXxlbnwwfHx8fDE3NTU4NjQyMzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
     hint: "man electrician",
     name: "Roberto \"Alemão\" Silva",
     service: "Eletricista",
