@@ -4,7 +4,7 @@ import ClassifiedCard from "@/components/classified-card";
 const ads = [
   {
     id: 1,
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxCaWtlfGVufDB8fHx8MTc1NTg2NjcxN3ww&ixlib=rb-4.1.0&q=80&w=1080",
     hint: "bicycle",
     title: "Bicicleta Caloi 10, seminova",
     price: "R$ 450,00",
