@@ -12,8 +12,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import NewAppointmentForm from "@/components/new-appointment-form";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useState } from "react";
 
 const appointments = [
   {
@@ -44,6 +45,12 @@ const appointments = [
 
 
 export default function HealthClinicPage() {
+    const [openNewAppointment, setOpenNewAppointment] = useState(false);
+
+    const handleAppointmentSubmitted = () => {
+        setOpenNewAppointment(false);
+    }
+
     return (
         <MainLayout>
             <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
@@ -52,7 +59,7 @@ export default function HealthClinicPage() {
                         <h1 className="text-3xl font-bold tracking-tight font-headline">Posto de Saúde</h1>
                         <p className="text-muted-foreground">Agende e acompanhe suas consultas.</p>
                     </div>
-                     <Dialog>
+                     <Dialog open={openNewAppointment} onOpenChange={setOpenNewAppointment}>
                       <DialogTrigger asChild>
                          <Button className="w-full md:w-auto">
                             <PlusCircle className="mr-2 h-4 w-4" />
@@ -66,12 +73,12 @@ export default function HealthClinicPage() {
                             Preencha os dados para marcar sua consulta.
                           </DialogDescription>
                         </DialogHeader>
-                        <NewAppointmentForm />
+                        <NewAppointmentForm onAppointmentSubmitted={handleAppointmentSubmitted} />
                       </DialogContent>
                     </Dialog>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-4 pt-4">
                   <h2 className="text-2xl font-bold tracking-tight font-headline">Próximos Agendamentos</h2>
                    {appointments.map((appt) => (
                     <Card key={appt.id}>

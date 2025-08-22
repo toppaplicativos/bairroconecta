@@ -17,7 +17,7 @@ import {
   Briefcase,
   Map,
   Bot,
-  Hospital,
+  Heart,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -41,7 +41,7 @@ const navItems = [
   { href: '/properties', label: 'Imóveis', icon: Building2 },
   { href: '/businesses', label: 'Comércio', icon: Store },
   { href: '/services', label: 'Serviços', icon: Briefcase },
-  { href: '/health-clinic', label: 'Posto de Saúde', icon: Hospital },
+  { href: '/health-clinic', label: 'Posto de Saúde', icon: Heart },
   { href: '/community', label: 'Comunidade', icon: MessagesSquare },
   { href: '/events', label: 'Eventos', icon: CalendarDays },
   { href: '/classifieds', label: 'Classificados', icon: Tags },
@@ -82,8 +82,8 @@ function BottomNav() {
             <DialogTrigger asChild>
                 <div className="relative flex justify-center items-center">
                     <div className="absolute -top-8">
-                        <Button size="icon" className="rounded-full h-16 w-16 shadow-lg">
-                            <Bot className="h-8 w-8" />
+                        <Button size="icon" className="rounded-full h-16 w-16 shadow-lg bg-accent hover:bg-accent/90">
+                            <Bot className="h-8 w-8 text-accent-foreground" />
                         </Button>
                     </div>
                 </div>
@@ -131,15 +131,17 @@ function MobileSidebar() {
             </SheetTrigger>
             <SheetContent side="left" className="p-0 flex flex-col">
                 <SheetTitle className="sr-only">Menu de Navegação</SheetTitle>
-                 <nav className="grid gap-6 text-lg font-medium p-6">
+                 <div className="flex h-16 items-center border-b px-6">
                     <Link
                       href="/"
-                      className="flex items-center gap-2 text-lg font-semibold mb-4"
+                      className="flex items-center gap-2 text-lg font-semibold"
                       onClick={() => setIsOpen(false)}
                     >
                       <Sparkles className="h-6 w-6 text-primary" />
                       <span className="font-headline">Meu Bairro</span>
                     </Link>
+                </div>
+                <nav className="grid gap-6 text-lg font-medium p-6">
                     {navItems.map(({ href, label, icon: Icon }) => (
                       <Link
                         key={label}
@@ -147,7 +149,7 @@ function MobileSidebar() {
                         onClick={() => setIsOpen(false)}
                         className={cn(
                           'flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground',
-                          pathname.startsWith(href) && href !== '/' || pathname === href ? 'text-foreground' : ''
+                          (pathname.startsWith(href) && href !== '/') || pathname === href ? 'text-foreground' : ''
                         )}
                       >
                         <Icon className="h-5 w-5" />
@@ -183,7 +185,7 @@ function DesktopSidebar() {
               href={href}
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
-                pathname.startsWith(href) && href !== '/' || pathname === href ? 'bg-muted text-primary' : ''
+                (pathname.startsWith(href) && href !== '/') || pathname === href ? 'bg-muted text-primary' : ''
               )}
             >
               <Icon className="h-4 w-4" />
@@ -201,10 +203,11 @@ function DesktopSidebar() {
 
 function MobileHeader() {
     const pathname = usePathname();
+    const [user] = useAuthState(auth);
     
     let title = "Meu Bairro";
-    if (pathname === '/') {
-      title = "Olá, Visitante!";
+     if (pathname === '/') {
+        title = user ? `Olá, ${user.displayName?.split(' ')[0]}!` : "Olá, Visitante!";
     } else {
       const currentNavItem = navItems.find(item => pathname.startsWith(item.href) && item.href !== '/');
       if (currentNavItem) {
@@ -238,7 +241,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <DesktopSidebar />
       <div className="flex flex-col flex-1">
         {isMobile && <MobileHeader />}
-        <main className="flex flex-1 flex-col pb-20 md:pb-0 bg-muted/20">
+        <main className="flex flex-1 flex-col pb-20 md:pb-0 bg-background">
           {children}
         </main>
       </div>
