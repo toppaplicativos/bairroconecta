@@ -7,11 +7,11 @@ import { Store, Briefcase } from 'lucide-react';
 import Link from 'next/link';
 
 interface InteractiveMapProps {
-    businesses: Business[];
+    items: Business[];
 }
 
-export default function InteractiveMap({ businesses }: InteractiveMapProps) {
-    const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(null);
+export default function InteractiveMap({ items }: InteractiveMapProps) {
+    const [selectedItem, setSelectedItem] = useState<Business | null>(null);
 
     const initialViewState = {
         longitude: -46.633308,
@@ -28,35 +28,35 @@ export default function InteractiveMap({ businesses }: InteractiveMapProps) {
                 style={{ width: '100%', height: '100%' }}
             >
                 <NavigationControl position="top-right" />
-                {businesses.map((business) => (
+                {items.map((item) => (
                     <Marker
-                        key={business.id}
-                        longitude={business.longitude}
-                        latitude={business.latitude}
+                        key={item.id}
+                        longitude={item.longitude}
+                        latitude={item.latitude}
                         onClick={(e) => {
                             e.originalEvent.stopPropagation();
-                            setSelectedBusiness(business);
+                            setSelectedItem(item);
                         }}
                     >
                         <button className="p-2 rounded-full bg-primary text-primary-foreground shadow-md">
-                            {business.type === 'business' ? <Store size={20} /> : <Briefcase size={20} />}
+                            {item.type === 'business' ? <Store size={20} /> : <Briefcase size={20} />}
                         </button>
                     </Marker>
                 ))}
 
-                {selectedBusiness && (
+                {selectedItem && (
                     <Popup
-                        longitude={selectedBusiness.longitude}
-                        latitude={selectedBusiness.latitude}
-                        onClose={() => setSelectedBusiness(null)}
+                        longitude={selectedItem.longitude}
+                        latitude={selectedItem.latitude}
+                        onClose={() => setSelectedItem(null)}
                         closeOnClick={false}
                         anchor="bottom"
                         offset={40}
                     >
-                        <div className="p-2">
-                            <h3 className="font-bold text-md font-headline">{selectedBusiness.name}</h3>
-                            <p className="text-sm text-muted-foreground">{selectedBusiness.category}</p>
-                            <Link href="/businesses" className="text-sm text-primary hover:underline mt-2 inline-block">
+                        <div className="p-1">
+                            <h3 className="font-bold text-md font-headline">{selectedItem.name}</h3>
+                            <p className="text-sm text-muted-foreground">{selectedItem.category}</p>
+                            <Link href={selectedItem.type === 'business' ? '/businesses' : '/services'} className="text-sm text-primary hover:underline mt-1 inline-block">
                                 Ver mais
                             </Link>
                         </div>

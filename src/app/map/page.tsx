@@ -11,7 +11,7 @@ export default function MapPage() {
                 <p className="text-muted-foreground">Explore os negócios e serviços no seu bairro.</p>
             </div>
             <div className="flex-1 relative">
-               <InteractiveMap businesses={businesses} />
+               <InteractiveMap items={businesses} />
             </div>
         </div>
     </MainLayout>
