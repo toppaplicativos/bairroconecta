@@ -13,6 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import NewCommentForm from '@/components/new-comment-form';
+import Poll from '@/components/poll';
 
 type Comment = {
   id: string;
@@ -20,6 +21,18 @@ type Comment = {
   authorAvatar?: string;
   text: string;
   createdAt: { toDate: () => Date };
+}
+
+type PollOption = {
+  id: number;
+  text: string;
+  votes: number;
+};
+
+type PollData = {
+  question: string;
+  options: PollOption[];
+  voters: { [userId: string]: number };
 }
 
 type Post = {
@@ -30,6 +43,7 @@ type Post = {
   authorAvatar?: string;
   createdAt: { toDate: () => Date };
   comments: Comment[];
+  poll?: PollData;
 };
 
 export default function ForumPostDetailPage() {
@@ -85,12 +99,17 @@ export default function ForumPostDetailPage() {
   return (
     <MainLayout>
       <div className="flex-1 space-y-6 p-4 md:p-8 pt-6">
+
+        {post.poll && (
+            <Poll postId={post.id} pollData={post.poll} />
+        )}
+
         <Card>
             <CardHeader>
                 <CardTitle className="text-2xl md:text-3xl font-bold font-headline">{post.title}</CardTitle>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground pt-2">
                     <Avatar className="h-6 w-6">
-                        <AvatarImage src={post.authorAvatar} alt={post.authorName} />
+                        <AvatarImage src={post.authorAvatar || undefined} alt={post.authorName} />
                         <AvatarFallback>{post.authorName?.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <span>Postado por <strong>{post.authorName}</strong> • {timeAgo}</span>
