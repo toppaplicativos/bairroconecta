@@ -129,7 +129,7 @@ function MobileSidebar() {
                     <span className="sr-only">Abrir menu</span>
                 </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="p-0">
+            <SheetContent side="left" className="p-0 flex flex-col">
                 <SheetTitle className="sr-only">Menu de Navegação</SheetTitle>
                  <nav className="grid gap-6 text-lg font-medium p-6">
                     <Link
@@ -155,6 +155,9 @@ function MobileSidebar() {
                       </Link>
                     ))}
                   </nav>
+                  <div className="mt-auto p-4 border-t">
+                    <AuthButton />
+                  </div>
             </SheetContent>
         </Sheet>
     );
@@ -166,12 +169,11 @@ function DesktopSidebar() {
 
   return (
     <aside className="hidden md:flex md:flex-col md:w-64 border-r">
-      <div className="flex h-16 items-center border-b px-6 justify-between">
+      <div className="flex h-16 items-center border-b px-6">
         <Link href="/" className="flex items-center gap-2 font-semibold">
           <Sparkles className="h-6 w-6 text-primary" />
           <span className="font-headline text-lg">Meu Bairro</span>
         </Link>
-        <AuthButton />
       </div>
       <div className="flex-1 overflow-auto py-2">
         <nav className="grid items-start px-4 text-sm font-medium">
@@ -190,6 +192,9 @@ function DesktopSidebar() {
           ))}
         </nav>
       </div>
+       <div className="mt-auto p-4 border-t">
+          <AuthButton />
+        </div>
     </aside>
   );
 }
@@ -220,9 +225,7 @@ function MobileHeader() {
                  <h1 className="text-xl font-semibold font-headline">{title}</h1>
                  <p className="text-sm text-muted-foreground">{subtitle}</p>
             </div>
-             <div className="w-12">
-                <AuthButton />
-            </div>
+             <div className="w-12" />
         </header>
     );
 }
