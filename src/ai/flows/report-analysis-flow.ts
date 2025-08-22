@@ -73,12 +73,12 @@ const reportAnalysisFlow = ai.defineFlow(
 
 
 // Schema and flow for analyzing all reports
-export const AllReportsAnalysisInputSchema = z.object({
+const AllReportsAnalysisInputSchema = z.object({
   reports: z.string().describe('Um array de objetos de manifestação em formato JSON string.'),
 });
 export type AllReportsAnalysisInput = z.infer<typeof AllReportsAnalysisInputSchema>;
 
-export const AllReportsAnalysisOutputSchema = z.object({
+const AllReportsAnalysisOutputSchema = z.object({
   overallSummary: z.string().describe('Um resumo executivo sobre o estado geral das manifestações.'),
   keyInsights: z.array(z.string()).describe('Uma lista de 3 a 5 insights chave ou tendências observadas.'),
   urgentActionItems: z.array(z.string()).describe('Uma lista de itens que requerem ação imediata.'),
