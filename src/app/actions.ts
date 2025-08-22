@@ -2,9 +2,9 @@
 'use server';
 
 import { answerNeighborhoodQuestion } from '@/ai/flows/answer-neighborhood-questions';
-import { analyzeReport, AnalyzeReportOutput } from '@/ai/flows/report-analysis-flow';
+import { analyzeReport, AnalyzeReportOutput, analyzeAllReports, AllReportsAnalysisOutput } from '@/ai/flows/report-analysis-flow';
 import { db } from '@/lib/firebase';
-import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion, getDocs } from 'firebase/firestore';
 
 export async function askQuestion(question: string) {
   if (!question) {
@@ -107,5 +107,18 @@ export async function updateReportStatus(reportId: string, status: string, comme
     } catch (error) {
         console.error("Erro ao atualizar o status:", error);
         throw new Error("Não foi possível atualizar o status da manifestação.");
+    }
+}
+
+export async function getReportsAnalysis(): Promise<AllReportsAnalysisOutput> {
+    try {
+        const querySnapshot = await getDocs(collection(db, "reports"));
+        const reports = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        const analysis = await analyzeAllReports({ reports: JSON.stringify(reports) });
+        return analysis;
+    } catch (error) {
+        console.error("Error getting reports analysis:", error);
+        throw new Error("Failed to get reports analysis.");
     }
 }

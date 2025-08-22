@@ -2,11 +2,14 @@
 'use server';
 
 /**
- * @fileOverview Um agente de IA para analisar e triar manifestações da ouvidoria.
+ * @fileOverview Um agente de IA para analisar e triar manifestações da ouvidoria, individualmente ou em lote.
  *
  * - analyzeReport - Analisa uma nova manifestação para categorizar, definir urgência e encaminhar.
+ * - analyzeAllReports - Analisa um conjunto de manifestações para gerar insights e resumos.
  * - AnalyzeReportInput - O tipo de entrada para a função analyzeReport.
  * - AnalyzeReportOutput - O tipo de retorno para a função analyzeReport.
+ * - AllReportsAnalysisInput - O tipo de entrada para a função analyzeAllReports.
+ * - AllReportsAnalysisOutput - O tipo de retorno para a função analyzeAllReports.
  */
 
 import {ai} from '@/ai/genkit';
@@ -66,4 +69,70 @@ const reportAnalysisFlow = ai.defineFlow(
     const {output} = await prompt(input);
     return output!;
   }
+);
+
+
+// Schema and flow for analyzing all reports
+export const AllReportsAnalysisInputSchema = z.object({
+  reports: z.string().describe('Um array de objetos de manifestação em formato JSON string.'),
+});
+export type AllReportsAnalysisInput = z.infer<typeof AllReportsAnalysisInputSchema>;
+
+export const AllReportsAnalysisOutputSchema = z.object({
+  overallSummary: z.string().describe('Um resumo executivo sobre o estado geral das manifestações.'),
+  keyInsights: z.array(z.string()).describe('Uma lista de 3 a 5 insights chave ou tendências observadas.'),
+  urgentActionItems: z.array(z.string()).describe('Uma lista de itens que requerem ação imediata.'),
+});
+export type AllReportsAnalysisOutput = z.infer<typeof AllReportsAnalysisOutputSchema>;
+
+export async function analyzeAllReports(input: AllReportsAnalysisInput): Promise<AllReportsAnalysisOutput> {
+    return allReportsAnalysisFlow(input);
+}
+
+const allReportsPrompt = ai.definePrompt({
+    name: 'allReportsAnalysisPrompt',
+    input: { schema: AllReportsAnalysisInputSchema },
+    output: { schema: AllReportsAnalysisOutputSchema },
+    prompt: `Você é um analista de dados sênior da prefeitura. Sua tarefa é analisar o conjunto completo de manifestações da ouvidoria e gerar um relatório estratégico para o prefeito.
+
+Dados das manifestações:
+{{{reports}}}
+
+Com base nestes dados, gere o seguinte:
+1.  **Resumo Executivo:** Um parágrafo conciso sobre a situação geral. Quais são as áreas mais problemáticas? Qual a percepção geral da população?
+2.  **Insights Chave:** Uma lista de 3 a 5 pontos de destaque. Existem tendências emergentes? Alguma categoria de problema se destaca? Há alguma correlação entre bairros e tipos de problema?
+3.  **Itens de Ação Urgente:** Uma lista de manifestações específicas (cite o ID e um resumo) que são críticas e precisam de atenção imediata.
+
+Seja objetivo e foque em fornecer informações que ajudem na tomada de decisão estratégica.`
+});
+
+const allReportsAnalysisFlow = ai.defineFlow(
+    {
+        name: 'allReportsAnalysisFlow',
+        inputSchema: AllReportsAnalysisInputSchema,
+        outputSchema: AllReportsAnalysisOutputSchema,
+    },
+    async (input) => {
+        // Placeholder implementation for demonstration
+        if (!input.reports || JSON.parse(input.reports).length === 0) {
+            return {
+                overallSummary: "Nenhuma manifestação registrada para análise. O sistema está operacional, mas sem dados para processar.",
+                keyInsights: ["Nenhum insight disponível devido à ausência de dados."],
+                urgentActionItems: ["Nenhuma ação urgente necessária."],
+            };
+        }
+        
+        try {
+            const { output } = await allReportsPrompt(input);
+            return output!;
+        } catch (error) {
+            console.error("Error in allReportsAnalysisFlow:", error);
+            // Return a structured error message in the expected format
+            return {
+                overallSummary: "Ocorreu um erro ao processar a análise das manifestações. A IA pode estar temporariamente indisponível.",
+                keyInsights: ["Erro na geração de insights."],
+                urgentActionItems: ["Verificar o log de erros para mais detalhes."],
+            };
+        }
+    }
 );
