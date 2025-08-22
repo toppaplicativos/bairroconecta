@@ -33,6 +33,8 @@ import {
 } from "@/components/ui/dialog"
 import AIAssistant from './ai-assistant';
 import AuthButton from './auth-button';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '@/lib/firebase';
 
 
 const navItems = [
