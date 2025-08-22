@@ -4,7 +4,7 @@
 import { answerNeighborhoodQuestion } from '@/ai/flows/answer-neighborhood-questions';
 import { analyzeReport, AnalyzeReportOutput, analyzeAllReports, AllReportsAnalysisOutput } from '@/ai/flows/report-analysis-flow';
 import { db } from '@/lib/firebase';
-import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion, getDocs } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion, getDocs, query, orderBy } from 'firebase/firestore';
 
 export async function askQuestion(question: string) {
   if (!question) {
@@ -121,4 +121,31 @@ export async function getReportsAnalysis(): Promise<AllReportsAnalysisOutput> {
         console.error("Error getting reports analysis:", error);
         throw new Error("Failed to get reports analysis.");
     }
+}
+
+
+// Forum Actions
+export async function createPost(
+  data: { title: string; content: string },
+  user: { uid: string; displayName: string | null; photoURL: string | null }
+) {
+  if (!user) throw new Error("Usuário não autenticado.");
+
+  const postData = {
+    title: data.title,
+    content: data.content,
+    authorId: user.uid,
+    authorName: user.displayName || "Anônimo",
+    authorAvatar: user.photoURL,
+    createdAt: serverTimestamp(),
+    repliesCount: 0,
+  };
+
+  try {
+    const docRef = await addDoc(collection(db, "posts"), postData);
+    return { id: docRef.id, ...postData };
+  } catch (error) {
+    console.error("Erro ao criar o post:", error);
+    throw new Error("Não foi possível criar o tópico.");
+  }
 }
