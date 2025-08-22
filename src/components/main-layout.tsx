@@ -15,6 +15,7 @@ import {
   Megaphone,
   Briefcase,
   Map,
+  MessageCircle,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -35,21 +36,76 @@ const navItems = [
 ];
 
 const mainNavItems = [
-  { href: '/', label: 'Início', icon: LayoutGrid },
-  { href: '/map', label: 'Mapa', icon: Map },
-  { href: '/businesses', label: 'Comércio', icon: Store },
   { href: '/services', label: 'Serviços', icon: Briefcase },
-  { href: '/forum', label: 'Fórum', icon: MessagesSquare },
+  { href: '/businesses', label: 'Empresas', icon: Store },
+  { href: '/forum', label: 'Comunidade', icon: MessagesSquare },
+  { href: '/ouvidoria', label: 'Ouvidoria', icon: Megaphone },
 ];
 
 
 function BottomNav() {
   const pathname = usePathname();
 
+  if (pathname === '/') {
+     return (
+      <nav className="fixed bottom-0 left-0 right-0 z-50 h-20 border-t bg-background/95 backdrop-blur-sm md:hidden">
+        <div className="grid grid-cols-5 h-full items-center">
+            {mainNavItems.slice(0, 2).map(({ href, label, icon: Icon }) => (
+            <Link
+                key={label}
+                href={href}
+                className={cn(
+                'flex flex-col items-center justify-center gap-1 text-xs font-medium transition-colors',
+                pathname === href
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:text-primary'
+                )}
+            >
+                <Icon className="h-5 w-5" />
+                <span>{label}</span>
+            </Link>
+            ))}
+            
+            <div className="relative flex justify-center items-center">
+                <div className="absolute bottom-4">
+                     <Button size="icon" className="rounded-full h-16 w-16 shadow-lg">
+                        <MessageCircle className="h-8 w-8" />
+                    </Button>
+                </div>
+            </div>
+
+            {mainNavItems.slice(2).map(({ href, label, icon: Icon }) => (
+            <Link
+                key={label}
+                href={href}
+                className={cn(
+                'flex flex-col items-center justify-center gap-1 text-xs font-medium transition-colors',
+                pathname === href
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:text-primary'
+                )}
+            >
+                <Icon className="h-5 w-5" />
+                <span>{label}</span>
+            </Link>
+            ))}
+        </div>
+      </nav>
+    );
+  }
+
+  const legacyNavItems = [
+    { href: '/', label: 'Início', icon: LayoutGrid },
+    { href: '/map', label: 'Mapa', icon: Map },
+    { href: '/businesses', label: 'Comércio', icon: Store },
+    { href: '/services', label: 'Serviços', icon: Briefcase },
+    { href: '/forum', label: 'Fórum', icon: MessagesSquare },
+  ];
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur-sm md:hidden">
       <div className="grid h-16 grid-cols-5">
-        {mainNavItems.map(({ href, label, icon: Icon }) => (
+        {legacyNavItems.map(({ href, label, icon: Icon }) => (
           <Link
             key={label}
             href={href}
@@ -149,6 +205,8 @@ function MobileHeader() {
     const pathname = usePathname();
     const currentNavItem = navItems.find(item => item.href === pathname);
     const title = currentNavItem ? currentNavItem.label : "Meu Bairro";
+    
+    if (pathname === '/') return null;
 
     return (
         <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-background px-4 md:hidden">
@@ -161,6 +219,16 @@ function MobileHeader() {
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const isMobile = useIsMobile();
+  const pathname = usePathname();
+
+  if (pathname === '/') {
+    return (
+        <div className="flex min-h-screen w-full flex-col">
+            <main className="flex-1">{children}</main>
+            {isMobile && <BottomNav />}
+        </div>
+    );
+  }
   
   return (
     <div className="flex min-h-screen w-full flex-col md:flex-row">
