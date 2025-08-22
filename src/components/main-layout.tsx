@@ -15,7 +15,7 @@ import {
   Megaphone,
   Briefcase,
   Map,
-  MessageCircle,
+  Bot,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -38,7 +38,7 @@ const navItems = [
   { href: '/properties', label: 'Imóveis', icon: Building2 },
   { href: '/businesses', label: 'Comércio', icon: Store },
   { href: '/services', label: 'Serviços', icon: Briefcase },
-  { href: '/forum', label: 'Fórum', icon: MessagesSquare },
+  { href: '/forum', label: 'Comunidade', icon: MessagesSquare },
   { href: '/events', label: 'Eventos', icon: CalendarDays },
   { href: '/classifieds', label: 'Classificados', icon: Tags },
   { href: '/ouvidoria', label: 'Ouvidoria', icon: Megaphone },
@@ -47,7 +47,7 @@ const navItems = [
 const mainNavItems = [
   { href: '/services', label: 'Serviços', icon: Briefcase },
   { href: '/businesses', label: 'Comércio', icon: Store },
-  { href: '/forum', label: 'Fórum', icon: MessagesSquare },
+  { href: '/forum', label: 'Comunidade', icon: MessagesSquare },
   { href: '/ouvidoria', label: 'Ouvidoria', icon: Megaphone },
 ];
 
@@ -77,9 +77,9 @@ function BottomNav() {
           <Dialog>
             <DialogTrigger asChild>
                 <div className="relative flex justify-center items-center">
-                    <div className="absolute bottom-4">
+                    <div className="absolute -top-8">
                         <Button size="icon" className="rounded-full h-16 w-16 shadow-lg">
-                            <MessageCircle className="h-8 w-8" />
+                            <Bot className="h-8 w-8" />
                         </Button>
                     </div>
                 </div>
