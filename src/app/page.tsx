@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -37,7 +38,7 @@ export default function GuiaLocalPage() {
                     </CardContent>
                     </Card>
                 </Link>
-                <Link href="/forum">
+                <Link href="/community">
                     <Card className="bg-card hover:bg-muted/50 transition-colors">
                     <CardContent className="p-4 flex items-center gap-4">
                         <div className="p-3 bg-primary/10 rounded-lg">

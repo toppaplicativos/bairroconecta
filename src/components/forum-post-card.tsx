@@ -25,7 +25,7 @@ export default function ForumPostCard({ post }: ForumPostCardProps) {
   const timeAgo = post.createdAt ? formatDistanceToNow(post.createdAt.toDate(), { addSuffix: true, locale: ptBR }) : 'agora';
 
   return (
-    <Link href={`/forum/${post.id}`}>
+    <Link href={`/community/forum/${post.id}`}>
         <Card className="shadow-sm hover:shadow-md transition-shadow duration-300">
         <CardContent className="p-4 flex items-center justify-between">
             <div className="flex items-center gap-4">

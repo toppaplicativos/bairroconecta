@@ -42,7 +42,7 @@ const navItems = [
   { href: '/businesses', label: 'Comércio', icon: Store },
   { href: '/services', label: 'Serviços', icon: Briefcase },
   { href: '/health-clinic', label: 'Posto de Saúde', icon: Hospital },
-  { href: '/forum', label: 'Comunidade', icon: MessagesSquare },
+  { href: '/community', label: 'Comunidade', icon: MessagesSquare },
   { href: '/events', label: 'Eventos', icon: CalendarDays },
   { href: '/classifieds', label: 'Classificados', icon: Tags },
   { href: '/ouvidoria', label: 'Ouvidoria', icon: Megaphone },
@@ -51,7 +51,7 @@ const navItems = [
 const mainNavItems = [
   { href: '/services', label: 'Serviços', icon: Briefcase },
   { href: '/businesses', label: 'Comércio', icon: Store },
-  { href: '/forum', label: 'Comunidade', icon: MessagesSquare },
+  { href: '/community', label: 'Comunidade', icon: MessagesSquare },
   { href: '/ouvidoria', label: 'Ouvidoria', icon: Megaphone },
 ];
 
@@ -68,7 +68,7 @@ function BottomNav() {
               href={href}
               className={cn(
               'flex flex-col items-center justify-center gap-1 text-xs font-medium transition-colors',
-              pathname === href
+              pathname.startsWith(href)
                   ? 'text-primary'
                   : 'text-muted-foreground hover:text-primary'
               )}
@@ -103,7 +103,7 @@ function BottomNav() {
               href={href}
               className={cn(
               'flex flex-col items-center justify-center gap-1 text-xs font-medium transition-colors',
-              pathname === href
+              pathname.startsWith(href)
                   ? 'text-primary'
                   : 'text-muted-foreground hover:text-primary'
               )}
@@ -147,7 +147,7 @@ function MobileSidebar() {
                         onClick={() => setIsOpen(false)}
                         className={cn(
                           'flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground',
-                          pathname === href && 'text-foreground'
+                          pathname.startsWith(href) && href !== '/' || pathname === href ? 'text-foreground' : ''
                         )}
                       >
                         <Icon className="h-5 w-5" />
@@ -183,7 +183,7 @@ function DesktopSidebar() {
               href={href}
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
-                pathname === href && 'bg-muted text-primary'
+                pathname.startsWith(href) && href !== '/' || pathname === href ? 'bg-muted text-primary' : ''
               )}
             >
               <Icon className="h-4 w-4" />
@@ -206,7 +206,7 @@ function MobileHeader() {
     if (pathname === '/') {
       title = "Olá, Visitante!";
     } else {
-      const currentNavItem = navItems.find(item => item.href === pathname);
+      const currentNavItem = navItems.find(item => pathname.startsWith(item.href) && item.href !== '/');
       if (currentNavItem) {
         title = currentNavItem.label;
       }
