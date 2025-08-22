@@ -4,7 +4,7 @@
 import { answerNeighborhoodQuestion } from '@/ai/flows/answer-neighborhood-questions';
 import { analyzeReport, AnalyzeReportOutput } from '@/ai/flows/report-analysis-flow';
 import { db } from '@/lib/firebase';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion } from 'firebase/firestore';
 
 export async function askQuestion(question: string) {
   if (!question) {
@@ -19,8 +19,15 @@ export async function askQuestion(question: string) {
   }
 }
 
+type ReportData = {
+    category: string;
+    description: string;
+    address: string;
+    imageUrl?: string;
+}
+
 export async function submitReport(
-    data: { category: string; description: string; address: string; },
+    data: ReportData,
     userId: string
 ): Promise<AnalyzeReportOutput & { id: string }> {
     try {
@@ -34,7 +41,10 @@ export async function submitReport(
             createdAt: serverTimestamp(),
             updates: [
                 { status: "Aberta", date: new Date().toISOString(), comment: "Manifestação recebida e aguardando triagem para encaminhamento." }
-            ]
+            ],
+            supporters: [],
+            followers: [],
+            comments: [],
         };
         
         const docRef = await addDoc(collection(db, "reports"), reportData);
@@ -44,5 +54,32 @@ export async function submitReport(
     } catch (error) {
         console.error('Erro ao analisar e salvar a manifestação:', error);
         throw new Error('Falha ao processar a manifestação.');
+    }
+}
+
+export async function addComment(reportId: string, text: string, user: { uid: string; displayName: string; photoURL: string | null }) {
+    if (!reportId || !text || !user) {
+        throw new Error("Dados inválidos para adicionar comentário.");
+    }
+    
+    const commentData = {
+        id: new Date().getTime().toString(), // simple unique id
+        authorId: user.uid,
+        author: user.displayName,
+        avatarUrl: user.photoURL,
+        text,
+        createdAt: serverTimestamp(),
+    };
+
+    const reportRef = doc(db, "reports", reportId);
+
+    try {
+        await updateDoc(reportRef, {
+            comments: arrayUnion(commentData)
+        });
+        console.log("Comentário adicionado com sucesso!");
+    } catch (error) {
+        console.error("Erro ao adicionar comentário:", error);
+        throw new Error("Não foi possível adicionar o comentário.");
     }
 }

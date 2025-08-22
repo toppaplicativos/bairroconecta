@@ -1,9 +1,12 @@
 
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "./ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
 import ReportTimeline from "./report-timeline";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 type ReportUpdate = {
   status: string;
@@ -69,34 +72,31 @@ const getUrgencyTextClass = (urgency: string): string => {
 export default function ReportCard({ report }: ReportCardProps) {
   const urgency = report.analysis?.urgency || "Baixa";
   return (
-    <Card className={cn("shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4", getUrgencyClass(urgency))}>
-        <CardHeader>
-            <div className="flex justify-between items-start gap-4">
-                <div>
-                     <CardDescription>Protocolo: {report.id.substring(0, 10)}...</CardDescription>
-                     <CardTitle className="text-xl font-bold font-headline mt-1">{report.category}</CardTitle>
+    <Link href={`/ouvidoria/${report.id}`} className="block">
+        <Card className={cn("shadow-sm hover:shadow-lg hover:border-primary/50 transition-all duration-300 border-l-4", getUrgencyClass(urgency))}>
+            <CardHeader>
+                <div className="flex justify-between items-start gap-4">
+                    <div>
+                        <CardDescription>Protocolo: {report.id.substring(0, 10)}...</CardDescription>
+                        <CardTitle className="text-xl font-bold font-headline mt-1">{report.category}</CardTitle>
+                    </div>
+                    <div className="flex flex-col items-end gap-2">
+                        <Badge variant={getStatusVariant(report.status)}>{report.status}</Badge>
+                        <span className={cn("text-xs font-bold", getUrgencyTextClass(urgency))}>
+                            URGÊNCIA: {urgency.toUpperCase()}
+                        </span>
+                    </div>
                 </div>
-                <div className="flex flex-col items-end gap-2">
-                    <Badge variant={getStatusVariant(report.status)}>{report.status}</Badge>
-                    <span className={cn("text-xs font-bold", getUrgencyTextClass(urgency))}>
-                        URGÊNCIA: {urgency.toUpperCase()}
-                    </span>
-                </div>
+            </CardHeader>
+        <CardContent>
+            <p className="text-muted-foreground line-clamp-2">{report.description}</p>
+        </CardContent>
+        <CardFooter className="p-4 bg-muted/20">
+            <div className="text-sm text-primary flex items-center gap-2">
+                Ver detalhes e participar <ArrowRight className="h-4 w-4" />
             </div>
-        </CardHeader>
-      <CardContent>
-        <p className="text-muted-foreground">{report.description}</p>
-      </CardContent>
-      <CardFooter className="p-0">
-         <Accordion type="single" collapsible className="w-full px-6 pb-4">
-          <AccordionItem value="item-1" className="border-none">
-            <AccordionTrigger className="text-sm justify-start gap-2 hover:no-underline text-primary">Ver histórico de atualizações</AccordionTrigger>
-            <AccordionContent>
-                <ReportTimeline updates={report.updates} />
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </CardFooter>
-    </Card>
+        </CardFooter>
+        </Card>
+    </Link>
   );
 }
