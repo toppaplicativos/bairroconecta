@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, Loader2, Poll, PlusCircle, Trash2 } from "lucide-react";
+import { Send, Loader2, Vote, PlusCircle, Trash2 } from "lucide-react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -210,7 +210,7 @@ export default function NewPostForm({ onPostCreated }: NewPostFormProps) {
                 
                 <div className="flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center gap-2">
                     <Button type="button" variant="outline" onClick={() => setShowPoll(!showPoll)} disabled={isSubmitting}>
-                        <Poll className="mr-2 h-4 w-4" />
+                        <Vote className="mr-2 h-4 w-4" />
                         {showPoll ? "Remover Enquete" : "Adicionar Enquete"}
                     </Button>
 
