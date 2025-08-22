@@ -83,3 +83,29 @@ export async function addComment(reportId: string, text: string, user: { uid: st
         throw new Error("Não foi possível adicionar o comentário.");
     }
 }
+
+export async function updateReportStatus(reportId: string, status: string, comment: string) {
+    if (!reportId || !status || !comment) {
+        throw new Error("Dados inválidos para atualizar o status.");
+    }
+
+    const updateData = {
+        status,
+        date: new Date().toISOString(),
+        comment,
+    };
+
+    const reportRef = doc(db, "reports", reportId);
+
+    try {
+        await updateDoc(reportRef, {
+            status: status,
+            updates: arrayUnion(updateData)
+        });
+        console.log("Status da manifestação atualizado!");
+        return { success: true };
+    } catch (error) {
+        console.error("Erro ao atualizar o status:", error);
+        throw new Error("Não foi possível atualizar o status da manifestação.");
+    }
+}

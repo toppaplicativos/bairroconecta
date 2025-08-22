@@ -2,8 +2,6 @@
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "./ui/badge";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
-import ReportTimeline from "./report-timeline";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -28,6 +26,7 @@ type Report = {
 
 type ReportCardProps = {
   report: Report;
+  isAdmin?: boolean;
 };
 
 const getStatusVariant = (status: string): "default" | "secondary" | "destructive" => {
@@ -69,10 +68,12 @@ const getUrgencyTextClass = (urgency: string): string => {
     }
 }
 
-export default function ReportCard({ report }: ReportCardProps) {
+export default function ReportCard({ report, isAdmin = false }: ReportCardProps) {
   const urgency = report.analysis?.urgency || "Baixa";
+  const linkHref = isAdmin ? `/admin/reports/${report.id}` : `/ouvidoria/${report.id}`;
+  
   return (
-    <Link href={`/ouvidoria/${report.id}`} className="block">
+    <Link href={linkHref} className="block">
         <Card className={cn("shadow-sm hover:shadow-lg hover:border-primary/50 transition-all duration-300 border-l-4", getUrgencyClass(urgency))}>
             <CardHeader>
                 <div className="flex justify-between items-start gap-4">
