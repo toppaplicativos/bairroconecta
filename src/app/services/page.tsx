@@ -13,7 +13,7 @@ const serviceProviders = [
   },
   {
     id: 2,
-    avatarUrl: "https://placehold.co/40x40.png",
+    avatarUrl: "https://images.unsplash.com/photo-1509062522246-3755977927d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxOHx8UHJvZmVzc29yfGVufDB8fHx8MTc1NTg2NDI5NHww&ixlib=rb-4.1.0&q=80&w=1080",
     hint: "woman tutor",
     name: "Cláudia Matos",
     service: "Aulas de Reforço (Matemática)",
