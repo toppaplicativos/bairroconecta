@@ -246,3 +246,43 @@ export async function voteOnPoll(postId: string, optionId: number, userId: strin
         throw new Error(error.message || "Não foi possível registrar o voto.");
     }
 }
+
+// Business Actions
+export async function addReviewToBusiness(
+  businessId: string, 
+  review: { rating: number; comment: string },
+  user: { uid: string; displayName: string | null; photoURL: string | null }
+) {
+  if (!businessId || !review || !user) {
+    throw new Error("Dados inválidos para adicionar avaliação.");
+  }
+  
+  // Note: Firestore does not support direct document access by numeric ID.
+  // In a real scenario, businessId should be the Firestore document ID (string).
+  // For this demo, we'll assume businessId is the string version of the numeric id.
+  const businessRef = doc(db, "businesses", businessId);
+
+  const reviewData = {
+    id: new Date().getTime().toString(),
+    authorId: user.uid,
+    author: user.displayName || 'Anônimo',
+    avatarUrl: user.photoURL,
+    rating: review.rating,
+    comment: review.comment,
+    createdAt: serverTimestamp(),
+  };
+
+  try {
+    // This is a simplified approach. A real app should use a transaction 
+    // to check if the user has already reviewed and to update the average rating.
+    await updateDoc(businessRef, {
+      reviews: arrayUnion(reviewData),
+      reviewsCount: increment(1)
+    });
+    console.log("Avaliação adicionada com sucesso!");
+    return { success: true };
+  } catch (error) {
+    console.error("Erro ao adicionar avaliação:", error);
+    throw new Error("Não foi possível adicionar a avaliação.");
+  }
+}

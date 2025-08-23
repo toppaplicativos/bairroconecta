@@ -10,8 +10,9 @@ import { Star, Clock, Phone, MapPin, ChevronLeft, ChevronRight } from 'lucide-re
 import Image from 'next/image';
 import ProductCard from '@/components/product-card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import NewReviewForm from '@/components/new-review-form';
 
-export default function BusinessDetailPage({ params }: { params: { id: string, searchParams: any } }) {
+export default function BusinessDetailPage({ params, searchParams }: { params: { id: string }, searchParams: { [key: string]: string | string[] | undefined } }) {
   const business = businesses.find((b) => b.id.toString() === params.id);
 
   if (!business) {
@@ -115,29 +116,33 @@ export default function BusinessDetailPage({ params }: { params: { id: string, s
                 <CardHeader>
                     <CardTitle>Avaliações</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                    {business.reviews.map(review => (
-                        <div key={review.id} className="flex items-start gap-4">
-                             <Avatar>
-                                <AvatarImage src={review.avatarUrl} alt={review.author} />
-                                <AvatarFallback>{review.author.charAt(0)}</AvatarFallback>
-                            </Avatar>
-                            <div>
-                                <div className="flex items-center gap-2">
-                                    <p className="font-semibold">{review.author}</p>
-                                    <div className="flex items-center gap-0.5">
-                                        {[...Array(5)].map((_, i) => (
-                                            <Star key={i} className={`w-4 h-4 ${i < review.rating ? 'text-yellow-500 fill-current' : 'text-muted'}`}/>
-                                        ))}
+                <CardContent className="space-y-6">
+                    <NewReviewForm businessId={params.id} />
+
+                    <div className="space-y-4">
+                        {business.reviews.map(review => (
+                            <div key={review.id} className="flex items-start gap-4">
+                                <Avatar>
+                                    <AvatarImage src={review.avatarUrl} alt={review.author} />
+                                    <AvatarFallback>{review.author.charAt(0)}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <div className="flex items-center gap-2">
+                                        <p className="font-semibold">{review.author}</p>
+                                        <div className="flex items-center gap-0.5">
+                                            {[...Array(5)].map((_, i) => (
+                                                <Star key={i} className={`w-4 h-4 ${i < review.rating ? 'text-yellow-500 fill-current' : 'text-muted'}`}/>
+                                            ))}
+                                        </div>
                                     </div>
+                                    <p className="text-sm text-muted-foreground mt-1">{review.comment}</p>
                                 </div>
-                                <p className="text-sm text-muted-foreground mt-1">{review.comment}</p>
                             </div>
-                        </div>
-                    ))}
-                    {business.reviews.length === 0 && (
-                        <p className="text-muted-foreground text-center">Ainda não há avaliações para este estabelecimento.</p>
-                    )}
+                        ))}
+                        {business.reviews.length === 0 && (
+                            <p className="text-muted-foreground text-center text-sm py-4">Ainda não há avaliações para este estabelecimento. Seja o primeiro a avaliar!</p>
+                        )}
+                    </div>
                 </CardContent>
             </Card>
 

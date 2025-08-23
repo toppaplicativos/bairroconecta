@@ -9,6 +9,7 @@ import {
   Menu,
   Package,
   ShoppingCart,
+  Star, // Import Star icon
   Users,
 } from 'lucide-react';
 
@@ -25,6 +26,7 @@ const navItems = [
   { href: '/merchant/dashboard', label: 'Dashboard', icon: Home },
   { href: '/merchant/products', label: 'Produtos', icon: Package },
   { href: '/merchant/orders', label: 'Pedidos', icon: ShoppingCart },
+  { href: '/merchant/reviews', label: 'Avaliações', icon: Star }, // Add Reviews item
 ];
 
 function MobileSidebar() {
