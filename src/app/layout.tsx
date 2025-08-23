@@ -1,25 +1,20 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { cn } from '@/lib/utils';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { Poppins, Lora } from 'next/font/google';
+import { Inter } from 'next/font/google';
 
 export const metadata: Metadata = {
-  title: 'Meu Bairro',
+  title: 'BairroConecta',
   description: 'Sua plataforma completa para a vida no bairro.',
 };
 
-const poppins = Poppins({
+const inter = Inter({
   subsets: ['latin'],
   weight: ['400', '600', '700'],
-  variable: '--font-headline',
-});
-
-const lora = Lora({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-body',
+  variable: '--font-sans',
 });
 
 export default function RootLayout({
@@ -28,8 +23,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${poppins.variable} ${lora.variable}`}>
-      <body className={cn("antialiased bg-background")}>
+    <html lang="pt-BR" className={`${inter.variable}`}>
+      <body className={cn("antialiased bg-background font-sans")}>
         {children}
         <Toaster />
       </body>

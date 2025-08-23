@@ -1,36 +1,37 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 98%; /* #fafafa */
-    --foreground: 222.2 47.4% 11.2%; /* #111827 */
-    
-    --card: 0 0% 100%;
+    --background: 220 20% 97%; /* Light Gray */
+    --foreground: 222.2 47.4% 11.2%;
+
+    --card: 220 20% 100%;
     --card-foreground: 222.2 47.4% 11.2%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
-
-    --primary: 100 29% 52%; /* #78AB5C */
+    
+    --primary: 93 44% 52%; /* #78AB5C */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
+    --secondary: 42 94% 61%; /* #FBB34C */
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 173 44% 54%; /* #58BAAA */
+    
+    --accent: 174 44% 54%; /* #58BAAA */
     --accent-foreground: 0 0% 100%;
-
-    --destructive: 4 67% 53%; /* #D95349 */
+    
+    --destructive: 3 69% 59%; /* #D95349 */
     --destructive-foreground: 0 0% 100%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 100 29% 52%;
+    --ring: 93 44% 52%;
     
     --radius: 0.5rem;
   }
@@ -45,24 +46,24 @@
     --popover: 222.2 47.4% 11.2%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 100 29% 52%;
+    --primary: 93 44% 52%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 42 94% 61%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 173 44% 54%;
+    
+    --accent: 174 44% 54%;
     --accent-foreground: 0 0% 100%;
-
-    --destructive: 4 67% 53%;
+    
+    --destructive: 3 69% 59%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 100 29% 52%;
+    --ring: 93 44% 52%;
   }
 }
  
@@ -71,10 +72,9 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
-    font-family: var(--font-body);
+    @apply bg-background text-foreground font-sans;
   }
   h1, h2, h3, h4, h5, h6, .font-headline {
-    font-family: var(--font-headline);
+    @apply font-sans font-bold;
   }
 }
