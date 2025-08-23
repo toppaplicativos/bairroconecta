@@ -7,7 +7,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { Inter } from 'next/font/google';
 
 export const metadata: Metadata = {
-  title: 'BairroConecta',
+  title: 'Meu Bairro',
   description: 'Sua plataforma completa para a vida no bairro.',
 };
 

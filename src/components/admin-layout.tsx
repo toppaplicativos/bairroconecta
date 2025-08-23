@@ -40,7 +40,7 @@ function MobileSidebar() {
                       className="flex items-center gap-2 text-lg font-semibold"
                       onClick={() => setIsOpen(false)}
                     >
-                      <Image src="https://i.postimg.cc/N0w7jhCT/Untitled-design.png" width={32} height={32} alt="BairroConecta Logo" />
+                      <Image src="https://i.postimg.cc/N0w7jhCT/Untitled-design.png" width={32} height={32} alt="Meu Bairro Logo" />
                       <span className="font-headline">Admin</span>
                     </Link>
                 </div>
@@ -75,7 +75,7 @@ function DesktopSidebar() {
     <aside className="hidden md:flex md:flex-col md:w-64 border-r bg-background">
       <div className="flex h-16 items-center border-b px-6">
         <Link href="/admin/dashboard" className="flex items-center gap-2 font-semibold">
-          <Image src="https://i.postimg.cc/N0w7jhCT/Untitled-design.png" width={32} height={32} alt="BairroConecta Logo" />
+          <Image src="https://i.postimg.cc/N0w7jhCT/Untitled-design.png" width={32} height={32} alt="Meu Bairro Logo" />
           <span className="font-headline text-lg">Admin</span>
         </Link>
       </div>
