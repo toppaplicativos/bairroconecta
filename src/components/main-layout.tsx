@@ -9,7 +9,6 @@ import {
   CalendarDays,
   LayoutGrid,
   MessagesSquare,
-  Sparkles,
   Store,
   Tags,
   Menu,
@@ -35,6 +34,7 @@ import AIAssistant from './ai-assistant';
 import AuthButton from './auth-button';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/lib/firebase';
+import Image from 'next/image';
 
 
 const navItems = [
@@ -139,8 +139,8 @@ function MobileSidebar() {
                       className="flex items-center gap-2 text-lg font-semibold"
                       onClick={() => setIsOpen(false)}
                     >
-                      <Sparkles className="h-6 w-6 text-primary" />
-                      <span className="font-headline">Meu Bairro</span>
+                      <Image src="https://i.postimg.cc/N0w7jhCT/Untitled-design.png" width={36} height={36} alt="BairroConecta Logo" />
+                      <span className="font-headline">BairroConecta</span>
                     </Link>
                 </div>
                 <nav className="grid gap-6 text-lg font-medium p-6">
@@ -175,8 +175,8 @@ function DesktopSidebar() {
     <aside className="hidden md:flex md:flex-col md:w-64 border-r">
       <div className="flex h-16 items-center border-b px-6">
         <Link href="/" className="flex items-center gap-2 font-semibold">
-          <Sparkles className="h-6 w-6 text-primary" />
-          <span className="font-headline text-lg">Meu Bairro</span>
+           <Image src="https://i.postimg.cc/N0w7jhCT/Untitled-design.png" width={36} height={36} alt="BairroConecta Logo" />
+          <span className="font-headline text-lg">BairroConecta</span>
         </Link>
       </div>
       <div className="flex-1 overflow-auto py-2">
@@ -207,7 +207,7 @@ function MobileHeader() {
     const pathname = usePathname();
     const [user] = useAuthState(auth);
     
-    let title = "Meu Bairro";
+    let title = "BairroConecta";
      if (pathname === '/') {
         title = user ? `Olá, ${user.displayName?.split(' ')[0]}!` : "Olá, Visitante!";
     } else {
