@@ -1,3 +1,19 @@
+export type Product = {
+  id: string;
+  name: string;
+  price: string;
+  imageUrl: string;
+  hint: string;
+}
+
+export type Review = {
+    id: string;
+    author: string;
+    avatarUrl: string;
+    rating: number;
+    comment: string;
+}
+
 export type Business = {
   id: number;
   imageUrl: string;
@@ -8,85 +24,135 @@ export type Business = {
   latitude: number;
   longitude: number;
   type: 'business' | 'service';
+  reviewsCount: number;
+  description: string;
+  phone: string;
+  address: string;
+  hours: { day: string; time: string }[];
+  gallery: { url: string; hint: string }[];
+  products: Product[];
+  reviews: Review[];
 };
 
 export const businesses: Business[] = [
   {
     id: 1,
-    imageUrl: "https://images.unsplash.com/photo-1592861956120-e524fc739696?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxN3x8UmVzdGF1cmFudHxlbnwwfHx8fDE3NTU4NjMzNzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    hint: "cozy restaurant",
     name: "Cantina da Nona",
     category: "Restaurantes",
+    type: 'business',
+    imageUrl: "https://images.unsplash.com/photo-1592861956120-e524fc739696?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxN3x8UmVzdGF1cmFudHxlbnwwfHx8fDE3NTU4NjMzNzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "cozy restaurant",
     rating: 4.8,
+    reviewsCount: 125,
     latitude: -23.5513,
     longitude: -46.6625,
-    type: 'business',
+    description: "A autêntica culinária italiana da família para a sua. Massas frescas, molhos artesanais e um ambiente que te abraça. Perfeito para um almoço em família ou um jantar romântico.",
+    phone: "(11) 98765-4321",
+    address: "Rua das Massas, 123, Bela Vista",
+    hours: [
+        { day: "Segunda a Sexta", time: "12:00 - 22:00" },
+        { day: "Sábado", time: "12:00 - 23:00" },
+        { day: "Domingo", time: "12:00 - 16:00" },
+    ],
+    gallery: [
+        { url: "https://placehold.co/600x400.png", hint: "restaurant interior" },
+        { url: "https://placehold.co/600x400.png", hint: "plate of pasta" },
+        { url: "https://placehold.co/600x400.png", hint: "pizza oven" },
+    ],
+    products: [
+        { id: "p1", name: "Lasanha à Bolonhesa", price: "R$ 59,90", imageUrl: "https://placehold.co/400x400.png", hint: "lasagna" },
+        { id: "p2", name: "Fettuccine Alfredo", price: "R$ 54,90", imageUrl: "https://placehold.co/400x400.png", hint: "fettuccine alfredo" },
+        { id: "p3", name: "Pizza Margherita", price: "R$ 49,90", imageUrl: "https://placehold.co/400x400.png", hint: "margherita pizza" },
+    ],
+    reviews: [
+        { id: "r1", author: "Carlos S.", avatarUrl: "https://placehold.co/40x40.png", rating: 5, comment: "Melhor massa que já comi em São Paulo! Atendimento impecável." },
+        { id: "r2", author: "Ana P.", avatarUrl: "https://placehold.co/40x40.png", rating: 4, comment: "Lugar aconchegante, comida boa. Apenas um pouco demorado no sábado." },
+    ],
   },
   {
     id: 2,
-    imageUrl: "https://images.unsplash.com/photo-1597121870960-7b5391b88b84?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyMHx8RmFybWFjaWF8ZW58MHx8fHwxNzU1ODYzNTAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
-    hint: "local pharmacy",
     name: "Farmácia Saúde",
     category: "Farmácias",
+    type: 'business',
+    imageUrl: "https://images.unsplash.com/photo-1597121870960-7b5391b88b84?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyMHx8RmFybWFjaWF8ZW58MHx8fHwxNzU1ODYzNTAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "local pharmacy",
     rating: 4.5,
+    reviewsCount: 88,
     latitude: -23.5612,
     longitude: -46.6563,
-    type: 'business',
+    description: "Sua saúde em primeiro lugar. Oferecemos uma vasta gama de medicamentos, produtos de higiene e perfumaria, além de um atendimento farmacêutico atencioso.",
+    phone: "(11) 91234-5678",
+    address: "Av. da Saúde, 456, Consolação",
+    hours: [
+        { day: "Segunda a Sábado", time: "08:00 - 22:00" },
+        { day: "Domingo", time: "09:00 - 20:00" },
+    ],
+    gallery: [
+        { url: "https://placehold.co/600x400.png", hint: "pharmacy aisle" },
+        { url: "https://placehold.co/600x400.png", hint: "pharmacist portrait" },
+    ],
+    products: [],
+    reviews: [],
   },
   {
+    id: 7,
+    name: "Roberto \"Alemão\" Silva",
+    category: "Eletricista",
+    type: 'service',
+    imageUrl: "https://images.unsplash.com/photo-1682345262055-8f95f3c513ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxFbGV0cmljaXN0YXxlbnwwfHx8fDE3NTU4NjQyMzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "man electrician",
+    rating: 4.9,
+    reviewsCount: 72,
+    latitude: -23.555,
+    longitude: -46.66,
+    description: "Serviços elétricos residenciais e comerciais com segurança e qualidade. Instalações, reparos, manutenção e consultoria. Atendimento rápido e orçamento sem compromisso.",
+    phone: "(11) 99999-8888",
+    address: "Atende em toda a região",
+    hours: [
+        { day: "Segunda a Sábado", time: "08:00 - 18:00" },
+    ],
+    gallery: [],
+    products: [],
+    reviews: [],
+  },
+  // Adding other businesses and services with new fields, but empty arrays for brevity
+  {
     id: 3,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "grocery store",
     name: "Mercado do Bairro",
     category: "Mercados",
+    type: 'business',
+    imageUrl: "https://placehold.co/600x400.png",
+    hint: "grocery store",
     rating: 4.3,
+    reviewsCount: 210,
     latitude: -23.5478,
     longitude: -46.6459,
-    type: 'business',
+    description: "O seu mercado de confiança com produtos frescos, padaria e açougue.",
+    phone: "(11) 92222-3333",
+    address: "Rua das Compras, 789, Liberdade",
+    hours: [{ day: "Todos os dias", time: "07:00 - 22:00" }],
+    gallery: [],
+    products: [],
+    reviews: [],
   },
   {
     id: 4,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "modern salon",
     name: "Salão de Beleza Estilo",
     category: "Salões de Beleza",
+    type: 'business',
+    imageUrl: "https://placehold.co/600x400.png",
+    hint: "modern salon",
     rating: 4.9,
+    reviewsCount: 95,
     latitude: -23.558,
     longitude: -46.669,
-    type: 'business',
-  },
-  {
-    id: 5,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "pet shop",
-    name: "Mundo Pet",
-    category: "Pet Shops",
-    rating: 4.7,
-    latitude: -23.549,
-    longitude: -46.638,
-    type: 'business',
-  },
-  {
-    id: 6,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "local gym",
-    name: "Academia Corpo em Forma",
-    category: "Academias",
-    rating: 4.6,
-    latitude: -23.563,
-    longitude: -46.65,
-    type: 'business',
-  },
-    {
-    id: 7,
-    imageUrl: "https://images.unsplash.com/photo-1682345262055-8f95f3c513ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxFbGV0cmljaXN0YXxlbnwwfHx8fDE3NTU4NjQyMzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    hint: "man electrician",
-    name: "Roberto \"Alemão\" Silva",
-    category: "Eletricista",
-    rating: 4.9,
-    latitude: -23.555,
-    longitude: -46.66,
-    type: 'service',
+    description: "Realce sua beleza com nossos especialistas. Cabelo, unhas, maquiagem e tratamentos estéticos.",
+    phone: "(11) 94444-5555",
+    address: "Alameda da Beleza, 321, Jardins",
+    hours: [{ day: "Terça a Sábado", time: "09:00 - 20:00" }],
+    gallery: [],
+    products: [],
+    reviews: [],
   },
   {
     id: 8,
@@ -95,53 +161,17 @@ export const businesses: Business[] = [
     name: "Cláudia Matos",
     category: "Aulas de Reforço (Matemática)",
     rating: 5.0,
+    reviewsCount: 43,
     latitude: -23.552,
     longitude: -46.648,
     type: 'service',
-  },
-  {
-    id: 9,
-    imageUrl: "https://placehold.co/40x40.png",
-    hint: "woman cleaning",
-    name: "Dona Maria da Limpeza",
-    category: "Serviços de Limpeza",
-    rating: 4.8,
-    latitude: -23.545,
-    longitude: -46.655,
-    type: 'service',
-  },
-  {
-    id: 10,
-    imageUrl: "https://placehold.co/40x40.png",
-    hint: "man dog walker",
-    name: "Fernando Passeador",
-    category: "Passeador de Cães",
-    rating: 4.9,
-    latitude: -23.56,
-    longitude: -46.64,
-    type: 'service',
-  },
-    {
-    id: 11,
-    imageUrl: "https://placehold.co/40x40.png",
-    hint: "man plumber",
-    name: "José Encanador",
-    category: "Encanador e Reparos Rápidos",
-    rating: 4.7,
-    latitude: -23.559,
-    longitude: -46.652,
-    type: 'service',
-  },
-    {
-    id: 12,
-    imageUrl: "https://placehold.co/40x40.png",
-    hint: "woman seamstress",
-    name: "Ateliê da Vizinhança",
-    category: "Costureira - Reparos e Ajustes",
-    rating: 5.0,
-    latitude: -23.554,
-    longitude: -46.666,
-    type: 'service',
+    description: "Dificuldades em matemática? Aulas particulares e de reforço para ensino fundamental e médio. Metodologia focada em resultados.",
+    phone: "(11) 96666-7777",
+    address: "Aulas online ou na casa do aluno",
+    hours: [{ day: "Segunda a Sexta", time: "14:00 - 19:00" }],
+    gallery: [],
+    products: [],
+    reviews: [],
   },
 ];
 
