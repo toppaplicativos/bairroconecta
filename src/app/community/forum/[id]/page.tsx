@@ -48,7 +48,7 @@ type Post = {
 
 export default function ForumPostDetailPage() {
   const params = useParams();
-  const id = params.id as string;
+  const id = params?.id as string;
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
   const [user] = useAuthState(auth);

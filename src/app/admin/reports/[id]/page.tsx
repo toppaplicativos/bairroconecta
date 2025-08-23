@@ -63,7 +63,7 @@ const getUrgencyTextClass = (urgency: string): string => {
 
 export default function AdminReportDetailPage() {
   const params = useParams();
-  const id = params.id as string;
+  const id = params?.id as string;
   const [report, setReport] = useState<Report | null>(null);
   const [loading, setLoading] = useState(true);
 
