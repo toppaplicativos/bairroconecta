@@ -17,6 +17,7 @@ import {
   Map,
   Bot,
   Heart,
+  User,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -122,6 +123,7 @@ function BottomNav() {
 function MobileSidebar() {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = React.useState(false);
+    const [user] = useAuthState(auth);
     
     return (
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -158,6 +160,19 @@ function MobileSidebar() {
                         {label}
                       </Link>
                     ))}
+                    {user && (
+                         <Link
+                            href="/merchant/dashboard"
+                            onClick={() => setIsOpen(false)}
+                            className={cn(
+                                'flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground',
+                                pathname.startsWith('/merchant') ? 'text-foreground' : ''
+                            )}
+                         >
+                            <User className="h-5 w-5" />
+                            Área do Comerciante
+                        </Link>
+                    )}
                   </nav>
                   <div className="mt-auto p-4 border-t">
                     <AuthButton />
@@ -170,6 +185,7 @@ function MobileSidebar() {
 
 function DesktopSidebar() {
   const pathname = usePathname();
+  const [user] = useAuthState(auth);
 
   return (
     <aside className="hidden md:flex md:flex-col md:w-64 border-r">
@@ -194,6 +210,18 @@ function DesktopSidebar() {
               {label}
             </Link>
           ))}
+            {user && (
+                <Link
+                    href="/merchant/dashboard"
+                    className={cn(
+                        'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
+                        pathname.startsWith('/merchant') ? 'bg-muted text-primary' : ''
+                    )}
+                >
+                    <User className="h-4 w-4" />
+                    Área do Comerciante
+                </Link>
+            )}
         </nav>
       </div>
        <div className="mt-auto p-4 border-t">
