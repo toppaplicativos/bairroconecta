@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
-  Sparkles,
   Menu,
   FileBarChart,
 } from 'lucide-react';
@@ -15,6 +14,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import AuthButton from '../components/auth-button';
+import Image from 'next/image';
 
 const navItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -40,7 +40,7 @@ function MobileSidebar() {
                       className="flex items-center gap-2 text-lg font-semibold"
                       onClick={() => setIsOpen(false)}
                     >
-                      <Sparkles className="h-6 w-6 text-primary" />
+                      <Image src="https://i.postimg.cc/N0w7jhCT/Untitled-design.png" width={32} height={32} alt="Meu Bairro Logo" />
                       <span className="font-headline">Admin</span>
                     </Link>
                 </div>
@@ -75,7 +75,7 @@ function DesktopSidebar() {
     <aside className="hidden md:flex md:flex-col md:w-64 border-r bg-background">
       <div className="flex h-16 items-center border-b px-6">
         <Link href="/admin/dashboard" className="flex items-center gap-2 font-semibold">
-          <Sparkles className="h-6 w-6 text-primary" />
+          <Image src="https://i.postimg.cc/N0w7jhCT/Untitled-design.png" width={32} height={32} alt="Meu Bairro Logo" />
           <span className="font-headline text-lg">Admin</span>
         </Link>
       </div>
