@@ -58,7 +58,7 @@ function MobileSidebar() {
                         onClick={() => setIsOpen(false)}
                         className={cn(
                           'flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground',
-                          pathname === href && 'text-foreground'
+                           pathname === href && 'text-foreground'
                         )}
                       >
                         <Icon className="h-5 w-5" />
@@ -110,7 +110,8 @@ function DesktopSidebar() {
 }
 
 function MobileHeader() {
-    const currentNavItem = navItems.find(item => item.href === usePathname());
+    const pathname = usePathname();
+    const currentNavItem = navItems.find(item => item.href === pathname);
     const title = currentNavItem?.label || 'Painel do Comerciante';
 
     return (
