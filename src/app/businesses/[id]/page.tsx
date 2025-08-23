@@ -12,8 +12,10 @@ import ProductCard from '@/components/product-card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import NewReviewForm from '@/components/new-review-form';
 
-export default function BusinessDetailPage({ params, searchParams }: { params: { id: string }, searchParams: { [key: string]: string | string[] | undefined } }) {
-  const business = businesses.find((b) => b.id.toString() === params.id);
+export default function BusinessDetailPage() {
+  const params = useParams();
+  const id = params?.id as string;
+  const business = businesses.find((b) => b.id.toString() === id);
 
   if (!business) {
     return (
@@ -117,7 +119,7 @@ export default function BusinessDetailPage({ params, searchParams }: { params: {
                     <CardTitle>Avaliações</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                    <NewReviewForm businessId={params.id} />
+                    <NewReviewForm businessId={id} />
 
                     <div className="space-y-4">
                         {business.reviews.map(review => (
