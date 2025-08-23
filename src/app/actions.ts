@@ -115,6 +115,14 @@ export async function getReportsAnalysis(): Promise<AllReportsAnalysisOutput> {
         const querySnapshot = await getDocs(collection(db, "reports"));
         const reports = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
+        if (reports.length === 0) {
+             return {
+                overallSummary: "Nenhuma manifestação registrada para análise. O sistema está operacional, mas sem dados para processar.",
+                keyInsights: ["Nenhum insight disponível devido à ausência de dados."],
+                urgentActionItems: ["Nenhuma ação urgente necessária."],
+            };
+        }
+
         const analysis = await analyzeAllReports({ reports: JSON.stringify(reports) });
         return analysis;
     } catch (error) {

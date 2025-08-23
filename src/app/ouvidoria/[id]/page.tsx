@@ -7,7 +7,7 @@ import { doc, onSnapshot, updateDoc, arrayUnion, arrayRemove, getDoc } from 'fir
 import { db, auth } from '@/lib/firebase';
 import MainLayout from '@/components/main-layout';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import ReportTimeline from '@/components/report-timeline';
 import { cn } from '@/lib/utils';
