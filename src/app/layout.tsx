@@ -3,11 +3,24 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { cn } from '@/lib/utils';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { Poppins, Lora } from 'next/font/google';
 
 export const metadata: Metadata = {
   title: 'Meu Bairro',
   description: 'Sua plataforma completa para a vida no bairro.',
 };
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '600', '700'],
+  variable: '--font-headline',
+});
+
+const lora = Lora({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-body',
+});
 
 export default function RootLayout({
   children,
@@ -15,12 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Lora:wght@400;700&display=swap" rel="stylesheet" />
-      </head>
+    <html lang="pt-BR" className={`${poppins.variable} ${lora.variable}`}>
       <body className={cn("antialiased bg-background")}>
         {children}
         <Toaster />

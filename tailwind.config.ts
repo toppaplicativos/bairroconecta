@@ -17,8 +17,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Lora', 'serif'],
-        headline: ['Poppins', 'sans-serif'],
+        body: ['var(--font-body)'],
+        headline: ['var(--font-headline)'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -63,9 +63,9 @@ export default {
         },
       },
       borderRadius: {
-        lg: "10px",
-        md: "calc(10px - 2px)",
-        sm: "calc(10px - 4px)",
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
         "accordion-down": {
