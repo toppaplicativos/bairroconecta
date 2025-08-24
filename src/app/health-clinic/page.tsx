@@ -2,7 +2,7 @@
 'use client';
 import MainLayout from "@/components/main-layout";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Stethoscope, Tooth, Baby, Brain, Bone } from 'lucide-react';
+import { PlusCircle, Stethoscope, Baby, Brain, Bone } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -19,9 +19,27 @@ import Link from "next/link";
 import { healthProfessionals, specialties, appointments } from "@/lib/data";
 import DoctorCard from "@/components/doctor-card";
 
+const ToothIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        width="24" 
+        height="24" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        stroke="currentColor" 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+        {...props}
+    >
+        <path d="M9.34 7.53c.63-.44 1.33-.73 2.16-.73h.97c.32 0 .63.06.92.18.3.12.56.29.77.5.21.21.38.46.48.74.1.28.15.58.15.88v.29c0 .3-.05.6-.15.88a1.53 1.53 0 0 1-.48.74c-.21.21-.47.38-.77.5a2.14 2.14 0 0 1-.92.18h-.97c-.83 0-1.53-.29-2.16-.73L6 14.5v5.5h12V14.5l-3.34-3.74c-.63.44-1.33.73-2.16.73h-.97c-.32 0-.63-.06-.92-.18a1.71 1.71 0 0 1-.77-.5c-.21-.21-.38-.46-.48-.74-.1-.28-.15-.58-.15-.88v-.29c0-.3.05-.6.15-.88.1-.28.27-.53.48-.74.2-.21.46-.38.76-.5.3-.12.6-.18.92-.18h.97c.83 0 1.53.29 2.16.73L18 9.5V4H6v3.5l3.34.03Z"/>
+        <path d="M7 20h10"/>
+    </svg>
+);
+
 const iconMap: { [key: string]: React.ElementType } = {
     Stethoscope,
-    Tooth,
+    Tooth: ToothIcon,
     Baby,
     Brain,
     Bone,
