@@ -416,18 +416,23 @@ export const serviceListByCategory = [
 
 const generateServices = (servicesList: {category: string, services: string[]}[]) => {
   let idCounter = 300;
+  const staticRatings = [4.5, 3.8, 5.0, 4.2, 4.9, 3.5, 4.0, 4.7];
+  const staticReviews = [25, 80, 12, 45, 150, 8, 33, 98];
+  const staticLatitudes = [-23.550520, -23.555, -23.545, -23.56];
+  const staticLongitudes = [-46.633308, -46.64, -46.62, -46.65];
+
   return servicesList.flatMap(({ category, services }) => 
-    services.map(service => ({
+    services.map((service, index) => ({
       id: idCounter++,
       name: service,
       category: category,
       type: 'service' as const,
       imageUrl: "https://placehold.co/400x300.png",
       hint: service.toLowerCase().replace(/ /g, ' '),
-      rating: +(Math.random() * 1.5 + 3.5).toFixed(1),
-      reviewsCount: Math.floor(Math.random() * 100) + 5,
-      latitude: -23.550520 + (Math.random() - 0.5) * 0.1,
-      longitude: -46.633308 + (Math.random() - 0.5) * 0.1,
+      rating: staticRatings[index % staticRatings.length],
+      reviewsCount: staticReviews[index % staticReviews.length],
+      latitude: staticLatitudes[index % staticLatitudes.length],
+      longitude: staticLongitudes[index % staticLongitudes.length],
       description: `Especialista em ${service}, oferecendo soluções rápidas e eficazes para suas necessidades. Atendimento profissional e de confiança.`,
       phone: `(11) 9${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`,
       address: "Atendimento em toda a região",
