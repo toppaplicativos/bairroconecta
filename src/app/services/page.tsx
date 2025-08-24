@@ -84,6 +84,8 @@ export default function ServicesPage() {
                 const providersForCategory = serviceProviders.filter(p => p.category === category);
                 if (providersForCategory.length === 0) return null;
 
+                const professionalsCount = providersForCategory.length;
+
                 return (
                     <div key={category} className="mb-8">
                         <h3 className="text-xl font-bold font-headline mb-4">{category}</h3>
@@ -91,7 +93,7 @@ export default function ServicesPage() {
                             <CarouselContent className="-ml-2">
                                 {providersForCategory.map((provider) => (
                                     <CarouselItem key={provider.id} className="basis-1/2 md:basis-1/3 lg:basis-1/4 pl-2">
-                                        <ServiceCard provider={provider} />
+                                        <ServiceCard provider={provider} professionalsCount={professionalsCount} />
                                     </CarouselItem>
                                 ))}
                             </CarouselContent>

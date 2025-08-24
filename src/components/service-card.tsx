@@ -1,15 +1,16 @@
 
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
-import { Star } from "lucide-react";
+import { Users } from "lucide-react";
 import { Business } from "@/lib/data";
 
 
 type ServiceCardProps = {
   provider: Business;
+  professionalsCount: number;
 };
 
-export default function ServiceCard({ provider }: ServiceCardProps) {
+export default function ServiceCard({ provider, professionalsCount }: ServiceCardProps) {
   return (
     <Card className="overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 bg-white border-0 rounded-2xl h-full flex flex-col">
         <div className="relative aspect-[4/3] w-full">
@@ -25,9 +26,8 @@ export default function ServiceCard({ provider }: ServiceCardProps) {
       <CardContent className="p-3 text-left flex-grow">
         <p className="font-bold text-sm leading-tight truncate">{provider.name}</p>
         <div className="flex items-center gap-1 mt-1">
-            <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-            <span className="font-bold text-xs text-gray-800">{provider.rating}</span>
-            <span className="text-xs text-muted-foreground">({provider.reviewsCount} avaliações)</span>
+            <Users className="w-4 h-4 text-muted-foreground" />
+            <span className="text-xs text-muted-foreground">{professionalsCount} profissionais</span>
         </div>
       </CardContent>
     </Card>
