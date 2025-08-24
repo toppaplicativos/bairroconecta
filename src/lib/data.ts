@@ -36,6 +36,8 @@ export type Business = {
   deliveryTime?: string;
   deliveryFee?: string;
   promotion?: string;
+  experience?: number;
+  pricePerHour?: number;
 };
 
 export const businesses: Business[] = [
@@ -418,8 +420,14 @@ const generateServices = (servicesList: {category: string, services: string[]}[]
   let idCounter = 300;
   const staticRatings = [4.5, 3.8, 5.0, 4.2, 4.9, 3.5, 4.0, 4.7];
   const staticReviews = [25, 80, 12, 45, 150, 8, 33, 98];
-  const staticLatitudes = [-23.550520, -23.555, -23.545, -23.56];
-  const staticLongitudes = [-46.633308, -46.64, -46.62, -46.65];
+  const staticExperience = [2, 5, 10, 8, 3, 12, 6, 15];
+  const staticPrice = [159, 200, 138, 199, 120, 250, 180, 145];
+  const staticImages = [
+    "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxwb3J0cmFpdCUyMG1hbnxlbnwwfHx8fDE3NTYzOTU4NTF8MA&ixlib=rb-4.1.0&q=80&w=400",
+    "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwb3J0cmFpdCUyMG1hbnxlbnwwfHx8fDE3NTYzOTU4NTF8MA&ixlib=rb-4.1.0&q=80&w=400",
+    "https://images.unsplash.com/photo-1521119989659-a83eee488004?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwb3J0cmFpdCUyMG1hbnxlbnwwfHx8fDE3NTYzOTU4NTF8MA&ixlib=rb-4.1.0&q=80&w=400",
+    "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwb3J0cmFpdCUyMG1hbnxlbnwwfHx8fDE3NTYzOTU4NTF8MA&ixlib=rb-4.1.0&q=80&w=400",
+  ]
 
   return servicesList.flatMap(({ category, services }) => 
     services.map((service, index) => ({
@@ -427,12 +435,14 @@ const generateServices = (servicesList: {category: string, services: string[]}[]
       name: service,
       category: category,
       type: 'service' as const,
-      imageUrl: "https://placehold.co/400x300.png",
+      imageUrl: staticImages[index % staticImages.length],
       hint: service.toLowerCase().replace(/ /g, ' '),
       rating: staticRatings[index % staticRatings.length],
       reviewsCount: staticReviews[index % staticReviews.length],
-      latitude: staticLatitudes[index % staticLatitudes.length],
-      longitude: staticLongitudes[index % staticLongitudes.length],
+      experience: staticExperience[index % staticExperience.length],
+      pricePerHour: staticPrice[index % staticPrice.length],
+      latitude: -23.550520,
+      longitude: -46.633308,
       description: `Especialista em ${service}, oferecendo soluções rápidas e eficazes para suas necessidades. Atendimento profissional e de confiança.`,
       phone: `(11) 9${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`,
       address: "Atendimento em toda a região",
