@@ -233,30 +233,14 @@ function DesktopSidebar() {
 
 function MobileHeader() {
     const pathname = usePathname();
-    const [user] = useAuthState(auth);
-    
-    let title = "Meu Bairro";
-     if (pathname === '/') {
-        title = user ? `Olá, ${user.displayName?.split(' ')[0]}!` : "Olá, Visitante!";
-    } else {
-      const currentNavItem = navItems.find(item => pathname.startsWith(item.href) && item.href !== '/');
-      if (currentNavItem) {
-        title = currentNavItem.label;
-      }
-    }
-    
-    let subtitle = "O que você precisa, à distância de um clique.";
-    if (pathname !== '/') {
-        subtitle = "Explore e conecte-se com sua comunidade.";
-    }
-
+    const currentNavItem = navItems.find(item => item.href === pathname);
+    const title = currentNavItem?.label || 'Meu Bairro';
 
     return (
-        <header className="sticky top-0 z-40 flex h-20 items-center gap-4 border-b bg-background px-4 md:hidden">
+        <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-background px-4 md:hidden">
             <MobileSidebar />
             <div className="flex-1 text-center">
                  <h1 className="text-xl font-semibold font-headline">{title}</h1>
-                 <p className="text-sm text-muted-foreground">{subtitle}</p>
             </div>
              <div className="w-12" />
         </header>
@@ -279,3 +263,5 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     </div>
   );
 }
+
+    
