@@ -12,12 +12,21 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import NewAppointmentForm from "@/components/new-appointment-form";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { healthProfessionals, specialties, appointments } from "@/lib/data";
 import DoctorCard from "@/components/doctor-card";
+
+const iconMap: { [key: string]: React.ElementType } = {
+    Stethoscope,
+    Tooth,
+    Baby,
+    Brain,
+    Bone,
+    PlusCircle
+};
 
 export default function HealthClinicPage() {
     const [openNewAppointment, setOpenNewAppointment] = useState(false);
@@ -63,16 +72,19 @@ export default function HealthClinicPage() {
                 <div>
                   <h2 className="text-2xl font-bold tracking-tight font-headline mb-4">Especialidades</h2>
                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                      {specialties.map((specialty) => (
-                        <Link href="#" key={specialty.name}>
-                           <Card className="text-center p-4 flex flex-col items-center justify-center gap-2 hover:bg-muted/50 hover:border-primary/50 transition-all h-full">
-                              <div className="p-3 bg-primary/10 rounded-full">
-                                <specialty.icon className="h-8 w-8 text-primary" />
-                              </div>
-                              <p className="text-sm font-semibold">{specialty.name}</p>
-                          </Card>
-                        </Link>
-                      ))}
+                      {specialties.map((specialty) => {
+                          const Icon = iconMap[specialty.icon];
+                          return (
+                            <Link href="#" key={specialty.name}>
+                               <Card className="text-center p-4 flex flex-col items-center justify-center gap-2 hover:bg-muted/50 hover:border-primary/50 transition-all h-full">
+                                  <div className="p-3 bg-primary/10 rounded-full">
+                                    {Icon && <Icon className="h-8 w-8 text-primary" />}
+                                  </div>
+                                  <p className="text-sm font-semibold">{specialty.name}</p>
+                              </Card>
+                            </Link>
+                          );
+                      })}
                   </div>
                 </div>
 

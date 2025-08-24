@@ -341,14 +341,18 @@ export const events = [
   },
 ];
 
+export type Specialty = {
+  name: string;
+  icon: string;
+};
 
-export const specialties = [
-  { name: "Clínica Geral", icon: Stethoscope },
-  { name: "Odontologia", icon: Tooth },
-  { name: "Pediatria", icon: Baby },
-  { name: "Psicologia", icon: Brain },
-  { name: "Ortopedia", icon: Bone },
-  { name: "Outros", icon: PlusCircle },
+export const specialties: Specialty[] = [
+  { name: "Clínica Geral", icon: "Stethoscope" },
+  { name: "Odontologia", icon: "Tooth" },
+  { name: "Pediatria", icon: "Baby" },
+  { name: "Psicologia", icon: "Brain" },
+  { name: "Ortopedia", icon: "Bone" },
+  { name: "Outros", icon: "PlusCircle" },
 ]
 
 export const healthProfessionals = [
