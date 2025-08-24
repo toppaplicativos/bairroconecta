@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Product } from "@/lib/data";
@@ -18,12 +19,14 @@ export default function ProductCard({ product }: ProductCardProps) {
           data-ai-hint={product.hint}
         />
       </div>
-      <CardContent className="p-3">
-        <p className="font-semibold text-sm truncate">{product.name}</p>
+      <CardContent className="p-3 pb-2">
+        <p className="font-semibold text-sm truncate leading-tight">{product.name}</p>
       </CardContent>
       <CardFooter className="p-3 pt-0">
-        <p className="text-primary font-bold">{product.price}</p>
+        <p className="text-primary font-bold text-sm">{product.price}</p>
       </CardFooter>
     </Card>
   );
 }
+
+    
