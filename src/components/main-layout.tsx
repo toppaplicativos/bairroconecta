@@ -235,7 +235,7 @@ function DesktopSidebar() {
 
 function MobileHeader() {
     const pathname = usePathname();
-    const currentNavItem = navItems.find(item => item.href === pathname);
+    const currentNavItem = navItems.find(item => item.href === pathname) || navItems.find(item => pathname.startsWith(item.href) && item.href !== '/');
     const title = currentNavItem?.label || 'Meu Bairro';
 
     return (
