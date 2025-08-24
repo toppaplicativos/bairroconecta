@@ -12,7 +12,7 @@ import ProductCard from '@/components/product-card';
 import NewReviewForm from '@/components/new-review-form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-export default function BusinessDetailPage() {
+export default function BusinessDetailPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const params = useParams();
   const id = params?.id as string;
   const business = businesses.find((b) => b.id.toString() === id);
@@ -180,5 +180,3 @@ export default function BusinessDetailPage() {
     </MainLayout>
   );
 }
-
-    
