@@ -64,7 +64,7 @@ export const businesses: Business[] = [
         { url: "https://placehold.co/600x400.png", hint: "pizza oven" },
     ],
     products: [
-        { id: "p1", name: "Lasanha à Bolonhesa", price: "R$ 59,90", imageUrl: "https://placehold.co/400x400.png", hint: "lasagna" },
+        { id: "p1", name: "Lasanha à Bolonhesa", price: "R$ 59,90", imageUrl: "https://placehold.co/600x400.png", hint: "lasagna" },
         { id: "p2", name: "Fettuccine Alfredo", price: "R$ 54,90", imageUrl: "https://placehold.co/400x400.png", hint: "fettuccine alfredo" },
         { id: "p3", name: "Pizza Margherita", price: "R$ 49,90", imageUrl: "https://placehold.co/400x400.png", hint: "margherita pizza" },
     ],
@@ -95,27 +95,6 @@ export const businesses: Business[] = [
         { url: "https://placehold.co/600x400.png", hint: "pharmacy aisle" },
         { url: "https://placehold.co/600x400.png", hint: "pharmacist portrait" },
     ],
-    products: [],
-    reviews: [],
-  },
-  {
-    id: 7,
-    name: "Roberto \"Alemão\" Silva",
-    category: "Eletricista",
-    type: 'service',
-    imageUrl: "https://images.unsplash.com/photo-1682345262055-8f95f3c513ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxFbGV0cmljaXN0YXxlbnwwfHx8fDE3NTU4NjQyMzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    hint: "man electrician",
-    rating: 4.9,
-    reviewsCount: 72,
-    latitude: -23.555,
-    longitude: -46.66,
-    description: "Serviços elétricos residenciais e comerciais com segurança e qualidade. Instalações, reparos, manutenção e consultoria. Atendimento rápido e orçamento sem compromisso.",
-    phone: "(11) 99999-8888",
-    address: "Atende em toda a região",
-    hours: [
-        { day: "Segunda a Sábado", time: "08:00 - 18:00" },
-    ],
-    gallery: [],
     products: [],
     reviews: [],
   },
@@ -153,25 +132,6 @@ export const businesses: Business[] = [
     phone: "(11) 94444-5555",
     address: "Alameda da Beleza, 321, Jardins",
     hours: [{ day: "Terça a Sábado", time: "09:00 - 20:00" }],
-    gallery: [],
-    products: [],
-    reviews: [],
-  },
-  {
-    id: 8,
-    imageUrl: "https://images.unsplash.com/photo-1509062522246-3755977927d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxOHx8UHJvZmVzc29yfGVufDB8fHx8MTc1NTg2NDI5NHww&ixlib=rb-4.1.0&q=80&w=1080",
-    hint: "woman tutor",
-    name: "Cláudia Matos",
-    category: "Aulas de Reforço (Matemática)",
-    rating: 5.0,
-    reviewsCount: 43,
-    latitude: -23.552,
-    longitude: -46.648,
-    type: 'service',
-    description: "Dificuldades em matemática? Aulas particulares e de reforço para ensino fundamental e médio. Metodologia focada em resultados.",
-    phone: "(11) 96666-7777",
-    address: "Aulas online ou na casa do aluno",
-    hours: [{ day: "Segunda a Sexta", time: "14:00 - 19:00" }],
     gallery: [],
     products: [],
     reviews: [],
@@ -400,3 +360,85 @@ export const appointments = [
     status: "Confirmado",
   },
 ];
+
+
+const generateServices = (servicesList: {category: string, services: string[]}[]) => {
+  let idCounter = 300;
+  return servicesList.flatMap(({ category, services }) => 
+    services.map(service => ({
+      id: idCounter++,
+      name: service,
+      category: category,
+      type: 'service' as const,
+      imageUrl: "https://placehold.co/400x300.png",
+      hint: service.toLowerCase(),
+      rating: +(Math.random() * 1.5 + 3.5).toFixed(1),
+      reviewsCount: Math.floor(Math.random() * 100) + 5,
+      latitude: -23.550520 + (Math.random() - 0.5) * 0.1,
+      longitude: -46.633308 + (Math.random() - 0.5) * 0.1,
+      description: `Especialista em ${service}, oferecendo soluções rápidas e eficazes para suas necessidades. Atendimento profissional e de confiança.`,
+      phone: `(11) 9${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`,
+      address: "Atendimento em toda a região",
+      hours: [{ day: "Segunda a Sábado", time: "08:00 - 18:00" }],
+      gallery: [],
+      products: [],
+      reviews: [],
+    }))
+  );
+};
+
+const serviceListByCategory = [
+  { category: "Serviços Domésticos e de Manutenção", services: [
+    "Limpeza residencial", "Diarista", "Faxina pesada", "Manutenção de ar-condicionado", "Eletricista",
+    "Encanador", "Desentupimento", "Montagem de móveis", "Marido de aluguel", "Jardinagem",
+    "Paisagismo", "Dedetização", "Reforma de telhados", "Instalação de câmeras de segurança", "Pintor",
+    "Gesseiro", "Pedreiro", "Vidraceiro", "Conserto de eletrodomésticos", "Chaveiro"
+  ]},
+  { category: "Serviços de Beleza e Bem-Estar", services: [
+    "Manicure e pedicure", "Cabeleireiro (em casa)", "Maquiador", "Massagista", "Personal trainer",
+    "Fisioterapeuta", "Nutricionista", "Podólogo", "Depilação", "Barbeiro (em casa)",
+    "Acupuntura", "Design de sobrancelhas", "Tatuador", "Micropigmentação", "Esteticista"
+  ]},
+  { category: "Serviços de Pet", services: [
+    "Pet sitter (babá de pets)", "Passeador de cães", "Adestrador de cães",
+    "Banho e tosa a domicílio", "Veterinário (consulta em casa)"
+  ]},
+  { category: "Serviços de Automóveis e Veículos", services: [
+    "Lavagem de carros a domicílio", "Troca de óleo", "Bateria (socorro)", "Conserto de pneus",
+    "Mecânico a domicílio", "Polimento de carros", "Martelinho de ouro",
+    "Instalação de som automotivo", "Insulfilm", "Detalhamento automotivo"
+  ]},
+  { category: "Serviços de Tecnologia e TI", services: [
+    "Técnico de informática (notebooks, PCs)", "Conserto de celulares", "Configuração de redes Wi-Fi",
+    "Suporte a softwares", "Instalação de impressoras", "Recuperação de dados",
+    "Aulas de informática para idosos", "Montagem de PC gamer", "Programador freelancer", "Criação de sites"
+  ]},
+  { category: "Serviços de Eventos e Festas", services: [
+    "Fotógrafo de eventos", "Cinegrafista", "Garçom", "Bartender", "Cerimonialista",
+    "Organizador de festas", "Animador de festas infantis", "Músico ou DJ para eventos",
+    "Confeiteiro (bolos e doces)", "Buffet"
+  ]},
+  { category: "Serviços de Aulas e Cursos Particulares", services: [
+    "Aulas de idiomas", "Reforço escolar (matemática, português, etc.)", "Aulas de música (violão, piano, etc.)",
+    "Aulas de culinária", "Professor particular para concursos", "Coach de carreira",
+    "Aulas de yoga", "Treinamento para corrida"
+  ]},
+  { category: "Serviços de Fretes e Transportes", services: [
+    "Carreto", "Mudanças", "Entregador de encomendas", "Motorista particular",
+    "Frete de pequenos objetos", "Aluguel de vans com motorista"
+  ]},
+  { category: "Serviços de Consultoria e Finanças", services: [
+    "Consultor financeiro", "Contador", "Consultor de investimentos", "Consultor de RH",
+    "Consultor jurídico (para pequenas questões)", "Planejador de viagens"
+  ]},
+  { category: "Outros Serviços Especializados", services: [
+    "Costureira", "Sapateiro", "Artesão", "Lavagem de estofados", "Limpeza de caixas d'água",
+    "Descarte de entulho", "Cozinheiro particular (chef a domicílio)",
+    "Organizador profissional (personal organizer)", "Serviços de tradução",
+    "Recepcionista ou secretária para eventos corporativos"
+  ]}
+];
+
+export const serviceProviders = generateServices(serviceListByCategory);
+
+export const allBusinesses = [...businesses, ...foodBusinesses, ...serviceProviders];

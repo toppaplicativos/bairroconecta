@@ -2,7 +2,7 @@
 'use client';
 import MainLayout from "@/components/main-layout";
 import ServiceCard from "@/components/service-card";
-import { businesses } from "@/lib/data";
+import { serviceProviders } from "@/lib/data";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/carousel"
 import Autoplay from "embla-carousel-autoplay"
 import React from "react";
+import Link from "next/link";
 
 const filterTags = ["All", "Booked", "Electricians", "Agents"];
 const serviceTags = [
@@ -26,7 +27,6 @@ const serviceTags = [
 ]
 
 export default function ServicesPage() {
-  const serviceProviders = businesses.filter(b => b.type === 'service');
   const plugin = React.useRef(
     Autoplay({ delay: 3000, stopOnInteraction: true })
   )
@@ -105,6 +105,16 @@ export default function ServicesPage() {
               ))}
             </div>
         </div>
+
+        <Card className="text-center">
+            <CardContent className="p-6">
+                <h3 className="text-lg font-bold font-headline">Você é um prestador de serviço?</h3>
+                <p className="text-muted-foreground text-sm mt-2">Junte-se à nossa plataforma e seja encontrado por milhares de clientes no seu bairro.</p>
+                <Link href="/services/register">
+                    <Button className="mt-4">Cadastre-se Agora</Button>
+                </Link>
+            </CardContent>
+        </Card>
 
       </div>
     </MainLayout>
