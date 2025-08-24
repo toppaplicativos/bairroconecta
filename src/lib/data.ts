@@ -1,3 +1,4 @@
+
 export type Product = {
   id: string;
   name: string;
@@ -23,7 +24,7 @@ export type Business = {
   rating: number;
   latitude: number;
   longitude: number;
-  type: 'business' | 'service';
+  type: 'business' | 'service' | 'food';
   reviewsCount: number;
   description: string;
   phone: string;
@@ -32,6 +33,9 @@ export type Business = {
   gallery: { url: string; hint: string }[];
   products: Product[];
   reviews: Review[];
+  deliveryTime?: string;
+  deliveryFee?: string;
+  promotion?: string;
 };
 
 export const businesses: Business[] = [
@@ -115,7 +119,6 @@ export const businesses: Business[] = [
     products: [],
     reviews: [],
   },
-  // Adding other businesses and services with new fields, but empty arrays for brevity
   {
     id: 3,
     name: "Mercado do Bairro",
@@ -172,6 +175,83 @@ export const businesses: Business[] = [
     gallery: [],
     products: [],
     reviews: [],
+  },
+];
+
+
+export const foodBusinesses: Business[] = [
+  {
+    ...businesses[0],
+    id: 101,
+    type: 'food',
+    deliveryTime: "30-45 min",
+    deliveryFee: "R$ 5,99",
+    promotion: "Na compra de 2 pizzas, ganhe um refrigerante.",
+  },
+  {
+    id: 102,
+    name: "Burger do Zé",
+    category: "Lanches",
+    type: 'food',
+    imageUrl: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxCdXJnZXJ8ZW58MHx8fHwxNzU1OTIzMjMxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "delicious burger",
+    rating: 4.9,
+    reviewsCount: 250,
+    latitude: -23.5525,
+    longitude: -46.6630,
+    description: "O hambúrguer artesanal que vai te surpreender. Ingredientes frescos e combinações incríveis. Pão selado na manteiga e carne no ponto certo.",
+    phone: "(11) 95555-1234",
+    address: "Praça da Matriz (Food Truck)",
+    hours: [{ day: "Quarta a Domingo", time: "18:00 - 23:00" }],
+    gallery: [],
+    products: [],
+    reviews: [],
+    deliveryTime: "25-40 min",
+    deliveryFee: "Grátis",
+    promotion: "Combo X-Tudo + Batata + Refri por R$ 29,90",
+  },
+  {
+    id: 103,
+    name: "Dona Maria - Marmitas",
+    category: "Marmitas",
+    type: 'food',
+    imageUrl: "https://placehold.co/600x400.png",
+    hint: "brazilian lunch box",
+    rating: 4.7,
+    reviewsCount: 180,
+    latitude: -23.5490,
+    longitude: -46.6500,
+    description: "Comida caseira de verdade, feita com amor e entregue na sua casa. Cardápio variado todos os dias, com opção vegetariana.",
+    phone: "(11) 94444-5566",
+    address: "Apenas Delivery",
+    hours: [{ day: "Segunda a Sábado", time: "11:00 - 15:00" }],
+    gallery: [],
+    products: [],
+    reviews: [],
+    deliveryTime: "40-55 min",
+    deliveryFee: "R$ 7,00",
+  },
+   {
+    id: 104,
+    name: "Açaí do Bairro",
+    category: "Açaí",
+    type: 'food',
+    imageUrl: "https://placehold.co/600x400.png",
+    hint: "acai bowl",
+    rating: 4.8,
+    reviewsCount: 150,
+    latitude: -23.5595,
+    longitude: -46.6580,
+    description: "O melhor açaí da região, com os mais variados acompanhamentos. Monte do seu jeito!",
+    phone: "(11) 93333-2211",
+    address: "Rua das Palmeiras, 50, Loja 3",
+    hours: [{ day: "Todos os dias", time: "14:00 - 22:00" }],
+    gallery: [],
+    products: [],
+    reviews: [],
+    deliveryTime: "20-30 min",
+    deliveryFee: "R$ 4,50",
+    promotion: "Açaí 500ml com 3 adicionais por R$ 20,00",
   },
 ];
 

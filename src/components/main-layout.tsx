@@ -18,6 +18,7 @@ import {
   Bot,
   Heart,
   User,
+  UtensilsCrossed,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -41,6 +42,7 @@ import Image from 'next/image';
 const navItems = [
   { href: '/', label: 'Início', icon: LayoutGrid },
   { href: '/map', label: 'Mapa', icon: Map },
+  { href: '/food', label: 'Alimentação', icon: UtensilsCrossed },
   { href: '/properties', label: 'Imóveis', icon: Building2 },
   { href: '/businesses', label: 'Comércio', icon: Store },
   { href: '/services', label: 'Serviços', icon: Briefcase },
@@ -52,7 +54,7 @@ const navItems = [
 ];
 
 const mainNavItems = [
-  { href: '/services', label: 'Serviços', icon: Briefcase },
+  { href: '/food', label: 'Alimentação', icon: UtensilsCrossed },
   { href: '/businesses', label: 'Comércio', icon: Store },
   { href: '/community', label: 'Comunidade', icon: MessagesSquare },
   { href: '/ouvidoria', label: 'Ouvidoria', icon: Megaphone },
@@ -263,5 +265,3 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     </div>
   );
 }
-
-    
