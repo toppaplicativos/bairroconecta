@@ -56,25 +56,25 @@ const products = [
     }
 ]
 
-export default function MerchantProductsPage() {
+export default function MerchantMenuPage() {
     const [openDialog, setOpenDialog] = useState(false);
 
     return (
         <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
             <div className="flex items-center justify-between space-y-2">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight font-headline">Produtos</h2>
-                    <p className="text-muted-foreground">Gerencie o catálogo de produtos da sua loja.</p>
+                    <h2 className="text-3xl font-bold tracking-tight font-headline">Cardápio</h2>
+                    <p className="text-muted-foreground">Gerencie os itens e pratos da sua loja.</p>
                 </div>
                  <Dialog open={openDialog} onOpenChange={setOpenDialog}>
                     <DialogTrigger asChild>
-                         <Button><PlusCircle className="mr-2 h-4 w-4" /> Adicionar Produto</Button>
+                         <Button><PlusCircle className="mr-2 h-4 w-4" /> Adicionar Item</Button>
                     </DialogTrigger>
                     <DialogContent>
                         <DialogHeader>
-                            <DialogTitle>Adicionar Novo Produto</DialogTitle>
+                            <DialogTitle>Adicionar Novo Item ao Cardápio</DialogTitle>
                              <DialogDescription>
-                                Preencha os detalhes do seu novo produto.
+                                Preencha os detalhes do seu novo prato ou item.
                             </DialogDescription>
                         </DialogHeader>
                         <ProductForm onFinished={() => setOpenDialog(false)} />
@@ -83,9 +83,9 @@ export default function MerchantProductsPage() {
             </div>
              <Card>
               <CardHeader>
-                <CardTitle>Seu Catálogo</CardTitle>
+                <CardTitle>Seu Cardápio</CardTitle>
                 <CardDescription>
-                  A lista de todos os produtos disponíveis na sua loja.
+                  A lista de todos os itens disponíveis na sua loja.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -118,7 +118,7 @@ export default function MerchantProductsPage() {
                             <TableCell className="font-medium">{product.name}</TableCell>
                             <TableCell>
                                 <Badge variant={product.status === 'active' ? 'outline' : 'secondary'}>
-                                    {product.status === 'active' ? 'Ativo' : 'Arquivado'}
+                                    {product.status === 'active' ? 'Disponível' : 'Esgotado'}
                                 </Badge>
                             </TableCell>
                             <TableCell className="hidden md:table-cell">R${product.price.toFixed(2)}</TableCell>

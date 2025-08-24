@@ -11,6 +11,7 @@ import {
   ShoppingCart,
   Star,
   Users,
+  Settings,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -25,8 +26,9 @@ import { useRouter } from 'next/navigation';
 const navItems = [
   { href: '/merchant/dashboard', label: 'Dashboard', icon: Home },
   { href: '/merchant/orders', label: 'Pedidos', icon: ShoppingCart },
-  { href: '/merchant/products', label: 'Produtos', icon: Package },
-  { href: '/merchant/reviews', label: 'Avaliações', icon: Star }, 
+  { href: '/merchant/menu', label: 'Cardápio', icon: Package },
+  { href: '/merchant/reviews', label: 'Avaliações', icon: Star },
+  { href: '/merchant/settings', label: 'Configurações', icon: Settings },
 ];
 
 function MobileSidebar() {

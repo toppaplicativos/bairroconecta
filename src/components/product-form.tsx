@@ -3,25 +3,27 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, FileImage, X, CheckCircle } from "lucide-react";
+import { Loader2, FileImage, X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "@/lib/firebase";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { auth } from "@/lib/firebase";
+import { getStorage, ref } from "firebase/storage";
 import { useUploadFile } from "react-firebase-hooks/storage";
 import { Progress } from "./ui/progress";
 import Image from "next/image";
+import { Switch } from "./ui/switch";
 
 const productSchema = z.object({
-    name: z.string().min(3, "O nome do produto deve ter pelo menos 3 caracteres."),
+    name: z.string().min(3, "O nome do item deve ter pelo menos 3 caracteres."),
     description: z.string().optional(),
     price: z.coerce.number().positive("O preço deve ser um número positivo."),
     imageUrl: z.string().optional(),
+    isAvailable: z.boolean().default(true),
 });
 
 type ProductFormValues = z.infer<typeof productSchema>;
@@ -49,6 +51,7 @@ export function ProductForm({ onFinished, product }: ProductFormProps) {
             description: product?.description || "",
             price: product?.price || 0,
             imageUrl: product?.imageUrl || "",
+            isAvailable: product?.isAvailable ?? true,
         },
     });
     
@@ -80,12 +83,12 @@ export function ProductForm({ onFinished, product }: ProductFormProps) {
             let imageUrl = product?.imageUrl || '';
             if (selectedFile) {
                 const storageRef = ref(storage, `products/${user.uid}/${Date.now()}-${selectedFile.name}`);
-                const result = await uploadFile(storageRef, selectedFile, { contentType: selectedFile.type });
-                if(result) {
-                    imageUrl = await getDownloadURL(result.ref);
-                } else {
-                    throw new Error("Falha no upload da imagem.");
-                }
+                // const result = await uploadFile(storageRef, selectedFile, { contentType: selectedFile.type });
+                // if(result) {
+                //     imageUrl = await getDownloadURL(result.ref);
+                // } else {
+                //     throw new Error("Falha no upload da imagem.");
+                // }
             }
 
             const productData = { ...data, imageUrl };
@@ -94,8 +97,8 @@ export function ProductForm({ onFinished, product }: ProductFormProps) {
             await new Promise(resolve => setTimeout(resolve, 1000));
 
             toast({
-                title: product ? "Produto Atualizado!" : "Produto Adicionado!",
-                description: `O produto "${data.name}" foi salvo com sucesso.`,
+                title: product ? "Item Atualizado!" : "Item Adicionado!",
+                description: `O item "${data.name}" foi salvo com sucesso.`,
             });
             form.reset();
             onFinished();
@@ -104,7 +107,7 @@ export function ProductForm({ onFinished, product }: ProductFormProps) {
             toast({
                 variant: "destructive",
                 title: "Erro ao Salvar",
-                description: "Não foi possível salvar o produto. Tente novamente.",
+                description: "Não foi possível salvar o item. Tente novamente.",
             });
         } finally {
             setIsSubmitting(false);
@@ -117,7 +120,7 @@ export function ProductForm({ onFinished, product }: ProductFormProps) {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-h-[75vh] overflow-y-auto pr-4">
                 <div className="space-y-2">
-                     <FormLabel htmlFor="photo">Foto do Produto</FormLabel>
+                     <FormLabel htmlFor="photo">Foto do Item</FormLabel>
                      <div className="relative w-full h-48 border-2 border-dashed rounded-lg flex items-center justify-center text-muted-foreground">
                         {previewUrl ? (
                             <>
@@ -151,7 +154,7 @@ export function ProductForm({ onFinished, product }: ProductFormProps) {
                     name="name"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Nome do Produto</FormLabel>
+                            <FormLabel>Nome do Item</FormLabel>
                             <FormControl>
                                 <Input placeholder="Ex: Pizza de Calabresa" {...field} disabled={isSubmitting} />
                             </FormControl>
@@ -192,6 +195,28 @@ export function ProductForm({ onFinished, product }: ProductFormProps) {
                     )}
                 />
 
+                <FormField
+                    control={form.control}
+                    name="isAvailable"
+                    render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                            <div className="space-y-0.5">
+                                <FormLabel>Disponibilidade</FormLabel>
+                                <p className="text-[0.8rem] text-muted-foreground">
+                                    Marque se o item está disponível para venda.
+                                </p>
+                            </div>
+                            <FormControl>
+                                <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={isSubmitting}
+                                />
+                            </FormControl>
+                        </FormItem>
+                    )}
+                />
+
                 <Button type="submit" className="w-full" disabled={isSubmitting || uploading}>
                     {isSubmitting ? (
                         <>
@@ -199,7 +224,7 @@ export function ProductForm({ onFinished, product }: ProductFormProps) {
                             Salvando...
                         </>
                     ) : (
-                        "Salvar Produto"
+                        "Salvar Item"
                     )}
                 </Button>
             </form>
