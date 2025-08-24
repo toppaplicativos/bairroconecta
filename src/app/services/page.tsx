@@ -8,6 +8,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Search, SlidersHorizontal, Settings2, Wrench, Plug } from "lucide-react";
 import Image from "next/image";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-autoplay"
+import React from "react";
 
 const filterTags = ["All", "Booked", "Electricians", "Agents"];
 const serviceTags = [
@@ -18,6 +27,9 @@ const serviceTags = [
 
 export default function ServicesPage() {
   const serviceProviders = businesses.filter(b => b.type === 'service');
+  const plugin = React.useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: true })
+  )
 
   return (
     <MainLayout>
@@ -40,19 +52,40 @@ export default function ServicesPage() {
             ))}
         </div>
         
-        <Card className="relative overflow-hidden bg-orange-100 border-0 shadow-none">
-            <CardContent className="p-4 flex flex-col md:flex-row items-center justify-between gap-4">
-                <div className="space-y-2 z-10">
-                    <p className="text-xs font-bold text-orange-500 uppercase bg-white px-2 py-1 rounded-full inline-block">Popular</p>
-                    <h2 className="text-xl font-bold font-headline">Hire a Service Man</h2>
-                    <p className="text-muted-foreground text-sm">Need help with wiring, repairs or installations?</p>
-                    <Button className="mt-2 bg-orange-400 hover:bg-orange-500 text-white shadow-lg">Book Now</Button>
+         <Carousel
+          plugins={[plugin.current]}
+          className="w-full"
+          onMouseEnter={plugin.current.stop}
+          onMouseLeave={plugin.current.reset}
+        >
+          <CarouselContent>
+            <CarouselItem>
+                <div className="relative h-48 w-full rounded-2xl overflow-hidden">
+                    <Image src="https://i.postimg.cc/QdGkYp6K/servicos-hero.png" alt="Homem de serviço" layout="fill" objectFit="cover" className="z-0" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                    <div className="absolute bottom-0 left-0 p-6 z-20 text-white">
+                         <p className="text-xs font-bold uppercase bg-white/30 text-white px-2 py-1 rounded-full inline-block">Popular</p>
+                        <h2 className="text-2xl font-bold font-headline mt-2">Hire a Service Man</h2>
+                        <p className="text-sm">Need help with wiring, repairs or installations?</p>
+                        <Button className="mt-4 bg-orange-400 hover:bg-orange-500 text-white shadow-lg">Book Now</Button>
+                    </div>
                 </div>
-                 <div className="relative h-32 w-32 md:h-36 md:w-36 z-10">
-                   <Image src="https://i.postimg.cc/QdGkYp6K/servicos-hero.png" alt="Homem de serviço" layout="fill" objectFit="contain" />
+            </CarouselItem>
+            <CarouselItem>
+                <div className="relative h-48 w-full rounded-2xl overflow-hidden">
+                    <Image src="https://placehold.co/800x400.png" data-ai-hint="plumber working" alt="Encanador trabalhando" layout="fill" objectFit="cover" className="z-0" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                     <div className="absolute bottom-0 left-0 p-6 z-20 text-white">
+                         <p className="text-xs font-bold uppercase bg-white/30 text-white px-2 py-1 rounded-full inline-block">20% OFF</p>
+                        <h2 className="text-2xl font-bold font-headline mt-2">Plumbing Services</h2>
+                        <p className="text-sm">Leaking pipes? We fix it fast!</p>
+                        <Button className="mt-4 bg-orange-400 hover:bg-orange-500 text-white shadow-lg">Get a Quote</Button>
+                    </div>
                 </div>
-            </CardContent>
-        </Card>
+            </CarouselItem>
+          </CarouselContent>
+        </Carousel>
+
 
         <div>
             <div className="flex justify-between items-center mb-4">
