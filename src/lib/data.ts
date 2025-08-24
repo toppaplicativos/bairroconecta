@@ -362,32 +362,7 @@ export const appointments = [
 ];
 
 
-const generateServices = (servicesList: {category: string, services: string[]}[]) => {
-  let idCounter = 300;
-  return servicesList.flatMap(({ category, services }) => 
-    services.map(service => ({
-      id: idCounter++,
-      name: service,
-      category: category,
-      type: 'service' as const,
-      imageUrl: "https://placehold.co/400x300.png",
-      hint: service.toLowerCase(),
-      rating: +(Math.random() * 1.5 + 3.5).toFixed(1),
-      reviewsCount: Math.floor(Math.random() * 100) + 5,
-      latitude: -23.550520 + (Math.random() - 0.5) * 0.1,
-      longitude: -46.633308 + (Math.random() - 0.5) * 0.1,
-      description: `Especialista em ${service}, oferecendo soluções rápidas e eficazes para suas necessidades. Atendimento profissional e de confiança.`,
-      phone: `(11) 9${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`,
-      address: "Atendimento em toda a região",
-      hours: [{ day: "Segunda a Sábado", time: "08:00 - 18:00" }],
-      gallery: [],
-      products: [],
-      reviews: [],
-    }))
-  );
-};
-
-const serviceListByCategory = [
+export const serviceListByCategory = [
   { category: "Serviços Domésticos e de Manutenção", services: [
     "Limpeza residencial", "Diarista", "Faxina pesada", "Manutenção de ar-condicionado", "Eletricista",
     "Encanador", "Desentupimento", "Montagem de móveis", "Marido de aluguel", "Jardinagem",
@@ -438,6 +413,31 @@ const serviceListByCategory = [
     "Recepcionista ou secretária para eventos corporativos"
   ]}
 ];
+
+const generateServices = (servicesList: {category: string, services: string[]}[]) => {
+  let idCounter = 300;
+  return servicesList.flatMap(({ category, services }) => 
+    services.map(service => ({
+      id: idCounter++,
+      name: service,
+      category: category,
+      type: 'service' as const,
+      imageUrl: "https://placehold.co/400x300.png",
+      hint: service.toLowerCase().replace(/ /g, ' '),
+      rating: +(Math.random() * 1.5 + 3.5).toFixed(1),
+      reviewsCount: Math.floor(Math.random() * 100) + 5,
+      latitude: -23.550520 + (Math.random() - 0.5) * 0.1,
+      longitude: -46.633308 + (Math.random() - 0.5) * 0.1,
+      description: `Especialista em ${service}, oferecendo soluções rápidas e eficazes para suas necessidades. Atendimento profissional e de confiança.`,
+      phone: `(11) 9${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`,
+      address: "Atendimento em toda a região",
+      hours: [{ day: "Segunda a Sábado", time: "08:00 - 18:00" }],
+      gallery: [],
+      products: [],
+      reviews: [],
+    }))
+  );
+};
 
 export const serviceProviders = generateServices(serviceListByCategory);
 

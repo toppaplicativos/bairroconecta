@@ -12,9 +12,9 @@ import { Loader2 } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { serviceProviders } from "@/lib/data";
+import { serviceListByCategory } from "@/lib/data";
 
-const serviceCategories = [...new Set(serviceProviders.map(s => s.category))];
+const serviceCategories = serviceListByCategory.map(s => s.category);
 
 const registerSchema = z.object({
   name: z.string().min(3, "Seu nome completo é obrigatório."),

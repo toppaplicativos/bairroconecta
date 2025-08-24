@@ -2,7 +2,7 @@
 'use client';
 import MainLayout from "@/components/main-layout";
 import ServiceCard from "@/components/service-card";
-import { serviceProviders } from "@/lib/data";
+import { serviceProviders, serviceListByCategory } from "@/lib/data";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -43,14 +43,6 @@ export default function ServicesPage() {
                 <SlidersHorizontal className="h-5 w-5" />
             </Button>
         </div>
-
-        <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4">
-            {filterTags.map((tag, index) => (
-                <Button key={tag} variant={index === 0 ? "default" : "secondary"} className={`rounded-full shrink-0 ${index === 0 ? 'bg-orange-400 text-white' : 'bg-white text-muted-foreground'}`}>
-                    {tag}
-                </Button>
-            ))}
-        </div>
         
          <Carousel
           plugins={[plugin.current]}
@@ -88,22 +80,27 @@ export default function ServicesPage() {
 
 
         <div>
-            <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold font-headline">Our Services</h3>
-                 <div className="flex gap-2 overflow-x-auto">
-                    {serviceTags.map((tag) => (
-                        <Button key={tag.name} variant="ghost" className="text-muted-foreground">
-                            <tag.icon className="mr-2 h-4 w-4" />
-                           {tag.name}
-                        </Button>
-                    ))}
-                </div>
-            </div>
-             <div className="grid grid-cols-2 gap-4">
-              {serviceProviders.map((provider) => (
-                <ServiceCard key={provider.id} provider={provider} />
-              ))}
-            </div>
+            {serviceListByCategory.map(({ category, services }) => {
+                const providersForCategory = serviceProviders.filter(p => p.category === category);
+                if (providersForCategory.length === 0) return null;
+
+                return (
+                    <div key={category} className="mb-8">
+                        <h3 className="text-xl font-bold font-headline mb-4">{category}</h3>
+                        <Carousel opts={{ align: "start" }} className="w-full">
+                            <CarouselContent className="-ml-2">
+                                {providersForCategory.map((provider) => (
+                                    <CarouselItem key={provider.id} className="basis-1/2 md:basis-1/3 lg:basis-1/4 pl-2">
+                                        <ServiceCard provider={provider} />
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                            <CarouselPrevious className="hidden md:flex" />
+                            <CarouselNext className="hidden md:flex" />
+                        </Carousel>
+                    </div>
+                )
+            })}
         </div>
 
         <Card className="text-center">
