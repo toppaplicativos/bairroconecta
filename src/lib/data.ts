@@ -186,7 +186,6 @@ export const foodBusinesses: Business[] = [
     type: 'food',
     deliveryTime: "30-45 min",
     deliveryFee: "R$ 5,99",
-    promotion: "Na compra de 2 pizzas, ganhe um refrigerante.",
   },
   {
     id: 102,

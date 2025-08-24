@@ -27,7 +27,12 @@ const categories = [
 
 export default function FoodPage() {
   const promotions = foodBusinesses.filter(b => b.promotion);
-  const famous = foodBusinesses.sort((a, b) => b.rating - a.rating).slice(0, 5);
+  const famous = [...foodBusinesses].sort((a, b) => {
+    if (b.rating > a.rating) return 1;
+    if (b.rating < a.rating) return -1;
+    return a.name.localeCompare(b.name);
+  }).slice(0, 5);
+
 
   return (
     <MainLayout>
