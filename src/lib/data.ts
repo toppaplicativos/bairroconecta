@@ -340,3 +340,59 @@ export const events = [
     location: "Rua Gastronômica",
   },
 ];
+
+
+export const specialties = [
+  { name: "Clínica Geral", icon: Stethoscope },
+  { name: "Odontologia", icon: Tooth },
+  { name: "Pediatria", icon: Baby },
+  { name: "Psicologia", icon: Brain },
+  { name: "Ortopedia", icon: Bone },
+  { name: "Outros", icon: PlusCircle },
+]
+
+export const healthProfessionals = [
+  {
+    id: 201,
+    name: "Dr. Carlos Andrade",
+    specialty: "Clínico Geral",
+    imageUrl: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkb2N0b3J8ZW58MHx8fHwxNzU2MjMzOTI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "male doctor",
+    rating: 4.9,
+  },
+  {
+    id: 202,
+    name: "Dra. Lúcia Guimarães",
+    specialty: "Odontologia",
+    imageUrl: "https://images.unsplash.com/photo-1629425733761-caae3b5f2e50?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxkb2N0b3J8ZW58MHx8fHwxNzU2MjMzOTI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "female doctor",
+    rating: 5.0,
+  },
+  {
+    id: 203,
+    name: "Dr. Marcos Rocha",
+    specialty: "Pediatria",
+    imageUrl: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxkb2N0b3J8ZW58MHx8fHwxNzU2MjMzOTI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "male pediatrician",
+    rating: 4.8,
+  },
+];
+
+export const appointments = [
+  {
+    id: 1,
+    doctor: "Dr. Carlos Andrade",
+    specialty: "Clínico Geral",
+    date: "15/08/2024",
+    time: "10:30",
+    status: "Confirmado",
+  },
+  {
+    id: 2,
+    doctor: "Dra. Lúcia Guimarães",
+    specialty: "Odontologia",
+    date: "22/08/2024",
+    time: "14:00",
+    status: "Confirmado",
+  },
+];
