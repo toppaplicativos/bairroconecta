@@ -1,4 +1,7 @@
 
+import { Gamepad2, Palette, Briefcase, Shirt, Music, Heart, Mic, Film } from 'lucide-react';
+
+
 export type Product = {
   id: string;
   name: string;
@@ -40,8 +43,8 @@ export type Business = {
   hint: string;
   tagline?: string;
   rating: number;
-  latitude: number;
-  longitude: number;
+  latitude?: number;
+  longitude?: number;
   reviewsCount: number;
   customers?: number;
   description: string;
@@ -335,40 +338,62 @@ export const classifiedAds = [
   },
 ];
 
+export const eventCategories = [
+    { name: "Gaming", icon: Gamepad2 },
+    { name: "Arts", icon: Palette },
+    { name: "Business", icon: Briefcase },
+    { name: "Fashion", icon: Shirt },
+]
+
 export const events = [
   {
-    id: 1,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "local fair",
-    title: "Feira de Artesanato Local",
-    date: "25 de Julho, 2024",
-    location: "Praça da Matriz",
+    id: "evt1",
+    title: "Acoustic Serenade Showcase",
+    image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxldmVudCUyMG11c2ljfGVufDB8fHx8MTc1NjM5OTkwN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "music event",
+    tag: "Music",
+    location: "New York, USA",
+    dateTime: "May 29 - 10:00 PM",
+    price: "30.00",
+    attendees: [
+      "https://randomuser.me/api/portraits/men/32.jpg",
+      "https://randomuser.me/api/portraits/women/67.jpg",
+      "https://randomuser.me/api/portraits/men/33.jpg",
+      "https://randomuser.me/api/portraits/women/68.jpg",
+      "https://randomuser.me/api/portraits/men/34.jpg",
+    ]
   },
   {
-    id: 2,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "live music",
-    title: "Show de Rock no Coreto",
-    date: "27 de Julho, 2024",
-    location: "Parque Central",
-  },
-  {
-    id: 3,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "outdoor cinema",
-    title: "Cinema ao Ar Livre: Clássicos dos Anos 80",
-    date: "28 de Julho, 2024",
-    location: "Campo de Futebol do Bairro",
-  },
-  {
-    id: 4,
-    imageUrl: "https://placehold.co/600x400.png",
+    id: "evt2",
+    title: "International Food Festival",
+    image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmb29kJTIwZmVzdGl2YWx8ZW58MHx8fHwxNzU2Mzk5OTM1fDA&ixlib=rb-4.1.0&q=80&w=1080",
     hint: "food festival",
-    title: "Festival Gastronômico de Inverno",
-    date: "02 de Agosto, 2024",
-    location: "Rua Gastronômica",
+    tag: "Food",
+    location: "Central Park",
+    dateTime: "June 05 - 12:00 PM",
+    price: "15.00",
+    attendees: [
+      "https://randomuser.me/api/portraits/men/35.jpg",
+      "https://randomuser.me/api/portraits/women/69.jpg",
+    ]
+  },
+  {
+    id: "evt3",
+    title: "Startup Pitch Night",
+    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdGFydHVwJTIwZXZlbnR8ZW58MHx8fHwxNzU2Mzk5OTU2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "business event",
+    tag: "Business",
+    location: "Google HQ",
+    dateTime: "June 12 - 07:00 PM",
+    price: "0.00",
+    attendees: [
+      "https://randomuser.me/api/portraits/men/36.jpg",
+      "https://randomuser.me/api/portraits/women/70.jpg",
+      "https://randomuser.me/api/portraits/men/37.jpg",
+    ]
   },
 ];
+
 
 export type Specialty = {
   name: string;
@@ -392,6 +417,7 @@ export const healthProfessionals = [
     imageUrl: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkb2N0b3J8ZW58MHx8fHwxNzU2MjMzOTI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
     hint: "male doctor",
     rating: 4.9,
+    reviewsCount: 41,
   },
   {
     id: 202,
@@ -400,6 +426,7 @@ export const healthProfessionals = [
     imageUrl: "https://images.unsplash.com/photo-1629425733761-caae3b5f2e50?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxkb2N0b3J8ZW58MHx8fHwxNzU2MjMzOTI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
     hint: "female doctor",
     rating: 5.0,
+    reviewsCount: 55,
   },
   {
     id: 203,
@@ -408,6 +435,7 @@ export const healthProfessionals = [
     imageUrl: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxkb2N0b3J8ZW58MHx8fHwxNzU2MjMzOTI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
     hint: "male pediatrician",
     rating: 4.8,
+    reviewsCount: 32,
   },
 ];
 
@@ -523,6 +551,8 @@ const generateServices = (servicesList: {category: string, services: string[]}[]
         pricePerHour: staticPrice[(index + idCounter) % staticPrice.length],
         customers: staticCustomers[(index + idCounter) % staticCustomers.length],
         teamworkPrice: staticTeamwork[(index + idCounter) % staticTeamwork.length],
+        latitude: -23.5505 + (Math.random() - 0.5) * 0.1,
+        longitude: -46.6333 + (Math.random() - 0.5) * 0.1,
         description: `Especialista em ${service}, oferecendo soluções rápidas e eficazes para suas necessidades. Atendimento profissional e de confiança.`,
         phone: `(11) 9${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`,
         address: "Atendimento em toda a região",
