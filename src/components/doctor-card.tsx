@@ -33,7 +33,7 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
         <div className="flex items-center justify-center gap-1 mt-2">
           <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
           <span className="font-bold text-sm">{doctor.rating}</span>
-          <span className="text-xs text-muted-foreground">({Math.floor(Math.random() * 50) + 20} avaliações)</span>
+          <span className="text-xs text-muted-foreground">(42 avaliações)</span>
         </div>
       </CardContent>
       <CardFooter className="p-4 pt-0">
