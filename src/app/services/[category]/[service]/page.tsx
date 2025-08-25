@@ -17,7 +17,10 @@ export default function ServiceProfessionalsPage() {
     const serviceSlug = params?.service as string;
     const [searchTerm, setSearchTerm] = useState('');
 
-    const serviceName = useMemo(() => serviceSlug.replace(/-/g, ' '), [serviceSlug]);
+    const serviceName = useMemo(() => {
+        if (!serviceSlug) return '';
+        return decodeURIComponent(serviceSlug).replace(/-/g, ' ');
+    }, [serviceSlug]);
 
     const providers = useMemo(() => {
         if (!serviceSlug) return [];
@@ -45,17 +48,17 @@ export default function ServiceProfessionalsPage() {
     return (
         <MainLayout>
             <div className="flex-1 space-y-6 bg-orange-50/50 p-4 md:p-6">
-                <div className="flex gap-2 items-center">
-                    <div className="relative flex-1">
+                <div className="flex flex-col sm:flex-row gap-2 items-center">
+                    <div className="relative flex-1 w-full">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                         <Input 
                             placeholder={`Buscar em ${serviceName}...`} 
-                            className="pl-10 bg-white shadow-sm border-0"
+                            className="pl-10 bg-white shadow-sm border-0 w-full"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
-                    <Button variant="outline" size="icon" className="bg-white shadow-sm border-0">
+                    <Button variant="outline" size="icon" className="bg-white shadow-sm border-0 flex-shrink-0">
                         <SlidersHorizontal className="h-5 w-5" />
                     </Button>
                 </div>

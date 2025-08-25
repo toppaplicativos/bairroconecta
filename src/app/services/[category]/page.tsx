@@ -8,6 +8,7 @@ import Link from 'next/link';
 import ServiceCard from '@/components/service-card';
 import { normalizeString } from '@/lib/utils';
 import { useMemo } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 
 export default function ServiceCategoryPage() {
@@ -24,12 +25,12 @@ export default function ServiceCategoryPage() {
     if (!categoryDetails) {
         return (
             <MainLayout>
-                <div className="text-center p-8">
-                    <h1 className="text-2xl font-bold">Categoria não encontrada</h1>
-                    <p className="text-muted-foreground">A categoria de serviço que você está procurando não existe.</p>
-                     <Link href="/services">
-                        <Button variant="link" className="mt-4">Voltar para Serviços</Button>
-                    </Link>
+                <div className="p-4 md:p-6">
+                    <Skeleton className="h-8 w-1/2 mb-2" />
+                    <Skeleton className="h-4 w-3/4 mb-6" />
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-20 w-full" />)}
+                    </div>
                 </div>
             </MainLayout>
         );

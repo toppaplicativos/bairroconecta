@@ -19,8 +19,6 @@ import {
   Heart,
   User,
   UtensilsCrossed,
-  Award,
-  Users2
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -238,6 +236,12 @@ function DesktopSidebar() {
 function MobileHeader() {
     const pathname = usePathname();
     const currentNavItem = navItems.find(item => item.href === pathname) || navItems.find(item => pathname.startsWith(item.href) && item.href !== '/');
+    
+    // Special case for provider profile
+    if (pathname.startsWith('/services/provider/')) {
+        return null;
+    }
+
     const title = currentNavItem?.label || 'Meu Bairro';
 
     return (

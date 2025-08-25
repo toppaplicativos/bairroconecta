@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 import MainLayout from '@/components/main-layout';
 import React, { useMemo, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function ProviderProfilePage() {
   const params = useParams();
@@ -26,12 +27,22 @@ export default function ProviderProfilePage() {
 
   if (!provider) {
     return (
-      <MainLayout>
-        <div className="text-center p-8">
-          <h1 className="text-2xl font-bold">Profissional não encontrado</h1>
-          <p className="text-muted-foreground">O perfil que você está procurando não existe.</p>
+      <div className="bg-orange-50/50 min-h-screen p-4 md:p-6 space-y-6">
+        <Skeleton className="h-64 w-full" />
+        <div className="relative -mt-8 px-6">
+            <Skeleton className="w-full h-24" />
         </div>
-      </MainLayout>
+        <div className="pt-12 p-4 md:p-6 space-y-6">
+             <div className="grid grid-cols-3 gap-3">
+                <Skeleton className="h-24 w-full rounded-2xl" />
+                <Skeleton className="h-24 w-full rounded-2xl" />
+                <Skeleton className="h-24 w-full rounded-2xl" />
+             </div>
+             <Skeleton className="h-10 w-full" />
+             <Skeleton className="h-32 w-full" />
+             <Skeleton className="h-24 w-full" />
+        </div>
+      </div>
     );
   }
 

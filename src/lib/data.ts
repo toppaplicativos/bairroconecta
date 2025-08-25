@@ -21,7 +21,7 @@ export type Business = {
   hint: string;
   name: string;
   category: string;
-  service?: string;
+  service: string;
   tagline?: string;
   rating: number;
   latitude: number;
@@ -49,6 +49,7 @@ export const businesses: Business[] = [
     id: 1,
     name: "Cantina da Nona",
     category: "Restaurantes",
+    service: "Restaurante Italiano",
     type: 'business',
     imageUrl: "https://images.unsplash.com/photo-1592861956120-e524fc739696?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxN3x8UmVzdGF1cmFudHxlbnwwfHx8fDE3NTU4NjMzNzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
     hint: "cozy restaurant",
@@ -83,6 +84,7 @@ export const businesses: Business[] = [
     id: 2,
     name: "Farmácia Saúde",
     category: "Farmácias",
+    service: "Farmácia",
     type: 'business',
     imageUrl: "https://images.unsplash.com/photo-1597121870960-7b5391b88b84?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyMHx8RmFybWFjaWF8ZW58MHx8fHwxNzU1ODYzNTAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
     hint: "local pharmacy",
@@ -108,6 +110,7 @@ export const businesses: Business[] = [
     id: 3,
     name: "Mercado do Bairro",
     category: "Mercados",
+    service: "Supermercado",
     type: 'business',
     imageUrl: "https://placehold.co/600x400.png",
     hint: "grocery store",
@@ -127,6 +130,7 @@ export const businesses: Business[] = [
     id: 4,
     name: "Salão de Beleza Estilo",
     category: "Salões de Beleza",
+    service: "Salão de Beleza",
     type: 'business',
     imageUrl: "https://placehold.co/600x400.png",
     hint: "modern salon",
@@ -157,6 +161,7 @@ export const foodBusinesses: Business[] = [
     id: 102,
     name: "Burger do Zé",
     category: "Lanches",
+    service: "Hamburgueria",
     type: 'food',
     imageUrl: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxCdXJnZXJ8ZW58MHx8fHwxNzU1OTIzMjMxfDA&ixlib=rb-4.1.0&q=80&w=1080",
     hint: "delicious burger",
@@ -179,6 +184,7 @@ export const foodBusinesses: Business[] = [
     id: 103,
     name: "Dona Maria - Marmitas",
     category: "Marmitas",
+    service: "Marmitas",
     type: 'food',
     imageUrl: "https://placehold.co/600x400.png",
     hint: "brazilian lunch box",
@@ -200,6 +206,7 @@ export const foodBusinesses: Business[] = [
     id: 104,
     name: "Açaí do Bairro",
     category: "Açaí",
+    service: "Loja de Açaí",
     type: 'food',
     imageUrl: "https://placehold.co/600x400.png",
     hint: "acai bowl",
