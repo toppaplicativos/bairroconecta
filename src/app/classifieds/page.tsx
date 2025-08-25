@@ -1,3 +1,4 @@
+
 import MainLayout from "@/components/main-layout";
 import ClassifiedCard from "@/components/classified-card";
 import { classifiedAds } from "@/lib/data";
