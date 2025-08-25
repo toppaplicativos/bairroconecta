@@ -5,35 +5,35 @@
 
 @layer base {
   :root {
-    --background: 220 20% 97%; /* Light Gray */
+    --background: 220 20% 98%;
     --foreground: 222.2 47.4% 11.2%;
 
-    --card: 220 20% 100%;
+    --card: 0 0% 100%;
     --card-foreground: 222.2 47.4% 11.2%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
     
-    --primary: 93 44% 52%; /* #78AB5C */
+    --primary: 3 69% 59%; /* #D95349 - Vermelho/Rosa do design */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 42 94% 61%; /* #FBB34C */
+    --secondary: 42 94% 61%; /* #FBB34C - Amarelo para destaques */
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
     
-    --accent: 174 44% 54%; /* #58BAAA */
+    --accent: 174 44% 54%; /* #58BAAA - Verde para ações secundárias */
     --accent-foreground: 0 0% 100%;
     
-    --destructive: 3 69% 59%; /* #D95349 */
+    --destructive: 3 69% 59%; /* Mantendo o mesmo do primário por enquanto */
     --destructive-foreground: 0 0% 100%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 93 44% 52%;
+    --ring: 3 69% 59%;
     
-    --radius: 0.5rem;
+    --radius: 0.75rem; /* Bordas mais arredondadas como no design */
   }
  
   .dark {
@@ -46,7 +46,7 @@
     --popover: 222.2 47.4% 11.2%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 93 44% 52%;
+    --primary: 3 69% 59%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 42 94% 61%;
@@ -63,7 +63,7 @@
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 93 44% 52%;
+    --ring: 3 69% 59%;
   }
 }
  
@@ -78,3 +78,4 @@
     @apply font-sans font-bold;
   }
 }
+
