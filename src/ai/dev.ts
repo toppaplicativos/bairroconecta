@@ -3,3 +3,4 @@ config();
 
 import '@/ai/flows/answer-neighborhood-questions.ts';
 import '@/ai/flows/report-analysis-flow.ts';
+import '@/ai/flows/health-triage-flow.ts';

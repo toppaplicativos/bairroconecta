@@ -2,7 +2,7 @@
 'use client';
 import MainLayout from "@/components/main-layout";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Stethoscope, Baby, Brain, Bone } from 'lucide-react';
+import { PlusCircle, Stethoscope, Baby, Brain, Bone, Bot } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -18,6 +18,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { healthProfessionals, specialties, appointments } from "@/lib/data";
 import DoctorCard from "@/components/doctor-card";
+import HealthTriageAssistant from "@/components/health-triage-assistant";
 
 const ToothIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg 
@@ -61,29 +62,9 @@ export default function HealthClinicPage() {
                     <p className="text-muted-foreground">Sua central para agendamentos e cuidados no bairro.</p>
                 </div>
 
-                <Card className="bg-primary/5 text-center p-6 md:p-10 shadow-lg">
-                  <CardHeader>
-                    <CardTitle className="text-2xl md:text-3xl font-bold font-headline">Precisa de atendimento?</CardTitle>
-                    <CardDescription className="max-w-md mx-auto">Agende sua consulta de forma rápida e fácil com os profissionais do nosso bairro.</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                      <Dialog open={openNewAppointment} onOpenChange={setOpenNewAppointment}>
-                        <DialogTrigger asChild>
-                           <Button size="lg" className="shadow-md">
-                              <PlusCircle className="mr-2 h-5 w-5" />
-                              Agendar Nova Consulta
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
-                          <DialogHeader>
-                            <DialogTitle>Agendar Nova Consulta</DialogTitle>
-                            <DialogDescription>
-                              Preencha os dados para marcar sua consulta.
-                            </DialogDescription>
-                          </DialogHeader>
-                          <NewAppointmentForm onAppointmentSubmitted={handleAppointmentSubmitted} />
-                        </DialogContent>
-                      </Dialog>
+                 <Card className="bg-card shadow-lg">
+                  <CardContent className="p-6">
+                     <HealthTriageAssistant />
                   </CardContent>
                 </Card>
 
@@ -119,6 +100,23 @@ export default function HealthClinicPage() {
                   <h2 className="text-2xl font-bold tracking-tight font-headline">Meus Agendamentos</h2>
                   {appointments.length > 0 ? (
                       <div className="space-y-3">
+                          <Dialog open={openNewAppointment} onOpenChange={setOpenNewAppointment}>
+                            <DialogTrigger asChild>
+                               <Button size="sm" className="shadow-md float-right -mt-12">
+                                  <PlusCircle className="mr-2 h-5 w-5" />
+                                  Agendar Consulta
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[425px]">
+                              <DialogHeader>
+                                <DialogTitle>Agendar Nova Consulta</DialogTitle>
+                                <DialogDescription>
+                                  Preencha os dados para marcar sua consulta.
+                                </DialogDescription>
+                              </DialogHeader>
+                              <NewAppointmentForm onAppointmentSubmitted={handleAppointmentSubmitted} />
+                            </DialogContent>
+                          </Dialog>
                         {appointments.map((appt) => (
                           <Card key={appt.id} className="shadow-sm">
                               <CardContent className="p-4 flex items-center justify-between">
@@ -140,6 +138,23 @@ export default function HealthClinicPage() {
                   ) : (
                     <div className="text-center text-muted-foreground p-8 border-dashed border-2 rounded-lg">
                         <p>Você ainda não possui agendamentos.</p>
+                         <Dialog open={openNewAppointment} onOpenChange={setOpenNewAppointment}>
+                            <DialogTrigger asChild>
+                               <Button size="sm" className="mt-4">
+                                  <PlusCircle className="mr-2 h-4 w-4" />
+                                  Agendar Consulta
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[425px]">
+                              <DialogHeader>
+                                <DialogTitle>Agendar Nova Consulta</DialogTitle>
+                                <DialogDescription>
+                                  Preencha os dados para marcar sua consulta.
+                                </DialogDescription>
+                              </DialogHeader>
+                              <NewAppointmentForm onAppointmentSubmitted={handleAppointmentSubmitted} />
+                            </DialogContent>
+                          </Dialog>
                     </div>
                   )}
                 </div>

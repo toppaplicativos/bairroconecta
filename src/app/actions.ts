@@ -3,6 +3,7 @@
 
 import { answerNeighborhoodQuestion } from '@/ai/flows/answer-neighborhood-questions';
 import { analyzeReport, AnalyzeReportOutput, analyzeAllReports, AllReportsAnalysisOutput } from '@/ai/flows/report-analysis-flow';
+import { triageHealthIssue, HealthTriageOutput } from '@/ai/flows/health-triage-flow';
 import { db } from '@/lib/firebase';
 import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion, getDocs, query, orderBy, increment, runTransaction } from 'firebase/firestore';
 
@@ -284,5 +285,19 @@ export async function addReviewToBusiness(
   } catch (error) {
     console.error("Erro ao adicionar avaliação:", error);
     throw new Error("Não foi possível adicionar a avaliação.");
+  }
+}
+
+// Health Clinic Actions
+export async function getHealthTriage(symptoms: string): Promise<HealthTriageOutput> {
+  if (!symptoms) {
+    throw new Error("Os sintomas são obrigatórios.");
+  }
+  try {
+    const result = await triageHealthIssue({ symptoms });
+    return result;
+  } catch (error) {
+    console.error("Erro na triagem de saúde:", error);
+    throw new Error("Não foi possível processar a triagem. Tente novamente mais tarde.");
   }
 }
