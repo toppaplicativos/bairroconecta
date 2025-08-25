@@ -1,22 +1,14 @@
 
 'use client';
 import { useParams } from 'next/navigation';
-import { serviceProviders, serviceListByCategory } from '@/lib/data';
+import { serviceListByCategory } from '@/lib/data';
 import MainLayout from '@/components/main-layout';
-import ProviderCard from '@/components/provider-card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import Link from 'next/link';
-
-const normalizeString = (str: string) => {
-    return str
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/ /g, '-')
-        .replace(/[^\w-]+/g, '');
-};
+import { normalizeString } from '@/lib/utils';
+import ServiceCard from '@/components/service-card';
 
 
 export default function ServiceCategoryPage() {
@@ -25,10 +17,6 @@ export default function ServiceCategoryPage() {
 
     const categoryDetails = serviceListByCategory.find(
         (cat) => normalizeString(cat.category) === categorySlug
-    );
-
-    const providers = serviceProviders.filter(
-        (p) => p.category === categoryDetails?.category
     );
     
     if (!categoryDetails) {
@@ -49,32 +37,16 @@ export default function ServiceCategoryPage() {
     return (
         <MainLayout>
             <div className="flex-1 space-y-6 bg-orange-50/50 p-4 md:p-6">
-                <div className="flex gap-2 items-center">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                        <Input placeholder="Buscar profissional..." className="pl-10 bg-white shadow-sm border-0" />
-                    </div>
-                    <Button variant="outline" size="icon" className="bg-white shadow-sm border-0">
-                        <SlidersHorizontal className="h-5 w-5" />
-                    </Button>
-                </div>
-                
                 <h1 className="text-2xl font-bold tracking-tight font-headline">{categoryDetails.category}</h1>
+                <p className="text-muted-foreground">Selecione o serviço específico que você precisa.</p>
 
-                <div className="space-y-4">
-                    {providers.length > 0 ? (
-                        providers.map((provider) => (
-                            <ProviderCard key={provider.id} provider={provider} />
-                        ))
-                    ) : (
-                        <div className="text-center text-muted-foreground p-8 border-dashed border-2 rounded-lg">
-                            <p>Nenhum profissional encontrado para esta categoria ainda.</p>
-                        </div>
-                    )}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {categoryDetails.services.map((service) => (
+                        <ServiceCard key={service} service={service} categorySlug={categorySlug} />
+                    ))}
                 </div>
 
             </div>
         </MainLayout>
     );
 }
-

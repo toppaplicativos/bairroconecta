@@ -1,37 +1,16 @@
 
 'use client';
 import MainLayout from "@/components/main-layout";
-import ServiceCard from "@/components/service-card";
-import { serviceProviders, serviceListByCategory } from "@/lib/data";
+import { serviceListByCategory } from "@/lib/data";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Search, SlidersHorizontal, Settings2, Wrench, Plug } from "lucide-react";
-import Image from "next/image";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
-import Autoplay from "embla-carousel-autoplay"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Search, SlidersHorizontal, Wrench, ChevronRight } from "lucide-react";
 import React from "react";
 import Link from "next/link";
-
-const normalizeString = (str: string) => {
-    return str
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/ /g, '-')
-        .replace(/[^\w-]+/g, '');
-};
+import { normalizeString } from "@/lib/utils";
 
 export default function ServicesPage() {
-  const plugin = React.useRef(
-    Autoplay({ delay: 3000, stopOnInteraction: true })
-  )
 
   return (
     <MainLayout>
@@ -45,69 +24,32 @@ export default function ServicesPage() {
                 <SlidersHorizontal className="h-5 w-5" />
             </Button>
         </div>
-        
-         <Carousel
-          plugins={[plugin.current]}
-          className="w-full"
-          onMouseEnter={plugin.current.stop}
-          onMouseLeave={plugin.current.reset}
-        >
-          <CarouselContent>
-            <CarouselItem>
-                <div className="relative h-48 w-full rounded-2xl overflow-hidden">
-                    <Image src="https://i.postimg.cc/QdGkYp6K/servicos-hero.png" alt="Homem de serviço" layout="fill" objectFit="cover" className="z-0" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
-                    <div className="absolute bottom-0 left-0 p-6 z-20 text-white">
-                         <p className="text-xs font-bold uppercase bg-white/30 text-white px-2 py-1 rounded-full inline-block">Popular</p>
-                        <h2 className="text-2xl font-bold font-headline mt-2">Contrate um Profissional</h2>
-                        <p className="text-sm">Precisa de ajuda com reparos ou instalações?</p>
-                        <Button className="mt-4 bg-orange-400 hover:bg-orange-500 text-white shadow-lg">Agende Agora</Button>
-                    </div>
-                </div>
-            </CarouselItem>
-            <CarouselItem>
-                <div className="relative h-48 w-full rounded-2xl overflow-hidden">
-                    <Image src="https://placehold.co/800x400.png" data-ai-hint="plumber working" alt="Encanador trabalhando" layout="fill" objectFit="cover" className="z-0" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
-                     <div className="absolute bottom-0 left-0 p-6 z-20 text-white">
-                         <p className="text-xs font-bold uppercase bg-white/30 text-white px-2 py-1 rounded-full inline-block">20% OFF</p>
-                        <h2 className="text-2xl font-bold font-headline mt-2">Serviços de Encanamento</h2>
-                        <p className="text-sm">Vazamentos? Nós consertamos rápido!</p>
-                        <Button className="mt-4 bg-orange-400 hover:bg-orange-500 text-white shadow-lg">Pedir Orçamento</Button>
-                    </div>
-                </div>
-            </CarouselItem>
-          </CarouselContent>
-        </Carousel>
-
 
         <div>
-            {serviceListByCategory.map(({ category }) => {
-                const providersForCategory = serviceProviders.filter(p => p.category === category);
-                if (providersForCategory.length === 0) return null;
-
-                const professionalsCount = providersForCategory.length;
-                const categorySlug = normalizeString(category);
-
-                return (
-                    <div key={category} className="mb-8">
-                        <h3 className="text-xl font-bold font-headline mb-4">{category}</h3>
-                        <Carousel opts={{ align: "start" }} className="w-full">
-                            <CarouselContent className="-ml-2">
-                                {providersForCategory.slice(0, 5).map((provider) => (
-                                    <CarouselItem key={provider.id} className="basis-1/2 md:basis-1/3 lg:basis-1/4 pl-2">
-                                       <Link href={`/services/${categorySlug}`}>
-                                          <ServiceCard provider={provider} professionalsCount={professionalsCount} />
-                                       </Link>
-                                    </CarouselItem>
-                                ))}
-                            </CarouselContent>
-                            <CarouselPrevious className="hidden md:flex" />
-                            <CarouselNext className="hidden md:flex" />
-                        </Carousel>
-                    </div>
-                )
-            })}
+            <h2 className="text-2xl font-bold font-headline mb-4">Categorias de Serviço</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {serviceListByCategory.map(({ category, icon, services }) => {
+                    const categorySlug = normalizeString(category);
+                    return (
+                        <Link href={`/services/${categorySlug}`} key={category}>
+                             <Card className="shadow-sm hover:shadow-lg transition-all flex items-center">
+                                <CardContent className="p-4 flex-1 flex items-center justify-between">
+                                    <div className="flex items-center gap-4">
+                                        <div className="p-3 bg-primary/10 rounded-lg">
+                                            <Wrench className="h-6 w-6 text-primary" />
+                                        </div>
+                                        <div>
+                                            <CardTitle className="text-lg">{category}</CardTitle>
+                                            <CardDescription>{services.length} tipos de serviço</CardDescription>
+                                        </div>
+                                    </div>
+                                    <ChevronRight className="h-6 w-6 text-muted-foreground" />
+                                </CardContent>
+                            </Card>
+                        </Link>
+                    );
+                })}
+            </div>
         </div>
 
         <Card className="text-center">

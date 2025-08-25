@@ -21,11 +21,14 @@ export type Business = {
   hint: string;
   name: string;
   category: string;
+  service?: string;
+  tagline?: string;
   rating: number;
   latitude: number;
   longitude: number;
   type: 'business' | 'service' | 'food';
   reviewsCount: number;
+  customers?: number;
   description: string;
   phone: string;
   address: string;
@@ -38,6 +41,7 @@ export type Business = {
   promotion?: string;
   experience?: number;
   pricePerHour?: number;
+  teamworkPrice?: string;
 };
 
 export const businesses: Business[] = [
@@ -365,92 +369,106 @@ export const appointments = [
 
 
 export const serviceListByCategory = [
-  { category: "Serviços Domésticos e de Manutenção", services: [
-    "Limpeza residencial", "Diarista", "Faxina pesada", "Manutenção de ar-condicionado", "Eletricista",
-    "Encanador", "Desentupimento", "Montagem de móveis", "Marido de aluguel", "Jardinagem",
-    "Paisagismo", "Dedetização", "Reforma de telhados", "Instalação de câmeras de segurança", "Pintor",
-    "Gesseiro", "Pedreiro", "Vidraceiro", "Conserto de eletrodomésticos", "Chaveiro"
-  ]},
-  { category: "Serviços de Beleza e Bem-Estar", services: [
-    "Manicure e pedicure", "Cabeleireiro (em casa)", "Maquiador", "Massagista", "Personal trainer",
-    "Fisioterapeuta", "Nutricionista", "Podólogo", "Depilação", "Barbeiro (em casa)",
-    "Acupuntura", "Design de sobrancelhas", "Tatuador", "Micropigmentação", "Esteticista"
-  ]},
-  { category: "Serviços de Pet", services: [
-    "Pet sitter (babá de pets)", "Passeador de cães", "Adestrador de cães",
-    "Banho e tosa a domicílio", "Veterinário (consulta em casa)"
-  ]},
-  { category: "Serviços de Automóveis e Veículos", services: [
-    "Lavagem de carros a domicílio", "Troca de óleo", "Bateria (socorro)", "Conserto de pneus",
-    "Mecânico a domicílio", "Polimento de carros", "Martelinho de ouro",
-    "Instalação de som automotivo", "Insulfilm", "Detalhamento automotivo"
-  ]},
-  { category: "Serviços de Tecnologia e TI", services: [
-    "Técnico de informática (notebooks, PCs)", "Conserto de celulares", "Configuração de redes Wi-Fi",
-    "Suporte a softwares", "Instalação de impressoras", "Recuperação de dados",
-    "Aulas de informática para idosos", "Montagem de PC gamer", "Programador freelancer", "Criação de sites"
-  ]},
-  { category: "Serviços de Eventos e Festas", services: [
-    "Fotógrafo de eventos", "Cinegrafista", "Garçom", "Bartender", "Cerimonialista",
-    "Organizador de festas", "Animador de festas infantis", "Músico ou DJ para eventos",
-    "Confeiteiro (bolos e doces)", "Buffet"
-  ]},
-  { category: "Serviços de Aulas e Cursos Particulares", services: [
-    "Aulas de idiomas", "Reforço escolar (matemática, português, etc.)", "Aulas de música (violão, piano, etc.)",
-    "Aulas de culinária", "Professor particular para concursos", "Coach de carreira",
-    "Aulas de yoga", "Treinamento para corrida"
-  ]},
-  { category: "Serviços de Fretes e Transportes", services: [
-    "Carreto", "Mudanças", "Entregador de encomendas", "Motorista particular",
-    "Frete de pequenos objetos", "Aluguel de vans com motorista"
-  ]},
-  { category: "Serviços de Consultoria e Finanças", services: [
-    "Consultor financeiro", "Contador", "Consultor de investimentos", "Consultor de RH",
-    "Consultor jurídico (para pequenas questões)", "Planejador de viagens"
-  ]},
-  { category: "Outros Serviços Especializados", services: [
-    "Costureira", "Sapateiro", "Artesão", "Lavagem de estofados", "Limpeza de caixas d'água",
-    "Descarte de entulho", "Cozinheiro particular (chef a domicílio)",
-    "Organizador profissional (personal organizer)", "Serviços de tradução",
-    "Recepcionista ou secretária para eventos corporativos"
-  ]}
+  { 
+    category: "Serviços Domésticos e de Manutenção",
+    icon: "Wrench",
+    services: [
+      "Limpeza residencial", "Diarista", "Faxina pesada", "Manutenção de ar-condicionado", "Eletricista",
+      "Encanador", "Desentupimento", "Montagem de móveis", "Marido de aluguel", "Jardinagem",
+      "Paisagismo", "Dedetização", "Reforma de telhados", "Instalação de câmeras de segurança", "Pintor",
+      "Gesseiro", "Pedreiro", "Vidraceiro", "Conserto de eletrodomésticos", "Chaveiro"
+    ]
+  },
+  { 
+    category: "Serviços de Beleza e Bem-Estar",
+    icon: "Heart",
+    services: [
+      "Manicure e pedicure", "Cabeleireiro (em casa)", "Maquiador", "Massagista", "Personal trainer",
+      "Fisioterapeuta", "Nutricionista", "Podólogo", "Depilação", "Barbeiro (em casa)",
+      "Acupuntura", "Design de sobrancelhas", "Tatuador", "Micropigmentação", "Esteticista"
+    ]
+  },
+  { 
+    category: "Serviços de Pet",
+    icon: "Dog",
+    services: [
+      "Pet sitter (babá de pets)", "Passeador de cães", "Adestrador de cães",
+      "Banho e tosa a domicílio", "Veterinário (consulta em casa)"
+    ]
+  },
+  { 
+    category: "Serviços de Automóveis e Veículos",
+    icon: "Car",
+    services: [
+      "Lavagem de carros a domicílio", "Troca de óleo", "Bateria (socorro)", "Conserto de pneus",
+      "Mecânico a domicílio", "Polimento de carros", "Martelinho de ouro",
+      "Instalação de som automotivo", "Insulfilm", "Detalhamento automotivo"
+    ]
+  },
+  { 
+    category: "Serviços de Tecnologia e TI",
+    icon: "Computer",
+    services: [
+      "Técnico de informática (notebooks, PCs)", "Conserto de celulares", "Configuração de redes Wi-Fi",
+      "Suporte a softwares", "Instalação de impressoras", "Recuperação de dados",
+      "Aulas de informática para idosos", "Montagem de PC gamer", "Programador freelancer", "Criação de sites"
+    ]
+  },
+  { 
+    category: "Serviços de Eventos e Festas",
+    icon: "Cake",
+    services: [
+      "Fotógrafo de eventos", "Cinegrafista", "Garçom", "Bartender", "Cerimonialista",
+      "Organizador de festas", "Animador de festas infantis", "Músico ou DJ para eventos",
+      "Confeiteiro (bolos e doces)", "Buffet"
+    ]
+  },
 ];
 
 const generateServices = (servicesList: {category: string, services: string[]}[]) => {
   let idCounter = 300;
-  const staticRatings = [4.5, 3.8, 5.0, 4.2, 4.9, 3.5, 4.0, 4.7];
-  const staticReviews = [25, 80, 12, 45, 150, 8, 33, 98];
-  const staticExperience = [2, 5, 10, 8, 3, 12, 6, 15];
+  const staticRatings = [4.9, 4.8, 5.0, 4.7, 4.9, 4.6, 4.8, 4.7];
+  const staticReviews = [152, 80, 212, 45, 180, 88, 133, 98];
+  const staticExperience = [8, 5, 10, 8, 3, 12, 6, 15];
   const staticPrice = [159, 200, 138, 199, 120, 250, 180, 145];
+  const staticCustomers = [150, 90, 200, 50, 190, 100, 140, 110];
+  const staticTeamwork = ["1059.00 (4-7 hrs)", "800.00 (3-5 hrs)", "1500.00 (6-8 hrs)"];
   const staticImages = [
-    "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxwb3J0cmFpdCUyMG1hbnxlbnwwfHx8fDE3NTYzOTU4NTF8MA&ixlib=rb-4.1.0&q=80&w=400",
-    "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwb3J0cmFpdCUyMG1hbnxlbnwwfHx8fDE3NTYzOTU4NTF8MA&ixlib=rb-4.1.0&q=80&w=400",
-    "https://images.unsplash.com/photo-1521119989659-a83eee488004?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwb3J0cmFpdCUyMG1hbnxlbnwwfHx8fDE3NTYzOTU4NTF8MA&ixlib=rb-4.1.0&q=80&w=400",
-    "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwb3J0cmFpdCUyMG1hbnxlbnwwfHx8fDE3NTYzOTU4NTF8MA&ixlib=rb-4.1.0&q=80&w=400",
+    { url: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxwb3J0cmFpdCUyMG1hbnxlbnwwfHx8fDE3NTYzOTU4NTF8MA&ixlib=rb-4.1.0&q=80&w=400", name: "James Carter" },
+    { url: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwb3J0cmFpdCUyMG1hbnxlbnwwfHx8fDE3NTYzOTU4NTF8MA&ixlib=rb-4.1.0&q=80&w=400", name: "David Lee" },
+    { url: "https://images.unsplash.com/photo-1521119989659-a83eee488004?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwb3J0cmFpdCUyMG1hbnxlbnwwfHx8fDE3NTYzOTU4NTF8MA&ixlib=rb-4.1.0&q=80&w=400", name: "Michael Chen" },
+    { url: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwb3J0cmFpdCUyMG1hbnxlbnwwfHx8fDE3NTYzOTU4NTF8MA&ixlib=rb-4.1.0&q=80&w=400", name: "Chris Evans" },
   ]
 
   return servicesList.flatMap(({ category, services }) => 
-    services.map((service, index) => ({
-      id: idCounter++,
-      name: service,
-      category: category,
-      type: 'service' as const,
-      imageUrl: staticImages[index % staticImages.length],
-      hint: service.toLowerCase().replace(/ /g, ' '),
-      rating: staticRatings[index % staticRatings.length],
-      reviewsCount: staticReviews[index % staticReviews.length],
-      experience: staticExperience[index % staticExperience.length],
-      pricePerHour: staticPrice[index % staticPrice.length],
-      latitude: -23.550520,
-      longitude: -46.633308,
-      description: `Especialista em ${service}, oferecendo soluções rápidas e eficazes para suas necessidades. Atendimento profissional e de confiança.`,
-      phone: `(11) 9${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`,
-      address: "Atendimento em toda a região",
-      hours: [{ day: "Segunda a Sábado", time: "08:00 - 18:00" }],
-      gallery: [],
-      products: [],
-      reviews: [],
-    }))
+    services.flatMap(service => {
+      // Create multiple providers for each service
+      return staticImages.map((imgData, index) => ({
+        id: idCounter++,
+        name: `${imgData.name} (${service.substring(0,4)})`, // Make name unique
+        tagline: `Melhor ${service}`,
+        service: service,
+        category: category,
+        type: 'service' as const,
+        imageUrl: imgData.url,
+        hint: service.toLowerCase().replace(/ /g, ' '),
+        rating: staticRatings[(index + idCounter) % staticRatings.length],
+        reviewsCount: staticReviews[(index + idCounter) % staticReviews.length],
+        experience: staticExperience[(index + idCounter) % staticExperience.length],
+        pricePerHour: staticPrice[(index + idCounter) % staticPrice.length],
+        customers: staticCustomers[(index + idCounter) % staticCustomers.length],
+        teamworkPrice: staticTeamwork[(index + idCounter) % staticTeamwork.length],
+        latitude: -23.550520 + (Math.random() - 0.5) * 0.05,
+        longitude: -46.633308 + (Math.random() - 0.5) * 0.05,
+        description: `Especialista em ${service}, oferecendo soluções rápidas e eficazes para suas necessidades. Atendimento profissional e de confiança.`,
+        phone: `(11) 9${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`,
+        address: "Atendimento em toda a região",
+        hours: [{ day: "Segunda a Sábado", time: "08:00 - 18:00" }],
+        gallery: [],
+        products: [],
+        reviews: [],
+      }))
+    })
   );
 };
 
