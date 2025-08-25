@@ -523,8 +523,6 @@ const generateServices = (servicesList: {category: string, services: string[]}[]
         pricePerHour: staticPrice[(index + idCounter) % staticPrice.length],
         customers: staticCustomers[(index + idCounter) % staticCustomers.length],
         teamworkPrice: staticTeamwork[(index + idCounter) % staticTeamwork.length],
-        latitude: -23.550520 + (Math.random() - 0.5) * 0.05,
-        longitude: -46.633308 + (Math.random() - 0.5) * 0.05,
         description: `Especialista em ${service}, oferecendo soluções rápidas e eficazes para suas necessidades. Atendimento profissional e de confiança.`,
         phone: `(11) 9${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`,
         address: "Atendimento em toda a região",
