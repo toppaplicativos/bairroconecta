@@ -9,17 +9,25 @@ import { Search, SlidersHorizontal } from 'lucide-react';
 import Link from 'next/link';
 import ProviderCard from '@/components/provider-card';
 import { normalizeString } from '@/lib/utils';
+import { useMemo, useState } from 'react';
 
 
 export default function ServiceProfessionalsPage() {
     const params = useParams();
     const serviceSlug = params?.service as string;
+    const [searchTerm, setSearchTerm] = useState('');
 
-    const serviceName = serviceSlug.replace(/-/g, ' ');
+    const serviceName = useMemo(() => serviceSlug.replace(/-/g, ' '), [serviceSlug]);
 
-    const providers = serviceProviders.filter(p => normalizeString(p.service || '') === serviceSlug);
+    const providers = useMemo(() => {
+        if (!serviceSlug) return [];
+        return serviceProviders.filter(p => 
+            normalizeString(p.service) === serviceSlug &&
+            (searchTerm === '' || p.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        );
+    }, [serviceSlug, searchTerm]);
     
-    if (!providers) {
+    if (!serviceSlug) {
         return (
             <MainLayout>
                 <div className="text-center p-8">
@@ -40,7 +48,12 @@ export default function ServiceProfessionalsPage() {
                 <div className="flex gap-2 items-center">
                     <div className="relative flex-1">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                        <Input placeholder={`Buscar em ${serviceName}...`} className="pl-10 bg-white shadow-sm border-0" />
+                        <Input 
+                            placeholder={`Buscar em ${serviceName}...`} 
+                            className="pl-10 bg-white shadow-sm border-0"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                     </div>
                     <Button variant="outline" size="icon" className="bg-white shadow-sm border-0">
                         <SlidersHorizontal className="h-5 w-5" />
@@ -56,7 +69,7 @@ export default function ServiceProfessionalsPage() {
                         ))
                     ) : (
                         <div className="text-center text-muted-foreground p-8 border-dashed border-2 rounded-lg">
-                            <p>Nenhum profissional encontrado para este serviço ainda.</p>
+                            <p>Nenhum profissional encontrado para este serviço ou filtro.</p>
                         </div>
                     )}
                 </div>

@@ -7,15 +7,19 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import ServiceCard from '@/components/service-card';
 import { normalizeString } from '@/lib/utils';
+import { useMemo } from 'react';
 
 
 export default function ServiceCategoryPage() {
     const params = useParams();
     const categorySlug = params?.category as string;
 
-    const categoryDetails = serviceListByCategory.find(
-        (cat) => normalizeString(cat.category) === categorySlug
-    );
+    const categoryDetails = useMemo(() => {
+         if (!categorySlug) return null;
+        return serviceListByCategory.find(
+            (cat) => normalizeString(cat.category) === categorySlug
+        );
+    }, [categorySlug]);
     
     if (!categoryDetails) {
         return (

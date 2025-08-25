@@ -10,12 +10,19 @@ import Image from 'next/image';
 import { ChevronLeft, Share2, Star, Briefcase, Users, MessageSquare, Phone, Calendar, Bookmark, Award, DollarSign, Users2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import MainLayout from '@/components/main-layout';
+import React, { useMemo, useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 export default function ProviderProfilePage() {
   const params = useParams();
   const router = useRouter();
   const id = params?.id as string;
-  const provider = serviceProviders.find((p) => p.id.toString() === id);
+  const { toast } = useToast();
+
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+
+  const provider = useMemo(() => serviceProviders.find((p) => p.id.toString() === id), [id]);
 
   if (!provider) {
     return (
@@ -27,6 +34,17 @@ export default function ProviderProfilePage() {
       </MainLayout>
     );
   }
+
+  const handleScheduleClick = () => {
+    toast({
+        title: "Em breve!",
+        description: "A funcionalidade de agendamento online estará disponível em breve.",
+    });
+  }
+
+  const truncatedDescription = provider.description.length > 120 
+    ? `${provider.description.substring(0, 120)}...`
+    : provider.description;
 
   const StatCard = ({ icon: Icon, value, label, colorClass }: { icon: React.ElementType, value: string | number, label: string, colorClass: string }) => (
       <div className={cn("rounded-2xl p-3 flex flex-col items-center justify-center text-center text-white", colorClass)}>
@@ -88,7 +106,12 @@ export default function ProviderProfilePage() {
                     <CardContent className="p-4">
                         <h3 className="font-bold mb-2">Sobre {provider.name.split(' ')[0]}</h3>
                         <p className="text-muted-foreground text-sm">
-                            {provider.description} <a href="#" className="text-orange-500 font-semibold">Ler mais</a>
+                            {showFullDescription ? provider.description : truncatedDescription}
+                            {provider.description.length > 120 && (
+                                <button onClick={() => setShowFullDescription(!showFullDescription)} className="text-orange-500 font-semibold ml-1">
+                                    {showFullDescription ? 'Ler menos' : 'Ler mais'}
+                                </button>
+                            )}
                         </p>
                     </CardContent>
                 </Card>
@@ -136,12 +159,17 @@ export default function ProviderProfilePage() {
       </div>
 
        <div className="sticky bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-sm border-t border-gray-200 flex items-center gap-4">
-            <Button size="lg" className="flex-1 bg-orange-500 hover:bg-orange-600 shadow-lg h-14 text-base">
+            <Button size="lg" className="flex-1 bg-orange-500 hover:bg-orange-600 shadow-lg h-14 text-base" onClick={handleScheduleClick}>
                 <Calendar className="mr-2 h-5 w-5" />
                 Agendar {provider.name.split(' ')[0]}
             </Button>
-            <Button variant="outline" size="icon" className="h-14 w-14 border-gray-300">
-                <Bookmark className="h-6 w-6 text-gray-600" />
+            <Button 
+                variant="outline" 
+                size="icon" 
+                className="h-14 w-14 border-gray-300" 
+                onClick={() => setIsFavorited(!isFavorited)}
+            >
+                <Bookmark className={cn("h-6 w-6 text-gray-600 transition-colors", isFavorited && "fill-current text-orange-500")} />
             </Button>
        </div>
     </div>
