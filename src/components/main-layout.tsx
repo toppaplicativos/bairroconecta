@@ -19,6 +19,8 @@ import {
   Heart,
   User,
   UtensilsCrossed,
+  Award,
+  Users2
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -251,6 +253,12 @@ function MobileHeader() {
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const isMobile = useIsMobile();
+  const pathname = usePathname();
+  const isProviderProfile = pathname.startsWith('/services/provider/');
+
+  if (isProviderProfile) {
+      return <div className="bg-background">{children}</div>;
+  }
   
   return (
     <div className="flex min-h-screen w-full flex-col md:flex-row">

@@ -2,7 +2,6 @@
 'use client';
 import { useParams, useRouter } from 'next/navigation';
 import { serviceProviders } from '@/lib/data';
-import MainLayout from '@/components/main-layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -10,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Image from 'next/image';
 import { ChevronLeft, Share2, Star, Briefcase, Users, MessageSquare, Phone, Calendar, Bookmark, Award, DollarSign, Users2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import MainLayout from '@/components/main-layout';
 
 export default function ProviderProfilePage() {
   const params = useParams();
@@ -70,7 +70,7 @@ export default function ProviderProfilePage() {
 
       <div className="pt-12 p-4 md:p-6 space-y-6">
         <div className="grid grid-cols-3 gap-3">
-            <StatCard icon={Briefcase} value={provider.experience} label="Anos" colorClass="bg-orange-400" />
+            <StatCard icon={Briefcase} value={provider.experience || 0} label="Anos" colorClass="bg-orange-400" />
             <StatCard icon={Star} value={provider.rating.toFixed(1)} label="Avaliação" colorClass="bg-purple-400" />
             <StatCard icon={Users} value={`${provider.customers}+`} label="Clientes" colorClass="bg-teal-400" />
         </div>
@@ -126,7 +126,7 @@ export default function ProviderProfilePage() {
                     <Card className="bg-white border-0 shadow-sm">
                         <CardContent className="p-4">
                             <p className="text-sm text-muted-foreground flex items-center gap-2"><Users2 className="w-4 h-4"/> Trabalho em equipe</p>
-                            <p className="font-bold text-xl mt-1">R${provider.teamworkPrice}</p>
+                            <p className="font-bold text-xl mt-1">{provider.teamworkPrice}</p>
                         </CardContent>
                     </Card>
                  </div>
