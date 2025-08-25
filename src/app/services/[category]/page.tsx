@@ -3,12 +3,10 @@
 import { useParams } from 'next/navigation';
 import { serviceListByCategory } from '@/lib/data';
 import MainLayout from '@/components/main-layout';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, SlidersHorizontal } from 'lucide-react';
 import Link from 'next/link';
-import { normalizeString } from '@/lib/utils';
 import ServiceCard from '@/components/service-card';
+import { normalizeString } from '@/lib/utils';
 
 
 export default function ServiceCategoryPage() {

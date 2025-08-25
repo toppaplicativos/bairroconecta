@@ -1,7 +1,7 @@
 
 'use client';
 import { useParams } from 'next/navigation';
-import { serviceProviders, serviceListByCategory } from '@/lib/data';
+import { serviceProviders } from '@/lib/data';
 import MainLayout from '@/components/main-layout';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
