@@ -12,7 +12,7 @@ import ProductCard from '@/components/product-card';
 import NewReviewForm from '@/components/new-review-form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-export default function BusinessDetailPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function BusinessStorefrontPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const params = useParams();
   const id = params?.id as string;
   const business = businesses.find((b) => b.id.toString() === id);
@@ -21,7 +21,7 @@ export default function BusinessDetailPage({ searchParams }: { searchParams: { [
     return (
       <MainLayout>
         <div className="text-center p-8">
-          <h1 className="text-2xl font-bold">Comércio não encontrado</h1>
+          <h1 className="text-2xl font-bold">Loja não encontrada</h1>
           <p className="text-muted-foreground">O estabelecimento que você está procurando não existe.</p>
         </div>
       </MainLayout>
@@ -33,15 +33,15 @@ export default function BusinessDetailPage({ searchParams }: { searchParams: { [
       <div className="flex-1 space-y-6">
         {/* Header */}
         <div className="relative h-48 md:h-64 w-full bg-muted">
-            <Image src={business.imageUrl} alt={`Foto de capa de ${business.name}`} layout="fill" objectFit="cover" />
+            <Image src={business.coverImageUrl} alt={`Foto de capa de ${business.name}`} layout="fill" objectFit="cover" />
         </div>
         <div className="p-4 md:p-8 space-y-6 -mt-24">
-            <Card className="overflow-hidden border-0 shadow-none -mt-24">
+            <Card className="overflow-hidden border-0 shadow-none -mt-24 bg-transparent">
                 <CardContent className="p-0">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:gap-6">
                         <div className="sm:-mt-8">
                             <Avatar className="h-28 w-28 border-4 border-background shadow-lg bg-background">
-                                <AvatarImage src={business.imageUrl} />
+                                <AvatarImage src={business.logoUrl} />
                                 <AvatarFallback>{business.name.charAt(0)}</AvatarFallback>
                             </Avatar>
                         </div>

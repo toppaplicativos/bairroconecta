@@ -5,6 +5,13 @@ export type Product = {
   price: string;
   imageUrl: string;
   hint: string;
+  description: string;
+  stock: number;
+  businessId: number;
+  variants?: {
+    type: string; // "Tamanho", "Cor"
+    options: string[];
+  }[];
 }
 
 export type Review = {
@@ -17,16 +24,24 @@ export type Review = {
 
 export type Business = {
   id: number;
-  imageUrl: string;
-  hint: string;
   name: string;
   category: string;
   service: string;
+  type: 'business' | 'service' | 'food';
+  
+  // Marketplace Fields
+  logoUrl: string;
+  coverImageUrl: string;
+  shippingInfo?: string;
+  returnPolicy?: string;
+
+  // Generic Fields
+  imageUrl: string;
+  hint: string;
   tagline?: string;
   rating: number;
   latitude: number;
   longitude: number;
-  type: 'business' | 'service' | 'food';
   reviewsCount: number;
   customers?: number;
   description: string;
@@ -44,6 +59,15 @@ export type Business = {
   teamworkPrice?: string;
 };
 
+const placeholderProducts: Product[] = [
+    { id: "p1", name: "Lasanha à Bolonhesa", price: "R$ 59,90", imageUrl: "https://placehold.co/600x400.png", hint: "lasagna", description: "Deliciosa lasanha com molho bolonhesa caseiro, massa fresca e queijo gratinado.", stock: 15, businessId: 1 },
+    { id: "p2", name: "Fettuccine Alfredo", price: "R$ 54,90", imageUrl: "https://placehold.co/400x400.png", hint: "fettuccine alfredo", description: "Massa fresca com molho cremoso de queijo parmesão e manteiga.", stock: 20, businessId: 1 },
+    { id: "p3", name: "Pizza Margherita", price: "R$ 49,90", imageUrl: "https://placehold.co/400x400.png", hint: "margherita pizza", description: "A clássica pizza italiana com molho de tomate, mussarela e manjericão.", stock: 30, businessId: 1, variants: [{ type: "Tamanho", options: ["Média", "Grande"] }] },
+    { id: "p4", name: "T-Shirt Básica", price: "R$ 79,90", imageUrl: "https://placehold.co/400x400.png", hint: "white t-shirt", description: "Camiseta básica de algodão orgânico.", stock: 50, businessId: 5, variants: [{ type: "Cor", options: ["Branco", "Preto", "Azul"] }, { type: "Tamanho", options: ["P", "M", "G"] }] },
+    { id: "p5", name: "Calça Jeans Slim", price: "R$ 189,90", imageUrl: "https://placehold.co/400x400.png", hint: "jeans", description: "Calça jeans com corte slim e lavagem moderna.", stock: 25, businessId: 5 },
+];
+
+
 export const businesses: Business[] = [
   {
     id: 1,
@@ -51,6 +75,8 @@ export const businesses: Business[] = [
     category: "Restaurantes",
     service: "Restaurante Italiano",
     type: 'business',
+    logoUrl: "https://placehold.co/100x100.png",
+    coverImageUrl: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxSZXN0YXVyYW50fGVufDB8fHx8MTc1NTg2MzM3NXww&ixlib=rb-4.1.0&q=80&w=1080",
     imageUrl: "https://images.unsplash.com/photo-1592861956120-e524fc739696?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxN3x8UmVzdGF1cmFudHxlbnwwfHx8fDE3NTU4NjMzNzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
     hint: "cozy restaurant",
     rating: 4.8,
@@ -70,11 +96,7 @@ export const businesses: Business[] = [
         { url: "https://placehold.co/600x400.png", hint: "plate of pasta" },
         { url: "https://placehold.co/600x400.png", hint: "pizza oven" },
     ],
-    products: [
-        { id: "p1", name: "Lasanha à Bolonhesa", price: "R$ 59,90", imageUrl: "https://placehold.co/600x400.png", hint: "lasagna" },
-        { id: "p2", name: "Fettuccine Alfredo", price: "R$ 54,90", imageUrl: "https://placehold.co/400x400.png", hint: "fettuccine alfredo" },
-        { id: "p3", name: "Pizza Margherita", price: "R$ 49,90", imageUrl: "https://placehold.co/400x400.png", hint: "margherita pizza" },
-    ],
+    products: placeholderProducts.filter(p => p.businessId === 1),
     reviews: [
         { id: "r1", author: "Carlos S.", avatarUrl: "https://placehold.co/40x40.png", rating: 5, comment: "Melhor massa que já comi em São Paulo! Atendimento impecável." },
         { id: "r2", author: "Ana P.", avatarUrl: "https://placehold.co/40x40.png", rating: 4, comment: "Lugar aconchegante, comida boa. Apenas um pouco demorado no sábado." },
@@ -86,6 +108,8 @@ export const businesses: Business[] = [
     category: "Farmácias",
     service: "Farmácia",
     type: 'business',
+    logoUrl: "https://placehold.co/100x100.png",
+    coverImageUrl: "https://placehold.co/1200x400.png",
     imageUrl: "https://images.unsplash.com/photo-1597121870960-7b5391b88b84?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyMHx8RmFybWFjaWF8ZW58MHx8fHwxNzU1ODYzNTAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
     hint: "local pharmacy",
     rating: 4.5,
@@ -112,6 +136,8 @@ export const businesses: Business[] = [
     category: "Mercados",
     service: "Supermercado",
     type: 'business',
+    logoUrl: "https://placehold.co/100x100.png",
+    coverImageUrl: "https://placehold.co/1200x400.png",
     imageUrl: "https://placehold.co/600x400.png",
     hint: "grocery store",
     rating: 4.3,
@@ -132,6 +158,8 @@ export const businesses: Business[] = [
     category: "Salões de Beleza",
     service: "Salão de Beleza",
     type: 'business',
+    logoUrl: "https://placehold.co/100x100.png",
+    coverImageUrl: "https://placehold.co/1200x400.png",
     imageUrl: "https://placehold.co/600x400.png",
     hint: "modern salon",
     rating: 4.9,
@@ -144,6 +172,28 @@ export const businesses: Business[] = [
     hours: [{ day: "Terça a Sábado", time: "09:00 - 20:00" }],
     gallery: [],
     products: [],
+    reviews: [],
+  },
+   {
+    id: 5,
+    name: "Loja de Roupas Urban",
+    category: "Moda",
+    service: "Loja de Roupas",
+    type: 'business',
+    logoUrl: "https://placehold.co/100x100.png",
+    coverImageUrl: "https://placehold.co/1200x400.png",
+    imageUrl: "https://placehold.co/600x400.png",
+    hint: "clothing store",
+    rating: 4.7,
+    reviewsCount: 150,
+    latitude: -23.555,
+    longitude: -46.665,
+    description: "As últimas tendências da moda urbana para você.",
+    phone: "(11) 96666-7777",
+    address: "Rua das Vitrines, 1010, Pinheiros",
+    hours: [{ day: "Segunda a Sábado", time: "10:00 - 20:00" }],
+    gallery: [],
+    products: placeholderProducts.filter(p => p.businessId === 5),
     reviews: [],
   },
 ];
@@ -163,6 +213,8 @@ export const foodBusinesses: Business[] = [
     category: "Lanches",
     service: "Hamburgueria",
     type: 'food',
+    logoUrl: "https://placehold.co/100x100.png",
+    coverImageUrl: "https://placehold.co/1200x400.png",
     imageUrl: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxCdXJnZXJ8ZW58MHx8fHwxNzU1OTIzMjMxfDA&ixlib=rb-4.1.0&q=80&w=1080",
     hint: "delicious burger",
     rating: 4.9,
@@ -186,6 +238,8 @@ export const foodBusinesses: Business[] = [
     category: "Marmitas",
     service: "Marmitas",
     type: 'food',
+    logoUrl: "https://placehold.co/100x100.png",
+    coverImageUrl: "https://placehold.co/1200x400.png",
     imageUrl: "https://placehold.co/600x400.png",
     hint: "brazilian lunch box",
     rating: 4.7,
@@ -208,6 +262,8 @@ export const foodBusinesses: Business[] = [
     category: "Açaí",
     service: "Loja de Açaí",
     type: 'food',
+    logoUrl: "https://placehold.co/100x100.png",
+    coverImageUrl: "https://placehold.co/1200x400.png",
     imageUrl: "https://placehold.co/600x400.png",
     hint: "acai bowl",
     rating: 4.8,
@@ -452,11 +508,13 @@ const generateServices = (servicesList: {category: string, services: string[]}[]
       // Create multiple providers for each service
       return staticImages.map((imgData, index) => ({
         id: idCounter++,
-        name: `${imgData.name} (${service.substring(0,4)})`, // Make name unique
-        tagline: `Melhor ${service}`,
-        service: service,
+        name: `${imgData.name}`,
+        tagline: `Especialista em ${service}`,
+        service: service, // Store the specific service name
         category: category,
         type: 'service' as const,
+        logoUrl: "https://placehold.co/100x100.png",
+        coverImageUrl: "https://placehold.co/1200x400.png",
         imageUrl: imgData.url,
         hint: service.toLowerCase().replace(/ /g, ' '),
         rating: staticRatings[(index + idCounter) % staticRatings.length],
@@ -480,5 +538,7 @@ const generateServices = (servicesList: {category: string, services: string[]}[]
 };
 
 export const serviceProviders = generateServices(serviceListByCategory);
+
+export const allProducts = placeholderProducts;
 
 export const allBusinesses = [...businesses, ...foodBusinesses, ...serviceProviders];
