@@ -12,6 +12,17 @@ export type Property = {
   avaliacao: number;
   preco: string;
   periodo: string;
+  // Detalhes
+  endereco: string;
+  numeroAvaliacoes: number;
+  quarto: string;
+  banheiro: string;
+  area: string;
+  descricao: string;
+  agente: {
+    nome: string;
+    foto: string;
+  };
 };
 
 export type Product = {
@@ -213,6 +224,19 @@ export const businesses: Business[] = [
   },
 ];
 
+const commonPropertyDetails = {
+    endereco: "1012 Ocean avenue, New York, USA",
+    numeroAvaliacoes: 365,
+    quarto: "3",
+    banheiro: "1",
+    area: "1,848",
+    descricao: "Este lindo apartamento oferece uma vista deslumbrante para o mar e um design moderno. Com três quartos espaçosos, uma cozinha totalmente equipada e uma sala de estar arejada, é o lugar perfeito para chamar de lar. A área de lazer do condomínio inclui piscina, academia e salão de festas.",
+    agente: {
+      nome: "John Doe",
+      foto: "https://randomuser.me/api/portraits/men/41.jpg"
+    }
+}
+
 export const properties: Property[] = [
   {
     id: 1,
@@ -224,6 +248,7 @@ export const properties: Property[] = [
     avaliacao: 4.5,
     preco: "1500",
     periodo: "/month",
+    ...commonPropertyDetails,
   },
   {
     id: 2,
@@ -235,6 +260,8 @@ export const properties: Property[] = [
     avaliacao: 4.8,
     preco: "900",
     periodo: "/month",
+     ...commonPropertyDetails,
+    endereco: "456 Pine Street, New York, USA",
   },
   {
     id: 3,
@@ -246,6 +273,8 @@ export const properties: Property[] = [
     avaliacao: 4.9,
     preco: "2500",
     periodo: "/month",
+     ...commonPropertyDetails,
+    endereco: "789 Palm Blvd, New York, USA",
   },
   {
     id: 4,
@@ -257,6 +286,8 @@ export const properties: Property[] = [
     avaliacao: 4.7,
     preco: "1800",
     periodo: "/month",
+     ...commonPropertyDetails,
+    endereco: "321 Maple Drive, New York, USA",
   },
    {
     id: 5,
@@ -268,6 +299,8 @@ export const properties: Property[] = [
     avaliacao: 4.6,
     preco: "1200",
     periodo: "/month",
+     ...commonPropertyDetails,
+    endereco: "654 Daisy Lane, New York, USA",
   },
 ];
 
