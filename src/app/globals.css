@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    --background: 220 20% 98%;
+    --background: 210 20% 98%; /* Cinza bem claro para o fundo */
     --foreground: 222.2 47.4% 11.2%;
 
     --card: 0 0% 100%;
@@ -14,16 +14,19 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
     
-    --primary: 217 91% 60%; /* Azul do novo design */
+    /* Cor Primária Padrão (Azul) */
+    --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 42 94% 61%; /* Amarelo para destaques */
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Cor Secundária Padrão (Laranja para Eventos) */
+    --secondary: 35 92% 50%; /* Laranja-Queimado */
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
     
-    --accent: 174 44% 54%; /* Verde para ações secundárias */
+    /* Cor de Destaque Padrão (Verde para Classificados) */
+    --accent: 173 100% 24%; /* Verde-Água Escuro */
     --accent-foreground: 0 0% 100%;
     
     --destructive: 0 84% 60%; /* Vermelho */
@@ -33,7 +36,7 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 217 91% 60%;
     
-    --radius: 0.75rem; /* Bordas mais arredondadas como no design */
+    --radius: 0.75rem;
   }
  
   .dark {
@@ -49,13 +52,13 @@
     --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 42 94% 61%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 35 92% 50%;
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
     
-    --accent: 174 44% 54%;
+    --accent: 173 100% 24%;
     --accent-foreground: 0 0% 100%;
     
     --destructive: 0 63% 31%;

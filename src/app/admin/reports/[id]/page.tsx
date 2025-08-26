@@ -3,8 +3,8 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { doc, onSnapshot, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
-import { db, auth } from '@/lib/firebase';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 import AdminLayout from '@/components/admin-layout';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -83,7 +83,7 @@ export default function AdminReportDetailPage() {
 
   if (loading) {
     return (
-      <AdminLayout>
+      <AdminLayout title="Carregando...">
         <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
           <Skeleton className="h-8 w-1/4" />
           <Skeleton className="h-4 w-1/2" />
@@ -98,7 +98,7 @@ export default function AdminReportDetailPage() {
 
   if (!report) {
     return (
-      <AdminLayout>
+      <AdminLayout title="Não Encontrado">
         <div className="flex-1 p-4 md:p-8 pt-6">
           <h1 className="text-2xl font-bold">Manifestação não encontrada</h1>
           <p className="text-muted-foreground">O protocolo solicitado não foi encontrado ou foi removido.</p>
@@ -110,7 +110,7 @@ export default function AdminReportDetailPage() {
   const urgency = report.analysis?.urgency || "Baixa";
 
   return (
-    <AdminLayout>
+    <AdminLayout title={`Protocolo ${report.id.substring(0, 6)}...`}>
       <div className="flex-1 space-y-6 p-4 md:p-8 pt-6">
         <div className="grid gap-6 md:grid-cols-3">
             <div className="md:col-span-2 space-y-6">

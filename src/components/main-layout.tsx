@@ -3,7 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   Menu,
   Home,
@@ -23,6 +23,14 @@ import {
   LayoutGrid,
   Plus,
   Folder,
+  ChevronLeft,
+  Search,
+  SlidersHorizontal,
+  FolderOpen,
+  CalendarCheck,
+  Phone,
+  HomeIcon,
+  ShoppingBag
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -51,42 +59,58 @@ const globalNavItems = [
 
 const bottomNavItems = {
   default: [
-    { href: '/food', label: 'Alimentação', icon: Compass },
-    { href: '/businesses', label: 'Comércio', icon: Store },
+    { href: '/', label: 'Início', icon: HomeIcon },
+    { href: '/businesses', label: 'Comércio', icon: ShoppingBag },
     { isAITrigger: true, label: 'AI', icon: Bot },
     { href: '/community', label: 'Comunidade', icon: MessagesSquare },
     { href: '/ouvidoria', label: 'Ouvidoria', icon: Megaphone },
   ],
   properties: [
-    { href: '/properties', label: 'Home', icon: Home },
-    { href: '#', label: 'Explore', icon: Compass },
-    { href: '#', label: 'Favorite', icon: Heart },
-    { href: '#', label: 'Chat', icon: MessageCircle },
-    { href: '#', label: 'Profile', icon: User },
+    { href: '/properties', label: 'Início', icon: HomeIcon },
+    { href: '#', label: 'Explorar', icon: Compass },
+    { href: '#', label: 'Favoritos', icon: Heart },
+    { href: '#', label: 'Conversas', icon: MessageCircle },
+    { href: '#', label: 'Perfil', icon: User },
   ],
   events: [
-    { href: '#', label: 'Home', icon: Home },
-    { href: '/events', label: 'Explore', icon: Compass },
-    { href: '#', label: 'Favorite', icon: Heart },
-    { href: '#', label: 'Ticket', icon: Bot }, // Placeholder icon
-    { href: '#', label: 'Profile', icon: User },
+    { href: '/events', label: 'Início', icon: HomeIcon },
+    { href: '#', label: 'Explorar', icon: Compass },
+    { href: '#', label: 'Favoritos', icon: Heart },
+    { href: '#', label: 'Ingressos', icon: CalendarCheck },
+    { href: '#', label: 'Perfil', icon: User },
   ],
   classifieds: [
-    { href: '/classifieds', label: 'Início', icon: Home },
+    { href: '/classifieds', label: 'Início', icon: HomeIcon },
     { href: '#', label: 'Conversas', icon: MessageCircle },
     { isCentralButton: true, label: 'Anunciar', icon: Plus },
-    { href: '#', label: 'Meus Anúncios', icon: Folder },
+    { href: '#', label: 'Anúncios', icon: FolderOpen },
     { href: '#', label: 'Conta', icon: User },
+  ],
+  services: [
+     { href: '/services', label: 'Início', icon: HomeIcon },
+     { href: '#', label: 'Serviços', icon: Briefcase },
+     { href: '#', label: 'Agendados', icon: CalendarCheck },
+     { href: '#', label: 'Conversas', icon: MessageCircle },
+     { href: '#', label: 'Perfil', icon: User },
   ]
 };
 
 type BottomNavProps = {
-  mode: 'default' | 'properties' | 'events' | 'classifieds';
+  mode: keyof typeof bottomNavItems;
+}
+
+const navColors = {
+  default: 'text-primary',
+  properties: 'text-blue-600',
+  events: 'text-orange-500',
+  classifieds: 'text-teal-600',
+  services: 'text-amber-500',
 }
 
 function BottomNav({ mode }: BottomNavProps) {
   const pathname = usePathname();
   const navItems = bottomNavItems[mode] || bottomNavItems.default;
+  const activeColor = navColors[mode] || navColors.default;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 h-20 border-t bg-background/95 backdrop-blur-sm md:hidden">
@@ -98,8 +122,8 @@ function BottomNav({ mode }: BottomNavProps) {
                 <DialogTrigger asChild>
                     <div className="relative flex justify-center items-center">
                         <div className="absolute -top-8">
-                            <Button size="icon" className="rounded-full h-16 w-16 shadow-lg bg-accent hover:bg-accent/90">
-                                <Bot className="h-8 w-8 text-accent-foreground" />
+                            <Button size="icon" className={cn("rounded-full h-16 w-16 shadow-lg", activeColor.replace('text-','bg-'))}>
+                                <Bot className="h-8 w-8 text-white" />
                             </Button>
                         </div>
                     </div>
@@ -117,8 +141,8 @@ function BottomNav({ mode }: BottomNavProps) {
            if (isCentralButton) {
             return (
               <div key={label} className="flex justify-center">
-                <Button size="icon" className="w-16 h-12 rounded-2xl bg-primary text-primary-foreground shadow-lg -translate-y-4">
-                  <Icon className="h-6 w-6" />
+                <Button size="icon" className={cn("w-16 h-12 rounded-2xl shadow-lg -translate-y-4", activeColor.replace('text-','bg-'))}>
+                  <Icon className="h-6 w-6 text-white" />
                 </Button>
               </div>
             )
@@ -131,7 +155,7 @@ function BottomNav({ mode }: BottomNavProps) {
               href={href || '#'}
               className={cn(
                 'flex flex-col items-center justify-center gap-1 text-xs font-medium transition-colors',
-                isActive ? 'text-primary' : 'text-muted-foreground hover:text-primary'
+                isActive ? activeColor : 'text-muted-foreground hover:text-primary'
               )}
             >
               <Icon className="h-6 w-6" strokeWidth={isActive ? 2.5 : 2} />
@@ -153,7 +177,7 @@ function MobileSidebar() {
     return (
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden">
+                <Button variant="ghost" size="icon">
                     <Menu className="h-6 w-6" />
                     <span className="sr-only">Abrir menu</span>
                 </Button>
@@ -255,15 +279,29 @@ function DesktopSidebar() {
   );
 }
 
-function MobileHeader() {
+function MobileHeader({ type, title }: { type: 'home' | 'detail', title?: string }) {
+    const router = useRouter();
+
+    if (type === 'detail') {
+        return (
+             <header className="sticky top-0 z-40 flex h-16 items-center justify-between gap-4 border-b bg-background px-4 md:hidden">
+                <Button variant="ghost" size="icon" onClick={() => router.back()}>
+                    <ChevronLeft className="h-6 w-6" />
+                </Button>
+                <h1 className="text-lg font-semibold font-headline text-center">{title}</h1>
+                <div className="w-10" /> 
+            </header>
+        )
+    }
+
     return (
         <header className="sticky top-0 z-40 flex h-16 items-center justify-between gap-4 border-b bg-background px-4 md:hidden">
             <div className="flex items-center gap-2">
                  <MapPin className="h-5 w-5 text-primary" />
                  <div>
-                    <p className="text-xs text-muted-foreground">Location</p>
+                    <p className="text-xs text-muted-foreground">Localização</p>
                     <div className="flex items-center">
-                        <span className="font-bold text-sm">New York, USA</span>
+                        <span className="font-bold text-sm">São Paulo, BR</span>
                         <ChevronDown className="h-4 w-4 text-muted-foreground" />
                     </div>
                  </div>
@@ -283,10 +321,12 @@ function MobileHeader() {
 
 type MainLayoutProps = {
   children: React.ReactNode;
-  currentMode?: 'default' | 'properties' | 'events' | 'classifieds';
+  currentMode?: keyof typeof bottomNavItems;
+  headerType?: 'home' | 'detail';
+  headerTitle?: string;
 }
 
-export default function MainLayout({ children, currentMode = 'default' }: MainLayoutProps) {
+export default function MainLayout({ children, currentMode = 'default', headerType = 'home', headerTitle = 'Meu Bairro' }: MainLayoutProps) {
   const isMobile = useIsMobile();
   const pathname = usePathname();
   const isProviderProfile = pathname.startsWith('/services/provider/');
@@ -299,7 +339,7 @@ export default function MainLayout({ children, currentMode = 'default' }: MainLa
     <div className="flex min-h-screen w-full flex-col md:flex-row">
       <DesktopSidebar />
       <div className="flex flex-col flex-1">
-        {isMobile && !pathname.startsWith('/classifieds') && <MobileHeader />}
+        {isMobile && <MobileHeader type={headerType} title={headerTitle} />}
         <main className="flex flex-1 flex-col pb-20 md:pb-0 bg-background">
           {children}
         </main>

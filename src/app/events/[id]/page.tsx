@@ -21,6 +21,7 @@ import { Badge } from '@/components/ui/badge';
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import MainLayout from '@/components/main-layout';
 
 const AttendeeAvatar = ({ src, index }: { src: string; index: number }) => (
   <div
@@ -46,11 +47,12 @@ export default function EventDetailPage() {
   const { toast } = useToast();
 
   if (!event) {
-    // Idealmente, isso seria uma página 404.
     return (
-      <div className="flex h-screen items-center justify-center">
-        Evento não encontrado
-      </div>
+      <MainLayout currentMode='events' headerType='detail' headerTitle='Evento não encontrado'>
+        <div className="flex h-screen items-center justify-center">
+          Evento não encontrado
+        </div>
+      </MainLayout>
     );
   }
 
@@ -67,7 +69,8 @@ export default function EventDetailPage() {
       : event.sobreOEvento;
 
   return (
-    <div className="relative min-h-screen bg-muted/20">
+    <MainLayout currentMode='events' headerType='detail' headerTitle={event.titulo}>
+    <div className="relative min-h-screen" style={{'--primary': 'hsl(25, 95%, 53%)'} as React.CSSProperties}>
       {/* EventHero */}
       <div className="relative h-[45vh] w-full">
         <Image
@@ -78,7 +81,7 @@ export default function EventDetailPage() {
           className="object-center"
         />
         <div className="absolute inset-0 bg-black/30" />
-        <div className="absolute top-12 left-4 z-10">
+         <div className="absolute top-12 left-4 z-10 hidden md:block">
           <Button
             variant="ghost"
             size="icon"
@@ -88,7 +91,7 @@ export default function EventDetailPage() {
             <ChevronLeft className="h-6 w-6" />
           </Button>
         </div>
-        <div className="absolute top-12 right-4 z-10 flex gap-2">
+        <div className="absolute top-12 right-4 z-10 hidden md:flex gap-2">
           <Button
             variant="ghost"
             size="icon"
@@ -114,7 +117,7 @@ export default function EventDetailPage() {
       <div className="relative -mt-8 rounded-t-3xl bg-background p-6 space-y-6 z-20 pb-28">
         <div className="flex justify-between items-start">
           <div>
-            <Badge className="bg-orange-100 text-orange-600 hover:bg-orange-200">
+            <Badge className="bg-primary/10 text-primary hover:bg-primary/20">
               {event.categoria}
             </Badge>
             <h1 className="text-2xl font-bold font-headline mt-2">
@@ -125,11 +128,11 @@ export default function EventDetailPage() {
 
         <div className="space-y-3 text-muted-foreground">
           <div className="flex items-center gap-3">
-            <MapPin className="h-5 w-5 text-orange-500" />
+            <MapPin className="h-5 w-5 text-primary" />
             <span>{event.local}</span>
           </div>
           <div className="flex items-center gap-3">
-            <Calendar className="h-5 w-5 text-orange-500" />
+            <Calendar className="h-5 w-5 text-primary" />
             <span>{event.dataHora}</span>
           </div>
         </div>
@@ -139,14 +142,14 @@ export default function EventDetailPage() {
             {event.avatarsParticipantes.slice(0, 3).map((avatar, index) => (
               <AttendeeAvatar key={index} src={avatar} index={index} />
             ))}
-            <div className="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center text-lg font-bold border-2 border-background -ml-3 z-10">
+            <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center text-lg font-bold border-2 border-background -ml-3 z-10">
               <Plus className="h-5 w-5" />
             </div>
             <p className="ml-3 font-bold text-lg">
               {event.numeroParticipantes}
             </p>
           </div>
-          <a href="#" className="text-sm font-semibold text-orange-500">
+          <a href="#" className="text-sm font-semibold text-primary">
             Ver Todos / Convidar
           </a>
         </div>
@@ -160,7 +163,7 @@ export default function EventDetailPage() {
             {event.sobreOEvento.length > 150 && (
               <button
                 onClick={() => setShowFullDescription(!showFullDescription)}
-                className="text-orange-500 font-semibold ml-1"
+                className="text-primary font-semibold ml-1"
               >
                 {showFullDescription ? 'Ler menos' : 'Ler mais'}
               </button>
@@ -187,10 +190,10 @@ export default function EventDetailPage() {
             </div>
             <div className="flex items-center gap-2">
               <Button variant="outline" size="icon" className="rounded-full">
-                <Phone className="h-5 w-5 text-orange-500" />
+                <Phone className="h-5 w-5 text-primary" />
               </Button>
               <Button variant="outline" size="icon" className="rounded-full">
-                <MessageSquare className="h-5 w-5 text-orange-500" />
+                <MessageSquare className="h-5 w-5 text-primary" />
               </Button>
             </div>
           </div>
@@ -199,7 +202,7 @@ export default function EventDetailPage() {
         <div>
           <div className="flex justify-between items-center">
              <h3 className="text-lg font-bold font-headline">Endereço</h3>
-             <a href="#" className="text-sm font-semibold text-orange-500">Ver no Mapa</a>
+             <a href="#" className="text-sm font-semibold text-primary">Ver no Mapa</a>
           </div>
           <p className="text-muted-foreground mt-2">{event.endereco}</p>
         </div>
@@ -209,18 +212,19 @@ export default function EventDetailPage() {
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/80 backdrop-blur-sm border-t flex items-center gap-4 z-30">
         <div>
           <p className="text-sm text-muted-foreground">Preço Total</p>
-          <p className="text-xl font-bold font-headline">
+          <p className="text-xl font-bold font-headline text-primary">
             R${event.price} <span className="font-normal text-sm">/pessoa</span>
           </p>
         </div>
         <Button
           size="lg"
-          className="flex-1 bg-orange-500 hover:bg-orange-600 h-14 text-lg"
+          className="flex-1 bg-primary hover:bg-primary/90 h-14 text-lg"
           onClick={handleBookNow}
         >
           Reservar Agora
         </Button>
       </div>
     </div>
+    </MainLayout>
   );
 }

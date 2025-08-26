@@ -1,10 +1,11 @@
+
 'use client';
 import MainLayout from "@/components/main-layout";
 import { serviceListByCategory, serviceProviders } from "@/lib/data";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Search, SlidersHorizontal, ArrowRight, Wrench, ChevronRight } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Search, SlidersHorizontal, ArrowRight } from "lucide-react";
 import React, { useMemo } from "react";
 import Link from "next/link";
 import { normalizeString } from "@/lib/utils";
@@ -17,8 +18,8 @@ export default function ServicesPage() {
   const recommendedProviders = useMemo(() => serviceProviders.slice(0, 5), []);
 
   return (
-    <MainLayout>
-      <div className="flex-1 space-y-8 p-4 md:p-6 bg-orange-50/50">
+    <MainLayout currentMode="services">
+      <div className="flex-1 space-y-8 p-4 md:p-6 bg-orange-50/50" style={{'--primary': 'hsl(45, 100%, 50%)', '--primary-foreground': 'hsl(45, 100%, 10%)'} as React.CSSProperties}>
         <div className="flex gap-2 items-center">
             <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -65,7 +66,7 @@ export default function ServicesPage() {
                     <div key={category}>
                         <div className="flex justify-between items-center mb-2">
                             <h2 className="text-2xl font-bold font-headline">{category}</h2>
-                            <Link href={`/services/${categorySlug}`} className="text-sm font-semibold text-primary flex items-center gap-1">
+                            <Link href={`/services/${categorySlug}`} className="text-sm font-semibold text-amber-600 flex items-center gap-1">
                                 Ver todos <ArrowRight className="h-4 w-4" />
                             </Link>
                         </div>

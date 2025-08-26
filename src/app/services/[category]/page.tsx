@@ -3,8 +3,6 @@
 import { useParams } from 'next/navigation';
 import { serviceListByCategory } from '@/lib/data';
 import MainLayout from '@/components/main-layout';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import ServiceCard from '@/components/service-card';
 import { normalizeString } from '@/lib/utils';
 import { useMemo } from 'react';
@@ -24,7 +22,7 @@ export default function ServiceCategoryPage() {
     
     if (!categoryDetails) {
         return (
-            <MainLayout>
+            <MainLayout currentMode='services' headerType='detail' headerTitle='Serviços'>
                 <div className="p-4 md:p-6">
                     <Skeleton className="h-8 w-1/2 mb-2" />
                     <Skeleton className="h-4 w-3/4 mb-6" />
@@ -38,7 +36,7 @@ export default function ServiceCategoryPage() {
     
 
     return (
-        <MainLayout>
+        <MainLayout currentMode='services' headerType='detail' headerTitle={categoryDetails.category}>
             <div className="flex-1 space-y-6 bg-orange-50/50 p-4 md:p-6">
                 <h1 className="text-2xl font-bold tracking-tight font-headline">{categoryDetails.category}</h1>
                 <p className="text-muted-foreground">Selecione o serviço específico que você precisa.</p>

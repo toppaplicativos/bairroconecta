@@ -39,7 +39,7 @@ export default function PropertyCard({ property, variant = 'large' }: PropertyCa
               />
           </div>
           <div className="flex-1">
-            <Badge className="bg-blue-100 text-blue-600 hover:bg-blue-200 text-xs mb-1">{property.tipo}</Badge>
+            <Badge className="bg-primary/10 text-primary hover:bg-primary/20 text-xs mb-1">{property.tipo}</Badge>
             <h3 className="font-bold font-headline leading-tight">{property.titulo}</h3>
             <div className="flex items-center gap-1 text-sm text-yellow-500 mt-1">
               <Star className="w-4 h-4 fill-current" />
@@ -80,7 +80,7 @@ export default function PropertyCard({ property, variant = 'large' }: PropertyCa
               </div>
           </div>
            <p className="mt-2">
-            <span className="text-xl font-bold text-blue-600">${property.preco}</span>
+            <span className="text-xl font-bold text-primary">R${property.preco}</span>
             <span className="text-muted-foreground text-sm">{property.periodo}</span>
           </p>
         </CardContent>

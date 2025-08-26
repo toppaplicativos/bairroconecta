@@ -5,29 +5,18 @@ import ClassifiedCard from "@/components/classified-card";
 import { classifiedAds, classifiedCategories } from "@/lib/data";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, SlidersHorizontal, ChevronRight, MapPin, Bell, Car, Building, Smartphone, Briefcase, PawPrint } from "lucide-react";
+import { Search, SlidersHorizontal, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 
 export default function ClassifiedsPage() {
   const recommendations = classifiedAds.slice(0, 4);
 
   return (
     <MainLayout currentMode="classifieds">
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col" style={{'--primary': 'hsl(174, 100%, 29%)'} as React.CSSProperties}>
         {/* Header */}
         <div className="p-4 md:p-6 bg-gray-800 text-white">
-           <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                    <MapPin className="h-5 w-5" />
-                    <div>
-                        <span className="font-bold text-sm">São Paulo, Pinheiros</span>
-                    </div>
-                </div>
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
-                    <Bell className="h-6 w-6" />
-                </Button>
-           </div>
            <div className="mt-4 flex gap-3 items-center">
                 <div className="relative flex-1">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />

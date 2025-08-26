@@ -3,14 +3,13 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   Home,
   Menu,
   Package,
   ShoppingCart,
   Star,
-  Users,
   Settings,
 } from 'lucide-react';
 
@@ -21,7 +20,6 @@ import AuthButton from '@/components/auth-button';
 import Image from 'next/image';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/lib/firebase';
-import { useRouter } from 'next/navigation';
 
 const navItems = [
   { href: '/merchant/dashboard', label: 'Dashboard', icon: Home },
@@ -134,13 +132,11 @@ export default function MerchantLayout({ children }: { children: React.ReactNode
   const router = useRouter();
 
   React.useEffect(() => {
-    // If not loading and no user, redirect to home
     if (!loading && !user) {
       router.push('/');
     }
   }, [user, loading, router]);
 
-  // Can show a loading screen here
   if (loading || !user) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -148,8 +144,6 @@ export default function MerchantLayout({ children }: { children: React.ReactNode
       </div>
     );
   }
-
-  // TODO: Add role-based access control here in the future
   
   return (
     <div className="flex min-h-screen w-full flex-col md:flex-row">

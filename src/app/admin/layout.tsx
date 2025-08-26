@@ -116,11 +116,14 @@ function MobileHeader({ title }: { title: string }) {
 }
 
 export default function AdminLayout({ children, title }: { children: React.ReactNode; title: string; }) {
+  const currentNavItem = navItems.find(item => item.href === usePathname());
+  const pageTitle = title || currentNavItem?.label || 'Painel de Gestão';
+  
   return (
     <div className="flex min-h-screen w-full flex-col md:flex-row">
       <DesktopSidebar />
       <div className="flex flex-col flex-1">
-        <MobileHeader title={title} />
+        <MobileHeader title={pageTitle} />
         <main className="flex flex-1 flex-col bg-muted/40">
           {children}
         </main>

@@ -32,7 +32,7 @@ export default function ServiceProfessionalsPage() {
     
     if (!serviceSlug) {
         return (
-            <MainLayout>
+            <MainLayout currentMode='services' headerType='detail' headerTitle='Serviço não encontrado'>
                 <div className="text-center p-8">
                     <h1 className="text-2xl font-bold">Serviço não encontrado</h1>
                     <p className="text-muted-foreground">O serviço que você está procurando não existe.</p>
@@ -46,7 +46,7 @@ export default function ServiceProfessionalsPage() {
     
 
     return (
-        <MainLayout>
+        <MainLayout currentMode='services' headerType='detail' headerTitle={serviceName}>
             <div className="flex-1 space-y-6 bg-orange-50/50 p-4 md:p-6">
                 <div className="flex flex-col sm:flex-row gap-2 items-center">
                     <div className="relative flex-1 w-full">
