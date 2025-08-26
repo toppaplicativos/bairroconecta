@@ -1,4 +1,5 @@
 
+
 import { Gamepad2, Palette, Briefcase, Shirt, Music, Heart, Mic, Film } from 'lucide-react';
 
 
@@ -361,7 +362,26 @@ export const events = [
       "https://randomuser.me/api/portraits/men/33.jpg",
       "https://randomuser.me/api/portraits/women/68.jpg",
       "https://randomuser.me/api/portraits/men/34.jpg",
-    ]
+    ],
+    // --- Novos dados para a página de detalhes ---
+    titulo: "Apresentação Acústica à Noite",
+    categoria: "Música",
+    local: "Nova Iorque, EUA",
+    dataHora: "29 de Maio - 22:00h",
+    numeroParticipantes: "8.000+",
+    avatarsParticipantes: [
+        "https://randomuser.me/api/portraits/men/32.jpg",
+        "https://randomuser.me/api/portraits/women/67.jpg",
+        "https://randomuser.me/api/portraits/men/33.jpg",
+        "https://randomuser.me/api/portraits/women/68.jpg",
+    ],
+    sobreOEvento: "Junte-se a nós para uma noite inesquecível de melodias acústicas com artistas locais e convidados especiais. Uma experiência íntima e envolvente, perfeita para os amantes da boa música. O evento contará com um bar completo e opções de petiscos. Venha celebrar a arte e a comunidade!",
+    organizador: {
+      nome: "SonicVibe Eventos",
+      equipe: "Equipe de Organização",
+      avatar: "https://images.unsplash.com/photo-1579975094432-51515973e956?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxldmVudCUyMG9yZ2FuaXplcnxlbnwwfHx8fDE3NTY0NzU3NTd8MA&ixlib=rb-4.1.0&q=80&w=100"
+    },
+    endereco: "2910 E Broadway, Nova Iorque, EUA"
   },
   {
     id: "evt2",
@@ -375,7 +395,23 @@ export const events = [
     attendees: [
       "https://randomuser.me/api/portraits/men/35.jpg",
       "https://randomuser.me/api/portraits/women/69.jpg",
-    ]
+    ],
+    titulo: "Festival Gastronômico Internacional",
+    categoria: "Comida",
+    local: "Central Park, EUA",
+    dataHora: "05 de Junho - 12:00h",
+    numeroParticipantes: "15.000+",
+    avatarsParticipantes: [
+        "https://randomuser.me/api/portraits/men/35.jpg",
+        "https://randomuser.me/api/portraits/women/69.jpg",
+    ],
+    sobreOEvento: "Uma viagem culinária ao redor do mundo sem sair de Nova Iorque. Experimente pratos de mais de 20 países diferentes, com chefs renomados e food trucks.",
+    organizador: {
+      nome: "Foodie Events",
+      equipe: "Equipe de Organização",
+      avatar: "https://placehold.co/100x100.png"
+    },
+    endereco: "Central Park, Nova Iorque, EUA"
   },
   {
     id: "evt3",
@@ -390,7 +426,24 @@ export const events = [
       "https://randomuser.me/api/portraits/men/36.jpg",
       "https://randomuser.me/api/portraits/women/70.jpg",
       "https://randomuser.me/api/portraits/men/37.jpg",
-    ]
+    ],
+    titulo: "Noite de Pitch de Startups",
+    categoria: "Negócios",
+    local: "Sede do Google, EUA",
+    dataHora: "12 de Junho - 19:00h",
+    numeroParticipantes: "500+",
+    avatarsParticipantes: [
+        "https://randomuser.me/api/portraits/men/36.jpg",
+        "https://randomuser.me/api/portraits/women/70.jpg",
+        "https://randomuser.me/api/portraits/men/37.jpg",
+    ],
+    sobreOEvento: "Assista às mentes mais brilhantes apresentarem suas ideias inovadoras para um painel de investidores. Networking e oportunidades únicas.",
+    organizador: {
+      nome: "Tech Ventures",
+      equipe: "Equipe de Organização",
+      avatar: "https://placehold.co/100x100.png"
+    },
+    endereco: "Googleplex, Mountain View, CA"
   },
 ];
 
@@ -417,7 +470,7 @@ export const healthProfessionals = [
     imageUrl: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkb2N0b3J8ZW58MHx8fHwxNzU2MjMzOTI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
     hint: "male doctor",
     rating: 4.9,
-    reviewsCount: 41,
+    reviewsCount: 46,
   },
   {
     id: 202,
