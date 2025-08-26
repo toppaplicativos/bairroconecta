@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import NewCommentForm from '@/components/new-comment-form';
 
 type Comment = {
   id: string;
@@ -102,11 +103,32 @@ export default function ForumPostDetailPage() {
 
         <Card>
             <CardHeader>
-                <CardTitle>Comentários</CardTitle>
+                <CardTitle>Comentários ({post.comments?.length || 0})</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-                {/* NewCommentForm will be added here in a future step */}
-                <p className="text-muted-foreground text-sm text-center">A seção de comentários será adicionada em breve.</p>
+                <NewCommentForm postId={id} />
+                <div className="space-y-4">
+                  {(post.comments || []).slice().sort((a, b) => a.createdAt.toDate().getTime() - b.createdAt.toDate().getTime()).map((comment) => (
+                    <div key={comment.id} className="flex items-start gap-4 border-t pt-4">
+                      <Avatar className="h-9 w-9 border">
+                          <AvatarImage src={comment.authorAvatar} />
+                          <AvatarFallback>{comment.authorName.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                          <div className="flex items-center gap-2">
+                              <p className="font-semibold">{comment.authorName}</p>
+                              <p className="text-xs text-muted-foreground">
+                                {formatDistanceToNow(comment.createdAt.toDate(), { addSuffix: true, locale: ptBR })}
+                              </p>
+                          </div>
+                          <p className="text-muted-foreground mt-1 text-sm">{comment.text}</p>
+                      </div>
+                    </div>
+                  ))}
+                  {(!post.comments || post.comments.length === 0) && (
+                      <p className="text-muted-foreground text-center text-sm py-4">Nenhum comentário ainda. Seja o primeiro!</p>
+                  )}
+                </div>
             </CardContent>
         </Card>
       </div>

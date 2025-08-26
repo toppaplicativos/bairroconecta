@@ -160,6 +160,39 @@ export async function createPost(
   }
 }
 
+export async function addCommentToPost(
+  postId: string,
+  text: string,
+  user: { uid: string; displayName: string | null; photoURL: string | null }
+) {
+  if (!postId || !text || !user) {
+    throw new Error("Dados inválidos para adicionar comentário.");
+  }
+
+  const commentData = {
+    id: new Date().getTime().toString(),
+    authorId: user.uid,
+    authorName: user.displayName || "Anônimo",
+    authorAvatar: user.photoURL,
+    text: text,
+    createdAt: serverTimestamp(),
+  };
+
+  const postRef = doc(db, "posts", postId);
+
+  try {
+    await updateDoc(postRef, {
+      comments: arrayUnion(commentData),
+      repliesCount: (await getDoc(postRef)).data()?.repliesCount + 1,
+    });
+    console.log("Comentário adicionado ao post com sucesso!");
+  } catch (error) {
+    console.error("Erro ao adicionar comentário ao post:", error);
+    throw new Error("Não foi possível adicionar o comentário.");
+  }
+}
+
+
 // Business Actions
 export async function addReviewToBusiness(
   businessId: string, 
