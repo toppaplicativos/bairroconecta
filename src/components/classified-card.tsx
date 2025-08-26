@@ -1,4 +1,5 @@
 
+
 import Image from "next/image";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "./ui/badge";
@@ -11,8 +12,15 @@ type ClassifiedCardProps = {
 };
 
 export default function ClassifiedCard({ ad }: ClassifiedCardProps) {
+  const formattedPrice = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  }).format(ad.preco);
+
   return (
-    <Link href="#" className="block group">
+    <Link href={`/classifieds/${ad.id}`} className="block group">
       <Card className="overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col h-full bg-white">
         <CardHeader className="p-0">
           <div className="relative h-32 w-full">
@@ -40,7 +48,7 @@ export default function ClassifiedCard({ ad }: ClassifiedCardProps) {
             </div>
         </CardContent>
         <CardFooter className="p-3 flex justify-between items-center">
-          <p className="text-base font-bold text-gray-800">{ad.preco}</p>
+          <p className="text-base font-bold text-gray-800">{formattedPrice}</p>
            <button>
              <Heart className="w-5 h-5 text-gray-400 hover:text-red-500 hover:fill-red-500 transition-all" />
            </button>

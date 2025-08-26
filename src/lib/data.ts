@@ -93,7 +93,18 @@ export type ClassifiedAd = {
   tagDestaque?: string;
   avaliacao: number;
   localizacao: string;
-  preco: string;
+  preco: number;
+  // Detail fields
+  nomeVendedor?: string;
+  caracteristicas?: {
+    combustivel: string;
+    cambio: string;
+    kmRodado: string;
+    anunciadoEm: string;
+    dono: string;
+    cor: string;
+  };
+  descricao?: string;
 }
 
 
@@ -407,11 +418,21 @@ export const classifiedAds: ClassifiedAd[] = [
     id: 1,
     imagem: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxDYXJ8ZW58MHx8fHwxNzU3MDI0NjA1fDA&ixlib=rb-4.1.0&q=80&w=1080",
     hint: "white car",
-    titulo: "Mercedes Benz CL250",
+    titulo: "Jaguar F-Type 2023",
     tagDestaque: "Destaque",
     avaliacao: 4.9,
     localizacao: "Belo Horizonte, MG",
-    preco: "R$ 185.000"
+    preco: 235000,
+    nomeVendedor: "Luiz C.",
+    caracteristicas: {
+        combustivel: "Gasolina",
+        cambio: "Automático",
+        kmRodado: "72.000 km",
+        anunciadoEm: "21-01-2024",
+        dono: "Primeiro dono",
+        cor: "Branco"
+    },
+    descricao: "O modelo está equipado com motor de última geração que produz 246.74bhp@5500rpm e 365Nm@1500-4000rpm de torque. Ele pode atingir 0-100 km em apenas 8.0 segundos."
   },
   {
     id: 2,
@@ -421,7 +442,7 @@ export const classifiedAds: ClassifiedAd[] = [
     tagDestaque: "Destaque",
     avaliacao: 4.9,
     localizacao: "São Paulo, SP",
-    preco: "R$ 67.200"
+    preco: 67200,
   },
   {
     id: 3,
@@ -431,7 +452,7 @@ export const classifiedAds: ClassifiedAd[] = [
     tagDestaque: "Destaque",
     avaliacao: 3.9,
     localizacao: "Rio de Janeiro, RJ",
-    preco: "R$ 95.000"
+    preco: 95000,
   },
   {
     id: 4,
@@ -441,7 +462,7 @@ export const classifiedAds: ClassifiedAd[] = [
     tagDestaque: "Destaque",
     avaliacao: 3.4,
     localizacao: "Curitiba, PR",
-    preco: "R$ 72.000"
+    preco: 72000,
   },
 ];
 
@@ -577,7 +598,7 @@ export const healthProfessionals = [
     imageUrl: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkb2N0b3J8ZW58MHx8fHwxNzU2MjMzOTI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
     hint: "male doctor",
     rating: 4.9,
-    reviewsCount: 41,
+    reviewsCount: 42,
   },
   {
     id: 202,
