@@ -2,6 +2,17 @@
 
 import { Gamepad2, Palette, Briefcase, Shirt, Music, Heart, Mic, Film } from 'lucide-react';
 
+export type Property = {
+  id: number;
+  imagem: string;
+  hint: string;
+  tipo: string;
+  titulo: string;
+  local: string;
+  avaliacao: number;
+  preco: string;
+  periodo: string;
+};
 
 export type Product = {
   id: string;
@@ -199,6 +210,64 @@ export const businesses: Business[] = [
     gallery: [],
     products: placeholderProducts.filter(p => p.businessId === 5),
     reviews: [],
+  },
+];
+
+export const properties: Property[] = [
+  {
+    id: 1,
+    imagem: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxob3VzZXxlbnwwfHx8fDE3NTY1MDUwMDh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "modern apartment",
+    tipo: "Apartment",
+    titulo: "Woodland Apartments",
+    local: "New York, USA",
+    avaliacao: 4.5,
+    preco: "1500",
+    periodo: "/month",
+  },
+  {
+    id: 2,
+    imagem: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxob3VzZXxlbnwwfHx8fDE3NTY1MDUwMDh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "cozy cottage",
+    tipo: "Home",
+    titulo: "Oakleaf Cottage",
+    local: "New York, USA",
+    avaliacao: 4.8,
+    preco: "900",
+    periodo: "/month",
+  },
+  {
+    id: 3,
+    imagem: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxWaWxsYXxlbnwwfHx8fDE3NTY1MDUwODl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "luxury villa",
+    tipo: "Villa",
+    titulo: "BlissView Villa",
+    local: "New York, USA",
+    avaliacao: 4.9,
+    preco: "2500",
+    periodo: "/month",
+  },
+  {
+    id: 4,
+    imagem: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxob3VzZXxlbnwwfHx8fDE3NTY1MDUwMDh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "suburban home",
+    tipo: "House",
+    titulo: "Sunrise Residence",
+    local: "New York, USA",
+    avaliacao: 4.7,
+    preco: "1800",
+    periodo: "/month",
+  },
+   {
+    id: 5,
+    imagem: "https://images.unsplash.com/photo-1494526585095-c41746248156?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxidW5nYWxvd3xlbnwwfHx8fDE3NTY1MDYxNDB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "bungalow",
+    tipo: "Bungalow",
+    titulo: "The Garden Bungalow",
+    local: "New York, USA",
+    avaliacao: 4.6,
+    preco: "1200",
+    periodo: "/month",
   },
 ];
 

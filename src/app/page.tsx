@@ -11,8 +11,17 @@ import { Card, CardContent } from '@/components/ui/card';
 import MainLayout from '@/components/main-layout';
 import AIAssistant from '@/components/ai-assistant';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function GuiaLocalPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    // Redirect to the new properties page by default
+    router.replace('/properties');
+  }, [router]);
+
 
   return (
     <MainLayout>

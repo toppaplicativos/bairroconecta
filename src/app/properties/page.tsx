@@ -1,80 +1,89 @@
-import MainLayout from "@/components/main-layout";
-import PropertyCard from "@/components/property-card";
 
-const properties = [
-  {
-    id: 1,
-    imageUrl: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMnx8Q2FzYXxlbnwwfHx8fDE3NTU4NjY1MjR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    hint: "modern apartment",
-    price: "R$ 2.500/mês",
-    address: "Rua das Flores, 123, Vila Madalena",
-    bedrooms: 2,
-    bathrooms: 2,
-    area: "75m²",
-  },
-  {
-    id: 2,
-    imageUrl: "https://images.unsplash.com/photo-1502005097973-6a7082348e28?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxN3x8Q2FzYXxlbnwwfHx8fDE3NTU4NjY1MjR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    hint: "cozy house",
-    price: "R$ 1.200.000",
-    address: "Av. Paulista, 500, Bela Vista",
-    bedrooms: 3,
-    bathrooms: 3,
-    area: "150m²",
-  },
-  {
-    id: 3,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "studio apartment",
-    price: "R$ 1.800/mês",
-    address: "Rua Augusta, 900, Consolação",
-    bedrooms: 1,
-    bathrooms: 1,
-    area: "40m²",
-  },
-  {
-    id: 4,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "luxury penthouse",
-    price: "R$ 5.000.000",
-    address: "Rua Oscar Freire, 200, Jardins",
-    bedrooms: 4,
-    bathrooms: 5,
-    area: "300m²",
-  },
-  {
-    id: 5,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "suburban home",
-    price: "R$ 850.000",
-    address: "Alameda dos Pássaros, 45, Moema",
-    bedrooms: 3,
-    bathrooms: 2,
-    area: "120m²",
-  },
-  {
-    id: 6,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "commercial property",
-    price: "R$ 7.000/mês",
-    address: "Av. Faria Lima, 1500, Itaim Bibi",
-    bedrooms: 0,
-    bathrooms: 2,
-    area: "200m²",
-  },
-];
+'use client';
+import MainLayout from "@/components/main-layout";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Search, SlidersHorizontal, ArrowRight, Building, Home as HomeIcon, Building2, LandPlot } from "lucide-react";
+import Image from 'next/image';
+import { Card, CardContent } from "@/components/ui/card";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Link from "next/link";
+import PropertyCard from "@/components/property-card";
+import { properties } from "@/lib/data";
+import { useMemo } from "react";
+
+const propertyCategories = [
+    { name: "House", icon: HomeIcon, href: "#" },
+    { name: "Villa", icon: Building, href: "#" },
+    { name: "Apartment", icon: Building2, href: "#" },
+    { name: "Bungalow", icon: LandPlot, href: "#" },
+]
 
 export default function PropertiesPage() {
+
+  const recommendedProperties = useMemo(() => properties.slice(0, 2), []);
+  const nearbyProperties = useMemo(() => properties.slice(2, 5), []);
+
   return (
-    <MainLayout>
-      <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-        <h1 className="text-3xl font-bold tracking-tight font-headline">Imóveis no Bairro</h1>
-        <p className="text-muted-foreground">Encontre casas e apartamentos para alugar e comprar.</p>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {properties.map((property) => (
-            <PropertyCard key={property.id} property={property} />
-          ))}
+    <MainLayout currentMode="properties">
+      <div className="flex-1 space-y-6 p-4 md:p-6 bg-blue-50/20">
+        <div className="flex gap-2 items-center">
+            <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Input placeholder="Search..." className="pl-10 shadow-sm bg-white border-gray-200" />
+            </div>
+            <Button size="icon" className="shadow-sm flex-shrink-0 bg-blue-600 hover:bg-blue-700">
+                <SlidersHorizontal className="h-5 w-5 text-white" />
+            </Button>
         </div>
+
+        <div>
+             <div className="grid grid-cols-4 gap-3 text-center">
+                {propertyCategories.map(category => (
+                    <Link href={category.href} key={category.name}>
+                        <div className="flex flex-col items-center justify-center gap-2">
+                             <Card className="p-4 flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 border-0 shadow-sm hover:bg-blue-200 transition-colors">
+                                <category.icon className="h-8 w-8 text-blue-600" />
+                            </Card>
+                            <p className="text-xs font-semibold text-muted-foreground">{category.name}</p>
+                        </div>
+                    </Link>
+                ))}
+            </div>
+        </div>
+
+        <div>
+            <div className="flex justify-between items-center mb-2">
+                <h2 className="text-xl font-bold font-headline">Recommended Property</h2>
+                 <Link href="#" className="text-sm font-semibold text-blue-600 flex items-center gap-1">
+                    See all <ArrowRight className="h-4 w-4" />
+                </Link>
+            </div>
+            <Carousel opts={{ align: "start" }} className="-mx-2">
+                <CarouselContent className="">
+                    {recommendedProperties.map((property) => (
+                        <CarouselItem key={property.id} className="basis-4/5 md:basis-1/2 pl-4">
+                            <PropertyCard property={property} variant="large" />
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+            </Carousel>
+        </div>
+        
+        <div>
+            <div className="flex justify-between items-center mb-2">
+                <h2 className="text-xl font-bold font-headline">Nearby Property</h2>
+                 <Link href="#" className="text-sm font-semibold text-blue-600 flex items-center gap-1">
+                    See all <ArrowRight className="h-4 w-4" />
+                </Link>
+            </div>
+             <div className="space-y-3">
+                 {nearbyProperties.map((property) => (
+                    <PropertyCard key={property.id} property={property} variant="small" />
+                ))}
+             </div>
+        </div>
+
       </div>
     </MainLayout>
   );

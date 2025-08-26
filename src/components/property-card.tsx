@@ -1,56 +1,90 @@
+
 import Image from "next/image";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "./ui/badge";
-import { BedDouble, Bath, Square } from "lucide-react";
+import { Star, MapPin, Heart } from "lucide-react";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 type Property = {
   id: number;
-  imageUrl: string;
+  imagem: string;
   hint: string;
-  price: string;
-  address: string;
-  bedrooms: number;
-  bathrooms: number;
-  area: string;
+  tipo: string;
+  titulo: string;
+  local: string;
+  avaliacao: number;
+  preco: string;
+  periodo: string;
 };
 
 type PropertyCardProps = {
   property: Property;
+  variant?: 'large' | 'small';
 };
 
-export default function PropertyCard({ property }: PropertyCardProps) {
+export default function PropertyCard({ property, variant = 'large' }: PropertyCardProps) {
+  
+  if (variant === 'small') {
+    return (
+      <Link href={`/properties/${property.id}`} className="block">
+        <Card className="overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 flex items-center p-3 gap-4 bg-white border-0 rounded-2xl">
+          <div className="relative h-24 w-24 rounded-lg overflow-hidden flex-shrink-0">
+             <Image
+                src={property.imagem}
+                alt={property.titulo}
+                layout="fill"
+                objectFit="cover"
+                data-ai-hint={property.hint}
+              />
+          </div>
+          <div className="flex-1">
+            <Badge className="bg-blue-100 text-blue-600 hover:bg-blue-200 text-xs mb-1">{property.tipo}</Badge>
+            <h3 className="font-bold font-headline leading-tight">{property.titulo}</h3>
+            <div className="flex items-center gap-1 text-sm text-yellow-500 mt-1">
+              <Star className="w-4 h-4 fill-current" />
+              <span className="font-bold text-gray-800">{property.avaliacao}</span>
+            </div>
+          </div>
+        </Card>
+      </Link>
+    );
+  }
+
   return (
-    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-      <CardHeader className="p-0">
-        <div className="relative h-48 w-full">
-          <Image
-            src={property.imageUrl}
-            alt={property.address}
-            layout="fill"
-            objectFit="cover"
-            data-ai-hint={property.hint}
-          />
-        </div>
-      </CardHeader>
-      <CardContent className="p-4">
-        <Badge variant="secondary" className="mb-2">{property.price.includes("mês") ? "Aluguel" : "Venda"}</Badge>
-        <CardTitle className="text-2xl font-bold text-primary font-headline">{property.price}</CardTitle>
-        <CardDescription className="mt-1">{property.address}</CardDescription>
-      </CardContent>
-      <CardFooter className="bg-muted/50 p-4 flex justify-around text-sm">
-        <div className="flex items-center gap-2">
-          <BedDouble className="h-4 w-4 text-muted-foreground" />
-          <span>{property.bedrooms}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Bath className="h-4 w-4 text-muted-foreground" />
-          <span>{property.bathrooms}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Square className="h-4 w-4 text-muted-foreground" />
-          <span>{property.area}</span>
-        </div>
-      </CardFooter>
-    </Card>
+    <Link href={`/properties/${property.id}`} className="block">
+      <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col border-0 bg-transparent">
+          <div className="relative h-40 w-full rounded-2xl overflow-hidden">
+            <Image
+              src={property.imagem}
+              alt={property.titulo}
+              layout="fill"
+              objectFit="cover"
+              data-ai-hint={property.hint}
+            />
+            <Badge className="absolute top-3 left-3 bg-blue-100 text-blue-800 border-0">{property.tipo}</Badge>
+            <div className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm rounded-full p-1.5 shadow-md">
+              <Heart className="h-5 w-5 text-gray-600" />
+            </div>
+             <div className="absolute bottom-3 right-3 bg-gray-900/50 backdrop-blur-sm text-white rounded-lg px-2 py-1 flex items-center gap-1 text-sm">
+                <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                <span className="font-bold">{property.avaliacao}</span>
+            </div>
+          </div>
+        <CardContent className="p-0 pt-3">
+          <h3 className="text-lg font-bold font-headline truncate">{property.titulo}</h3>
+          <div className="text-sm text-muted-foreground space-y-1.5 mt-1">
+              <div className="flex items-center gap-2">
+                  <MapPin className="h-4 w-4" />
+                  <span>{property.local}</span>
+              </div>
+          </div>
+           <p className="mt-2">
+            <span className="text-xl font-bold text-blue-600">${property.preco}</span>
+            <span className="text-muted-foreground text-sm">{property.periodo}</span>
+          </p>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }

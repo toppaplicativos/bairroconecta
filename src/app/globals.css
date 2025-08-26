@@ -14,24 +14,24 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
     
-    --primary: 3 69% 59%; /* #D95349 - Vermelho/Rosa do design */
+    --primary: 217 91% 60%; /* Azul do novo design */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 42 94% 61%; /* #FBB34C - Amarelo para destaques */
+    --secondary: 42 94% 61%; /* Amarelo para destaques */
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
     
-    --accent: 174 44% 54%; /* #58BAAA - Verde para ações secundárias */
+    --accent: 174 44% 54%; /* Verde para ações secundárias */
     --accent-foreground: 0 0% 100%;
     
-    --destructive: 3 69% 59%; /* Mantendo o mesmo do primário por enquanto */
+    --destructive: 0 84% 60%; /* Vermelho */
     --destructive-foreground: 0 0% 100%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 3 69% 59%;
+    --ring: 217 91% 60%;
     
     --radius: 0.75rem; /* Bordas mais arredondadas como no design */
   }
@@ -46,7 +46,7 @@
     --popover: 222.2 47.4% 11.2%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 3 69% 59%;
+    --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 42 94% 61%;
@@ -58,12 +58,12 @@
     --accent: 174 44% 54%;
     --accent-foreground: 0 0% 100%;
     
-    --destructive: 3 69% 59%;
+    --destructive: 0 63% 31%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 3 69% 59%;
+    --ring: 217 91% 60%;
   }
 }
  
@@ -79,3 +79,6 @@
   }
 }
 
+.text-primary {
+    color: hsl(var(--primary));
+}

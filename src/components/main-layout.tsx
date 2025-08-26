@@ -9,69 +9,122 @@ import {
   Home,
   Compass,
   Heart,
-  Ticket,
-  User
+  User,
+  Building2,
+  Store,
+  MessagesSquare,
+  Megaphone,
+  Briefcase,
+  Map,
+  Tags,
+  CalendarDays,
+  Bot,
+  MessageCircle,
+  LayoutGrid,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-
 import AuthButton from './auth-button';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/lib/firebase';
 import Image from 'next/image';
 import { Bell, MapPin, ChevronDown } from 'lucide-react';
+import AIAssistant from './ai-assistant';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 
-
-const navItems = [
-  { href: '/events', label: 'Eventos', icon: Compass },
-  // Keep other old nav items for the sidebar for now
-  { href: '/', label: 'Início', icon: Home },
-  { href: '/food', label: 'Alimentação', icon: Compass }, // Placeholder icon
-  { href: '/businesses', label: 'Comércio', icon: Compass }, // Placeholder icon
-  { href: '/community', label: 'Comunidade', icon: Compass }, // Placeholder icon
-  { href: '/ouvidoria', label: 'Ouvidoria', icon: Compass }, // Placeholder icon
+const globalNavItems = [
+  { href: '/', label: 'Início', icon: LayoutGrid },
+  { href: '/properties', label: 'Imobiliária', icon: Building2 },
+  { href: '/businesses', label: 'Comércio', icon: Store },
+  { href: '/services', label: 'Serviços', icon: Briefcase },
+  { href: '/health-clinic', label: 'Posto de Saúde', icon: Heart },
+  { href: '/community', label: 'Comunidade', icon: MessagesSquare },
+  { href: '/events', label: 'Eventos', icon: CalendarDays },
+  { href: '/classifieds', label: 'Classificados', icon: Tags },
+  { href: '/ouvidoria', label: 'Ouvidoria', icon: Megaphone },
 ];
 
-const bottomNavItems = [
-  { href: '#', label: 'Home', icon: Home },
-  { href: '/events', label: 'Explore', icon: Compass },
-  { href: '#', label: 'Favorite', icon: Heart },
-  { href: '#', label: 'Ticket', icon: Ticket },
-  { href: '#', label: 'Profile', icon: User },
-];
+const bottomNavItems = {
+  default: [
+    { href: '/food', label: 'Alimentação', icon: Compass },
+    { href: '/businesses', label: 'Comércio', icon: Store },
+    { isAITrigger: true, label: 'AI', icon: Bot },
+    { href: '/community', label: 'Comunidade', icon: MessagesSquare },
+    { href: '/ouvidoria', label: 'Ouvidoria', icon: Megaphone },
+  ],
+  properties: [
+    { href: '/properties', label: 'Home', icon: Home },
+    { href: '#', label: 'Explore', icon: Compass },
+    { href: '#', label: 'Favorite', icon: Heart },
+    { href: '#', label: 'Chat', icon: MessageCircle },
+    { href: '#', label: 'Profile', icon: User },
+  ],
+  events: [
+    { href: '#', label: 'Home', icon: Home },
+    { href: '/events', label: 'Explore', icon: Compass },
+    { href: '#', label: 'Favorite', icon: Heart },
+    { href: '#', label: 'Ticket', icon: Bot }, // Placeholder icon
+    { href: '#', label: 'Profile', icon: User },
+  ]
+};
 
+type BottomNavProps = {
+  mode: 'default' | 'properties' | 'events';
+}
 
-function BottomNav() {
+function BottomNav({ mode }: BottomNavProps) {
   const pathname = usePathname();
+  const navItems = bottomNavItems[mode] || bottomNavItems.default;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 h-20 border-t bg-background/95 backdrop-blur-sm md:hidden">
       <div className="grid grid-cols-5 h-full items-center">
-          {bottomNavItems.map(({ href, label, icon: Icon }) => {
-              const isActive = pathname.startsWith(href) && href !== '#';
-              return (
-                 <Link
-                    key={label}
-                    href={href}
-                    className={cn(
-                    'flex flex-col items-center justify-center gap-1 text-xs font-medium transition-colors',
-                    isActive
-                        ? 'text-orange-500'
-                        : 'text-muted-foreground hover:text-orange-500'
-                    )}
-                >
-                    <Icon className="h-6 w-6" strokeWidth={isActive ? 2.5 : 2} />
-                    <span>{label}</span>
-                </Link>
-              )
-          })}
+        {navItems.map(({ href, label, icon: Icon, isAITrigger }) => {
+          if (isAITrigger) {
+            return (
+              <Dialog key={label}>
+                <DialogTrigger asChild>
+                    <div className="relative flex justify-center items-center">
+                        <div className="absolute -top-8">
+                            <Button size="icon" className="rounded-full h-16 w-16 shadow-lg bg-accent hover:bg-accent/90">
+                                <Bot className="h-8 w-8 text-accent-foreground" />
+                            </Button>
+                        </div>
+                    </div>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px] h-3/4 flex flex-col">
+                    <DialogHeader>
+                        <DialogTitle>Assistente Local de IA</DialogTitle>
+                    </DialogHeader>
+                    <AIAssistant />
+                </DialogContent>
+              </Dialog>
+            )
+          }
+
+          const isActive = pathname === href;
+          return (
+            <Link
+              key={label}
+              href={href || '#'}
+              className={cn(
+                'flex flex-col items-center justify-center gap-1 text-xs font-medium transition-colors',
+                isActive ? 'text-primary' : 'text-muted-foreground hover:text-primary'
+              )}
+            >
+              <Icon className="h-6 w-6" strokeWidth={isActive ? 2.5 : 2} />
+              <span>{label}</span>
+            </Link>
+          );
+        })}
       </div>
     </nav>
   );
 }
+
 
 function MobileSidebar() {
     const pathname = usePathname();
@@ -99,7 +152,7 @@ function MobileSidebar() {
                     </Link>
                 </div>
                 <nav className="grid gap-6 text-lg font-medium p-6">
-                    {navItems.map(({ href, label, icon: Icon }) => (
+                    {globalNavItems.map(({ href, label, icon: Icon }) => (
                       <Link
                         key={label}
                         href={href}
@@ -135,7 +188,6 @@ function MobileSidebar() {
     );
 }
 
-
 function DesktopSidebar() {
   const pathname = usePathname();
   const [user] = useAuthState(auth);
@@ -150,7 +202,7 @@ function DesktopSidebar() {
       </div>
       <div className="flex-1 overflow-auto py-2">
         <nav className="grid items-start px-4 text-sm font-medium">
-          {navItems.map(({ href, label, icon: Icon }) => (
+          {globalNavItems.map(({ href, label, icon: Icon }) => (
             <Link
               key={label}
               href={href}
@@ -185,15 +237,10 @@ function DesktopSidebar() {
 }
 
 function MobileHeader() {
-    const pathname = usePathname();
-    const isProviderProfile = pathname.startsWith('/services/provider/');
-    if (isProviderProfile) return null;
-
-    // The new header for the events page design
     return (
         <header className="sticky top-0 z-40 flex h-16 items-center justify-between gap-4 border-b bg-background px-4 md:hidden">
             <div className="flex items-center gap-2">
-                 <MapPin className="h-5 w-5 text-orange-500" />
+                 <MapPin className="h-5 w-5 text-primary" />
                  <div>
                     <p className="text-xs text-muted-foreground">Location</p>
                     <div className="flex items-center">
@@ -202,17 +249,25 @@ function MobileHeader() {
                     </div>
                  </div>
             </div>
-            <div className="relative">
-                <Button variant="ghost" size="icon">
-                    <Bell className="h-6 w-6" />
-                </Button>
-                <span className="absolute top-2 right-2 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-background" />
+            <div className="flex items-center gap-2">
+                <div className="relative">
+                    <Button variant="ghost" size="icon">
+                        <Bell className="h-6 w-6" />
+                    </Button>
+                    <span className="absolute top-2 right-2 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-background" />
+                </div>
+                <MobileSidebar />
             </div>
         </header>
     );
 }
 
-export default function MainLayout({ children }: { children: React.ReactNode }) {
+type MainLayoutProps = {
+  children: React.ReactNode;
+  currentMode?: 'default' | 'properties' | 'events';
+}
+
+export default function MainLayout({ children, currentMode = 'default' }: MainLayoutProps) {
   const isMobile = useIsMobile();
   const pathname = usePathname();
   const isProviderProfile = pathname.startsWith('/services/provider/');
@@ -230,7 +285,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
       </div>
-      {isMobile && <BottomNav />}
+      {isMobile && <BottomNav mode={currentMode} />}
     </div>
   );
 }
