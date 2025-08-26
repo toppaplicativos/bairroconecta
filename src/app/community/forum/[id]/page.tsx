@@ -12,6 +12,19 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import NewCommentForm from '@/components/new-comment-form';
+import Poll from '@/components/poll';
+
+type PollOption = {
+  id: number;
+  text: string;
+  votes: number;
+}
+
+type PollData = {
+  question: string;
+  options: PollOption[];
+  voters: { [userId: string]: number };
+}
 
 type Comment = {
   id: string;
@@ -29,6 +42,7 @@ type Post = {
   authorAvatar?: string;
   createdAt: { toDate: () => Date };
   comments: Comment[];
+  poll?: PollData;
 };
 
 export default function ForumPostDetailPage() {
@@ -94,10 +108,11 @@ export default function ForumPostDetailPage() {
                     <span>Postado por <strong>{post.authorName}</strong> • {timeAgo}</span>
                 </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
                 <div className="prose max-w-none text-muted-foreground whitespace-pre-wrap">
                     {post.content}
                 </div>
+                {post.poll && <Poll postId={post.id} pollData={post.poll} />}
             </CardContent>
         </Card>
 

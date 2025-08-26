@@ -5,7 +5,7 @@ import { answerNeighborhoodQuestion } from '@/ai/flows/answer-neighborhood-quest
 import { analyzeReport, AnalyzeReportOutput, analyzeAllReports, AllReportsAnalysisOutput } from '@/ai/flows/report-analysis-flow';
 import { triageHealthIssue, HealthTriageOutput } from '@/ai/flows/health-triage-flow';
 import { db } from '@/lib/firebase';
-import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion, getDocs, query, orderBy, getDoc } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion, getDocs, query, orderBy, getDoc, runTransaction, increment } from 'firebase/firestore';
 
 export async function askQuestion(question: string) {
   if (!question) {
@@ -135,12 +135,12 @@ export async function getReportsAnalysis(): Promise<AllReportsAnalysisOutput> {
 
 // Forum Actions
 export async function createPost(
-  data: { title: string; content: string },
+  data: { title: string; content: string; poll?: { question: string, options: string[] } },
   user: { uid: string; displayName: string | null; photoURL: string | null }
 ) {
   if (!user) throw new Error("Usuário não autenticado.");
 
-  const postData = {
+  const postData: any = {
     title: data.title,
     content: data.content,
     authorId: user.uid,
@@ -150,6 +150,18 @@ export async function createPost(
     repliesCount: 0,
     comments: [],
   };
+
+  if (data.poll && data.poll.question && data.poll.options.length >= 2) {
+    postData.poll = {
+      question: data.poll.question,
+      options: data.poll.options.map((option, index) => ({
+        id: index,
+        text: option,
+        votes: 0,
+      })),
+      voters: {},
+    };
+  }
 
   try {
     const docRef = await addDoc(collection(db, "posts"), postData);
@@ -193,6 +205,45 @@ export async function addCommentToPost(
   } catch (error) {
     console.error("Erro ao adicionar comentário ao post:", error);
     throw new Error("Não foi possível adicionar o comentário.");
+  }
+}
+
+export async function voteOnPoll(postId: string, optionId: number, userId: string) {
+  const postRef = doc(db, "posts", postId);
+
+  try {
+    await runTransaction(db, async (transaction) => {
+      const postDoc = await transaction.get(postRef);
+      if (!postDoc.exists()) {
+        throw new Error("Tópico não encontrado!");
+      }
+
+      const postData = postDoc.data();
+      if (!postData.poll) {
+        throw new Error("Esta postagem não tem uma enquete.");
+      }
+
+      if (postData.poll.voters && postData.poll.voters[userId] !== undefined) {
+        throw new Error("Usuário já votou nesta enquete.");
+      }
+
+      const newOptions = postData.poll.options.map((option: any) => {
+        if (option.id === optionId) {
+          return { ...option, votes: option.votes + 1 };
+        }
+        return option;
+      });
+      
+      const newVoters = { ...postData.poll.voters, [userId]: optionId };
+
+      transaction.update(postRef, { 
+        "poll.options": newOptions,
+        "poll.voters": newVoters,
+      });
+    });
+  } catch (e: any) {
+    console.error("Erro na transação de votação:", e);
+    throw e;
   }
 }
 
