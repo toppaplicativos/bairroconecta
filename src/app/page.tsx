@@ -17,12 +17,6 @@ import { useEffect } from 'react';
 export default function GuiaLocalPage() {
   const router = useRouter();
 
-  useEffect(() => {
-    // Redirect to the new properties page by default
-    router.replace('/properties');
-  }, [router]);
-
-
   return (
     <MainLayout>
         <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
