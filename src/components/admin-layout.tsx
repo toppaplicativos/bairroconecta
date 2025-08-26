@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -104,7 +103,8 @@ function DesktopSidebar() {
 }
 
 function MobileHeader() {
-    const currentNavItem = navItems.find(item => item.href === usePathname());
+    const pathname = usePathname();
+    const currentNavItem = navItems.find(item => pathname.startsWith(item.href));
     const title = currentNavItem?.label || 'Painel de Gestão';
 
     return (

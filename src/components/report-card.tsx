@@ -1,5 +1,3 @@
-
-
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "./ui/badge";
 import { cn } from "@/lib/utils";
@@ -94,7 +92,7 @@ export default function ReportCard({ report, isAdmin = false }: ReportCardProps)
         </CardContent>
         <CardFooter className="p-4 bg-muted/20">
             <div className="text-sm text-primary flex items-center gap-2">
-                Ver detalhes e participar <ArrowRight className="h-4 w-4" />
+                Ver detalhes e interagir <ArrowRight className="h-4 w-4" />
             </div>
         </CardFooter>
         </Card>
