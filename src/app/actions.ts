@@ -5,7 +5,7 @@ import { answerNeighborhoodQuestion } from '@/ai/flows/answer-neighborhood-quest
 import { analyzeReport, AnalyzeReportOutput, analyzeAllReports, AllReportsAnalysisOutput } from '@/ai/flows/report-analysis-flow';
 import { triageHealthIssue, HealthTriageOutput } from '@/ai/flows/health-triage-flow';
 import { db } from '@/lib/firebase';
-import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion, getDocs, query, orderBy } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion, getDocs, query, orderBy, getDoc } from 'firebase/firestore';
 
 export async function askQuestion(question: string) {
   if (!question) {
@@ -181,9 +181,13 @@ export async function addCommentToPost(
   const postRef = doc(db, "posts", postId);
 
   try {
+    const postDoc = await getDoc(postRef);
+    const postData = postDoc.data();
+    const currentRepliesCount = postData?.repliesCount || 0;
+
     await updateDoc(postRef, {
       comments: arrayUnion(commentData),
-      repliesCount: (await getDoc(postRef)).data()?.repliesCount + 1,
+      repliesCount: currentRepliesCount + 1,
     });
     console.log("Comentário adicionado ao post com sucesso!");
   } catch (error) {
