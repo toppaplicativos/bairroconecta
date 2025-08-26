@@ -21,6 +21,8 @@ import {
   Bot,
   MessageCircle,
   LayoutGrid,
+  Plus,
+  Folder,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -68,11 +70,18 @@ const bottomNavItems = {
     { href: '#', label: 'Favorite', icon: Heart },
     { href: '#', label: 'Ticket', icon: Bot }, // Placeholder icon
     { href: '#', label: 'Profile', icon: User },
+  ],
+  classifieds: [
+    { href: '/classifieds', label: 'Início', icon: Home },
+    { href: '#', label: 'Conversas', icon: MessageCircle },
+    { isCentralButton: true, label: 'Anunciar', icon: Plus },
+    { href: '#', label: 'Meus Anúncios', icon: Folder },
+    { href: '#', label: 'Conta', icon: User },
   ]
 };
 
 type BottomNavProps = {
-  mode: 'default' | 'properties' | 'events';
+  mode: 'default' | 'properties' | 'events' | 'classifieds';
 }
 
 function BottomNav({ mode }: BottomNavProps) {
@@ -82,7 +91,7 @@ function BottomNav({ mode }: BottomNavProps) {
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 h-20 border-t bg-background/95 backdrop-blur-sm md:hidden">
       <div className="grid grid-cols-5 h-full items-center">
-        {navItems.map(({ href, label, icon: Icon, isAITrigger }) => {
+        {navItems.map(({ href, label, icon: Icon, isAITrigger, isCentralButton }) => {
           if (isAITrigger) {
             return (
               <Dialog key={label}>
@@ -102,6 +111,16 @@ function BottomNav({ mode }: BottomNavProps) {
                     <AIAssistant />
                 </DialogContent>
               </Dialog>
+            )
+          }
+
+           if (isCentralButton) {
+            return (
+              <div key={label} className="flex justify-center">
+                <Button size="icon" className="w-16 h-12 rounded-2xl bg-primary text-primary-foreground shadow-lg -translate-y-4">
+                  <Icon className="h-6 w-6" />
+                </Button>
+              </div>
             )
           }
 
@@ -264,7 +283,7 @@ function MobileHeader() {
 
 type MainLayoutProps = {
   children: React.ReactNode;
-  currentMode?: 'default' | 'properties' | 'events';
+  currentMode?: 'default' | 'properties' | 'events' | 'classifieds';
 }
 
 export default function MainLayout({ children, currentMode = 'default' }: MainLayoutProps) {
@@ -280,7 +299,7 @@ export default function MainLayout({ children, currentMode = 'default' }: MainLa
     <div className="flex min-h-screen w-full flex-col md:flex-row">
       <DesktopSidebar />
       <div className="flex flex-col flex-1">
-        {isMobile && <MobileHeader />}
+        {isMobile && !pathname.startsWith('/classifieds') && <MobileHeader />}
         <main className="flex flex-1 flex-col pb-20 md:pb-0 bg-background">
           {children}
         </main>

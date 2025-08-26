@@ -1,6 +1,6 @@
 
 
-import { Gamepad2, Palette, Briefcase, Shirt, Music, Heart, Mic, Film } from 'lucide-react';
+import { Gamepad2, Palette, Briefcase, Shirt, Music, Heart, Mic, Film, Car, Building, Smartphone, PawPrint } from 'lucide-react';
 
 export type Property = {
   id: number;
@@ -84,6 +84,18 @@ export type Business = {
   pricePerHour?: number;
   teamworkPrice?: string;
 };
+
+export type ClassifiedAd = {
+  id: number;
+  imagem: string;
+  hint: string;
+  titulo: string;
+  tagDestaque?: string;
+  avaliacao: number;
+  localizacao: string;
+  preco: string;
+}
+
 
 const placeholderProducts: Product[] = [
     { id: "p1", name: "Lasanha à Bolonhesa", price: "R$ 59,90", imageUrl: "https://placehold.co/600x400.png", hint: "lasagna", description: "Deliciosa lasanha com molho bolonhesa caseiro, massa fresca e queijo gratinado.", stock: 15, businessId: 1 },
@@ -304,142 +316,57 @@ export const properties: Property[] = [
   },
 ];
 
-
-export const foodBusinesses: Business[] = [
-  {
-    ...businesses[0],
-    id: 101,
-    type: 'food',
-    deliveryTime: "30-45 min",
-    deliveryFee: "R$ 5,99",
-  },
-  {
-    id: 102,
-    name: "Burger do Zé",
-    category: "Lanches",
-    service: "Hamburgueria",
-    type: 'food',
-    logoUrl: "https://placehold.co/100x100.png",
-    coverImageUrl: "https://placehold.co/1200x400.png",
-    imageUrl: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxCdXJnZXJ8ZW58MHx8fHwxNzU1OTIzMjMxfDA&ixlib=rb-4.1.0&q=80&w=1080",
-    hint: "delicious burger",
-    rating: 4.9,
-    reviewsCount: 250,
-    latitude: -23.5525,
-    longitude: -46.6630,
-    description: "O hambúrguer artesanal que vai te surpreender. Ingredientes frescos e combinações incríveis. Pão selado na manteiga e carne no ponto certo.",
-    phone: "(11) 95555-1234",
-    address: "Praça da Matriz (Food Truck)",
-    hours: [{ day: "Quarta a Domingo", time: "18:00 - 23:00" }],
-    gallery: [],
-    products: [],
-    reviews: [],
-    deliveryTime: "25-40 min",
-    deliveryFee: "Grátis",
-    promotion: "Combo X-Tudo + Batata + Refri por R$ 29,90",
-  },
-  {
-    id: 103,
-    name: "Dona Maria - Marmitas",
-    category: "Marmitas",
-    service: "Marmitas",
-    type: 'food',
-    logoUrl: "https://placehold.co/100x100.png",
-    coverImageUrl: "https://placehold.co/1200x400.png",
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "brazilian lunch box",
-    rating: 4.7,
-    reviewsCount: 180,
-    latitude: -23.5490,
-    longitude: -46.6500,
-    description: "Comida caseira de verdade, feita com amor e entregue na sua casa. Cardápio variado todos os dias, com opção vegetariana.",
-    phone: "(11) 94444-5566",
-    address: "Apenas Delivery",
-    hours: [{ day: "Segunda a Sábado", time: "11:00 - 15:00" }],
-    gallery: [],
-    products: [],
-    reviews: [],
-    deliveryTime: "40-55 min",
-    deliveryFee: "R$ 7,00",
-  },
-   {
-    id: 104,
-    name: "Açaí do Bairro",
-    category: "Açaí",
-    service: "Loja de Açaí",
-    type: 'food',
-    logoUrl: "https://placehold.co/100x100.png",
-    coverImageUrl: "https://placehold.co/1200x400.png",
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "acai bowl",
-    rating: 4.8,
-    reviewsCount: 150,
-    latitude: -23.5595,
-    longitude: -46.6580,
-    description: "O melhor açaí da região, com os mais variados acompanhamentos. Monte do seu jeito!",
-    phone: "(11) 93333-2211",
-    address: "Rua das Palmeiras, 50, Loja 3",
-    hours: [{ day: "Todos os dias", time: "14:00 - 22:00" }],
-    gallery: [],
-    products: [],
-    reviews: [],
-    deliveryTime: "20-30 min",
-    deliveryFee: "R$ 4,50",
-    promotion: "Açaí 500ml com 3 adicionais por R$ 20,00",
-  },
+export const classifiedCategories = [
+    { name: "Carros", icon: Car, href: "#" },
+    { name: "Imóveis", icon: Building, href: "#" },
+    { name: "Celulares", icon: Smartphone, href: "#" },
+    { name: "Empregos", icon: Briefcase, href: "#" },
+    { name: "Pets", icon: PawPrint, href: "#" },
 ];
 
-
-export const classifiedAds = [
+export const classifiedAds: ClassifiedAd[] = [
   {
     id: 1,
-    imageUrl: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxCaWtlfGVufDB8fHx8MTc1NTg2NjcxN3ww&ixlib=rb-4.1.0&q=80&w=1080",
-    hint: "bicycle",
-    title: "Bicicleta Caloi 10, seminova",
-    price: "R$ 450,00",
-    seller: "João Pereira",
+    imagem: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxDYXJ8ZW58MHx8fHwxNzU3MDI0NjA1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "white car",
+    titulo: "Mercedes Benz CL250",
+    tagDestaque: "Destaque",
+    avaliacao: 4.9,
+    localizacao: "Belo Horizonte, MG",
+    preco: "R$ 185.000"
   },
   {
     id: 2,
-    imageUrl: "https://images.unsplash.com/photo-1540574163026-643ea20ade25?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxTb2YlQzMlQTElMjB8ZW58MHx8fHwxNzU1ODY2NzY1fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    hint: "sofa",
-    title: "Sofá 3 lugares, bom estado",
-    price: "R$ 300,00",
-    seller: "Maria Oliveira",
+    imagem: "https://images.unsplash.com/photo-1542362567-b07e54358753?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxDYXJ8ZW58MHx8fHwxNzU3MDI0NjA1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "white suv",
+    titulo: "Volkswagen TL",
+    tagDestaque: "Destaque",
+    avaliacao: 4.9,
+    localizacao: "São Paulo, SP",
+    preco: "R$ 67.200"
   },
   {
     id: 3,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "guitar",
-    title: "Violão Giannini - Troco por teclado",
-    price: "Troca",
-    seller: "Pedro Martins",
+    imagem: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxDYXJ8ZW58MHx8fHwxNzU3MDI0NjA1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "black car",
+    titulo: "Volkswagen Phideon",
+    tagDestaque: "Destaque",
+    avaliacao: 3.9,
+    localizacao: "Rio de Janeiro, RJ",
+    preco: "R$ 95.000"
   },
   {
     id: 4,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "video game",
-    title: "Videogame PS4 com 2 controles",
-    price: "R$ 1.200,00",
-    seller: "Fernanda Lima",
-  },
-   {
-    id: 5,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "baby stroller",
-    title: "Carrinho de bebê",
-    price: "Doação",
-    seller: "Família Silva",
-  },
-  {
-    id: 6,
-    imageUrl: "https://placehold.co/600x400.png",
-    hint: "books",
-    title: "Coleção de livros de ficção científica",
-    price: "R$ 150,00",
-    seller: "Ricardo Alves",
+    imagem: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxDYXJ8ZW58MHx8fHwxNzU3MDI0NjA1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    hint: "silver car",
+    titulo: "Honda Civic 3.5",
+    tagDestaque: "Destaque",
+    avaliacao: 3.4,
+    localizacao: "Curitiba, PR",
+    preco: "R$ 72.000"
   },
 ];
+
 
 export const eventCategories = [
     { name: "Gaming", icon: Gamepad2 },
