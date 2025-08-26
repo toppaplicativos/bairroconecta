@@ -5,7 +5,7 @@ import { answerNeighborhoodQuestion } from '@/ai/flows/answer-neighborhood-quest
 import { analyzeReport, AnalyzeReportOutput, analyzeAllReports, AllReportsAnalysisOutput } from '@/ai/flows/report-analysis-flow';
 import { triageHealthIssue, HealthTriageOutput } from '@/ai/flows/health-triage-flow';
 import { db } from '@/lib/firebase';
-import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion, getDocs, query, orderBy, increment, runTransaction } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion, getDocs, query, orderBy } from 'firebase/firestore';
 
 export async function askQuestion(question: string) {
   if (!question) {
@@ -135,16 +135,12 @@ export async function getReportsAnalysis(): Promise<AllReportsAnalysisOutput> {
 
 // Forum Actions
 export async function createPost(
-  data: { 
-    title: string; 
-    content: string; 
-    poll?: { question: string; options: string[] };
-  },
+  data: { title: string; content: string },
   user: { uid: string; displayName: string | null; photoURL: string | null }
 ) {
   if (!user) throw new Error("Usuário não autenticado.");
 
-  const postData: any = {
+  const postData = {
     title: data.title,
     content: data.content,
     authorId: user.uid,
@@ -155,18 +151,6 @@ export async function createPost(
     comments: [],
   };
 
-  if (data.poll && data.poll.question && data.poll.options.length >= 2) {
-    postData.poll = {
-        question: data.poll.question,
-        options: data.poll.options.map((option, index) => ({
-            id: index,
-            text: option,
-            votes: 0,
-        })),
-        voters: {}, // Map of userId -> optionId
-    };
-  }
-
   try {
     const docRef = await addDoc(collection(db, "posts"), postData);
     return { id: docRef.id, ...postData };
@@ -174,78 +158,6 @@ export async function createPost(
     console.error("Erro ao criar o post:", error);
     throw new Error("Não foi possível criar o tópico.");
   }
-}
-
-export async function addCommentToPost(postId: string, text: string, user: { uid: string; displayName: string; photoURL: string | null }) {
-    if (!postId || !text || !user) {
-        throw new Error("Dados inválidos para adicionar comentário.");
-    }
-    
-    const commentData = {
-        id: new Date().getTime().toString(), // simple unique id
-        authorId: user.uid,
-        authorName: user.displayName,
-        authorAvatar: user.photoURL,
-        text,
-        createdAt: serverTimestamp(),
-    };
-
-    const postRef = doc(db, "posts", postId);
-
-    try {
-        await updateDoc(postRef, {
-            comments: arrayUnion(commentData),
-            repliesCount: increment(1)
-        });
-        console.log("Comentário adicionado ao post com sucesso!");
-    } catch (error) {
-        console.error("Erro ao adicionar comentário ao post:", error);
-        throw new Error("Não foi possível adicionar o comentário ao tópico.");
-    }
-}
-
-export async function voteOnPoll(postId: string, optionId: number, userId: string) {
-    if (!postId || !userId || optionId === undefined) {
-        throw new Error("Dados inválidos para votar.");
-    }
-
-    const postRef = doc(db, "posts", postId);
-
-    try {
-        await runTransaction(db, async (transaction) => {
-            const postDoc = await transaction.get(postRef);
-            if (!postDoc.exists()) {
-                throw new Error("Tópico não encontrado!");
-            }
-            if (!postDoc.data().poll) {
-                throw new Error("Este tópico não possui uma enquete.");
-            }
-
-            const postData = postDoc.data();
-            const poll = postData.poll;
-            const voterPath = `poll.voters.${userId}`;
-
-            if (poll.voters && poll.voters[userId] !== undefined) {
-                throw new Error("Usuário já votou nesta enquete.");
-            }
-
-            const optionPath = `poll.options`;
-            const newOptions = poll.options.map((opt: any) => 
-                opt.id === optionId ? { ...opt, votes: opt.votes + 1 } : opt
-            );
-            
-            transaction.update(postRef, {
-                [voterPath]: optionId,
-                [optionPath]: newOptions
-            });
-        });
-
-        console.log("Voto computado com sucesso!");
-        return { success: true };
-    } catch (error: any) {
-        console.error("Erro ao votar na enquete:", error);
-        throw new Error(error.message || "Não foi possível registrar o voto.");
-    }
 }
 
 // Business Actions
@@ -277,8 +189,7 @@ export async function addReviewToBusiness(
     // This is a simplified approach. A real app should use a transaction 
     // to check if the user has already reviewed and to update the average rating.
     await updateDoc(businessRef, {
-      reviews: arrayUnion(reviewData),
-      reviewsCount: increment(1)
+      reviews: arrayUnion(reviewData)
     });
     console.log("Avaliação adicionada com sucesso!");
     return { success: true };
