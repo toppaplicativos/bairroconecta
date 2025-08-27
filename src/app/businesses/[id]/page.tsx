@@ -77,7 +77,7 @@ export default function BusinessStorefrontPage({ searchParams }: { searchParams:
                                     <ProductCard key={product.id} product={product} />
                                 ))
                             ) : (
-                                <p className="text-muted-foreground text-sm col-span-full text-center">Nenhum produto cadastrado ainda.</p>
+                                <p className="text-muted-foreground text-sm col-span-full text-center py-8">Nenhum produto cadastrado ainda.</p>
                             )}
                         </CardContent>
                     </Card>
@@ -148,27 +148,28 @@ export default function BusinessStorefrontPage({ searchParams }: { searchParams:
                         <CardContent className="space-y-6">
                             <NewReviewForm businessId={id} />
                             <div className="space-y-4">
-                                {business.reviews.map(review => (
-                                    <div key={review.id} className="flex items-start gap-4 border-t pt-4">
-                                        <Avatar>
-                                            <AvatarImage src={review.avatarUrl} alt={review.author} />
-                                            <AvatarFallback>{review.author.charAt(0)}</AvatarFallback>
-                                        </Avatar>
-                                        <div>
-                                            <div className="flex items-center gap-2">
-                                                <p className="font-semibold">{review.author}</p>
-                                                <div className="flex items-center gap-0.5">
-                                                    {[...Array(5)].map((_, i) => (
-                                                        <Star key={i} className={`w-4 h-4 ${i < review.rating ? 'text-yellow-500 fill-current' : 'text-muted'}`}/>
-                                                    ))}
+                                {business.reviews.length > 0 ? (
+                                    business.reviews.map(review => (
+                                        <div key={review.id} className="flex items-start gap-4 border-t pt-4">
+                                            <Avatar>
+                                                <AvatarImage src={review.avatarUrl} alt={review.author} />
+                                                <AvatarFallback>{review.author.charAt(0)}</AvatarFallback>
+                                            </Avatar>
+                                            <div>
+                                                <div className="flex items-center gap-2">
+                                                    <p className="font-semibold">{review.author}</p>
+                                                    <div className="flex items-center gap-0.5">
+                                                        {[...Array(5)].map((_, i) => (
+                                                            <Star key={i} className={`w-4 h-4 ${i < review.rating ? 'text-yellow-500 fill-current' : 'text-muted'}`}/>
+                                                        ))}
+                                                    </div>
                                                 </div>
+                                                <p className="text-sm text-muted-foreground mt-1">{review.comment}</p>
                                             </div>
-                                            <p className="text-sm text-muted-foreground mt-1">{review.comment}</p>
                                         </div>
-                                    </div>
-                                ))}
-                                {business.reviews.length === 0 && (
-                                    <p className="text-muted-foreground text-center text-sm py-4">Ainda não há avaliações para este estabelecimento. Seja o primeiro a avaliar!</p>
+                                    ))
+                                ) : (
+                                    <p className="text-muted-foreground text-center text-sm py-8">Ainda não há avaliações para este estabelecimento. Seja o primeiro a avaliar!</p>
                                 )}
                             </div>
                         </CardContent>

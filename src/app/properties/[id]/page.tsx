@@ -143,7 +143,7 @@ export default function PropertyDetailPage() {
           </div>
 
           <Tabs defaultValue="sobre" className="w-full">
-              <TabsList>
+              <TabsList className="grid w-full grid-cols-3">
                   <TabsTrigger value="sobre">Sobre</TabsTrigger>
                   <TabsTrigger value="galeria">Galeria</TabsTrigger>
                   <TabsTrigger value="avaliacoes">Avaliações</TabsTrigger>
@@ -203,6 +203,9 @@ export default function PropertyDetailPage() {
                           </div>
                       </div>
                   </div>
+              </TabsContent>
+               <TabsContent value="avaliacoes" className="pt-4 space-y-6">
+                <p className="text-muted-foreground text-center text-sm py-8">Ainda não há avaliações para este imóvel. Seja o primeiro a avaliar!</p>
               </TabsContent>
           </Tabs>
         </div>
