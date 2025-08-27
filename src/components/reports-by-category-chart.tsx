@@ -2,11 +2,18 @@
 'use client';
 import { useMemo } from 'react';
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
-import { ChartTooltipContent } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 
 interface ReportsByCategoryChartProps {
     data: any[];
 }
+
+const chartConfig = {
+    total: {
+        label: "Total",
+        color: "hsl(var(--primary))",
+    },
+};
 
 export function ReportsByCategoryChart({ data }: ReportsByCategoryChartProps) {
     const chartData = useMemo(() => {
@@ -19,9 +26,13 @@ export function ReportsByCategoryChart({ data }: ReportsByCategoryChartProps) {
         return Object.entries(categoryCounts).map(([name, total]) => ({ name, total }));
     }, [data]);
 
+    if (!chartData || chartData.length === 0) {
+        return <div className="flex items-center justify-center h-[350px] text-muted-foreground">Sem dados para exibir</div>;
+    }
+
     return (
-        <ResponsiveContainer width="100%" height={350}>
-            <BarChart data={chartData}>
+        <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+             <BarChart accessibilityLayer data={chartData}>
                 <XAxis
                     dataKey="name"
                     stroke="#888888"
@@ -36,16 +47,16 @@ export function ReportsByCategoryChart({ data }: ReportsByCategoryChartProps) {
                     axisLine={false}
                     tickFormatter={(value) => `${value}`}
                 />
-                <Tooltip
+                <ChartTooltip
                   cursor={{fill: 'hsl(var(--muted))'}}
                   content={<ChartTooltipContent hideLabel />}
                 />
                 <Bar 
                     dataKey="total" 
-                    fill="hsl(var(--primary))" 
+                    fill="var(--color-total)" 
                     radius={[4, 4, 0, 0]}
                  />
             </BarChart>
-        </ResponsiveContainer>
+        </ChartContainer>
     );
 }
