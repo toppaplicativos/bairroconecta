@@ -9,7 +9,9 @@ import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carouse
 import Link from "next/link";
 import PropertyCard from "@/components/property-card";
 import { properties } from "@/lib/data";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { PropertyFilters } from "@/components/property-filters";
 
 const propertyCategories = [
     { name: "Casa", icon: HomeIcon, href: "#" },
@@ -19,7 +21,7 @@ const propertyCategories = [
 ]
 
 export default function PropertiesPage() {
-
+  const [openFilters, setOpenFilters] = useState(false);
   const recommendedProperties = useMemo(() => properties.slice(0, 2), []);
   const nearbyProperties = useMemo(() => properties.slice(2, 5), []);
 
@@ -31,9 +33,19 @@ export default function PropertiesPage() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input placeholder="Pesquisar..." className="pl-10 shadow-sm bg-background border-gray-200" />
             </div>
-            <Button variant="outline" size="icon" className="shadow-sm flex-shrink-0 bg-background">
-                <SlidersHorizontal className="h-5 w-5" />
-            </Button>
+             <Dialog open={openFilters} onOpenChange={setOpenFilters}>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="icon" className="shadow-sm flex-shrink-0 bg-background">
+                    <SlidersHorizontal className="h-5 w-5" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Filtros de Busca</DialogTitle>
+                </DialogHeader>
+                <PropertyFilters onApply={() => setOpenFilters(false)} />
+              </DialogContent>
+            </Dialog>
         </div>
 
         <div>
