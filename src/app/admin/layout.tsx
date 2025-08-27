@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -12,7 +13,7 @@ import {
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import AuthButton from '../components/auth-button';
+import AuthButton from '@/components/auth-button';
 import Image from 'next/image';
 
 const navItems = [
