@@ -28,7 +28,7 @@ export default function PropertyCard({ property, variant = 'large' }: PropertyCa
   if (variant === 'small') {
     return (
       <Link href={`/properties/${property.id}`} className="block">
-        <Card className="overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 flex items-center p-3 gap-4 bg-white border-0 rounded-2xl">
+        <Card className="overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex items-center p-3 gap-4 bg-card border-0 rounded-2xl">
           <div className="relative h-24 w-24 rounded-lg overflow-hidden flex-shrink-0">
              <Image
                 src={property.imagem}
@@ -39,7 +39,7 @@ export default function PropertyCard({ property, variant = 'large' }: PropertyCa
               />
           </div>
           <div className="flex-1">
-            <Badge className="bg-primary/10 text-primary hover:bg-primary/20 text-xs mb-1">{property.tipo}</Badge>
+            <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200 text-xs mb-1 font-semibold">{property.tipo}</Badge>
             <h3 className="font-bold font-headline leading-tight">{property.titulo}</h3>
             <div className="flex items-center gap-1 text-sm text-yellow-500 mt-1">
               <Star className="w-4 h-4 fill-current" />
@@ -53,7 +53,7 @@ export default function PropertyCard({ property, variant = 'large' }: PropertyCa
 
   return (
     <Link href={`/properties/${property.id}`} className="block">
-      <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col border-0 bg-transparent">
+      <Card className="overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col border-0 bg-transparent">
           <div className="relative h-40 w-full rounded-2xl overflow-hidden">
             <Image
               src={property.imagem}
@@ -62,7 +62,7 @@ export default function PropertyCard({ property, variant = 'large' }: PropertyCa
               objectFit="cover"
               data-ai-hint={property.hint}
             />
-            <Badge className="absolute top-3 left-3 bg-blue-100 text-blue-800 border-0">{property.tipo}</Badge>
+            <Badge className="absolute top-3 left-3 bg-blue-100 text-blue-800 border-0 font-semibold">{property.tipo}</Badge>
             <div className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm rounded-full p-1.5 shadow-md">
               <Heart className="h-5 w-5 text-gray-600" />
             </div>

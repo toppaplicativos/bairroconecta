@@ -18,9 +18,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-manrope)'],
-        body: ['var(--font-manrope)'],
-        headline: ['var(--font-manrope)'],
+        sans: ['var(--font-manrope)', 'sans-serif'],
+        body: ['var(--font-manrope)', 'sans-serif'],
+        headline: ['var(--font-manrope)', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

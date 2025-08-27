@@ -14,19 +14,19 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
     
-    /* Cor Primária Padrão (Azul) */
-    --primary: 217 91% 60%;
+    /* Cor Primária Padrão (Azul Imobiliária) */
+    --primary: 221 83% 53%; /* #3b82f6 */
     --primary-foreground: 0 0% 100%;
 
-    /* Cor Secundária Padrão (Laranja para Eventos) */
-    --secondary: 35 92% 50%; /* Laranja-Queimado */
+    /* Cor Secundária (Laranja Eventos) */
+    --secondary: 25 95% 53%; /* #f97316 */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
     
-    /* Cor de Destaque Padrão (Verde para Classificados) */
-    --accent: 173 100% 24%; /* Verde-Água Escuro */
+    /* Cor de Destaque (Verde Classificados) */
+    --accent: 142 76% 36%; /* #22c55e */
     --accent-foreground: 0 0% 100%;
     
     --destructive: 0 84% 60%; /* Vermelho */
@@ -34,7 +34,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 217 91% 60%;
+    --ring: 221 83% 53%;
     
     --radius: 0.75rem;
   }
@@ -49,16 +49,16 @@
     --popover: 222.2 47.4% 11.2%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 217 91% 60%;
+    --primary: 221 83% 53%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 35 92% 50%;
+    --secondary: 25 95% 53%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
     
-    --accent: 173 100% 24%;
+    --accent: 142 76% 36%;
     --accent-foreground: 0 0% 100%;
     
     --destructive: 0 63% 31%;
@@ -66,7 +66,7 @@
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 217 91% 60%;
+    --ring: 221 83% 53%;
   }
 }
  
@@ -80,8 +80,4 @@
   h1, h2, h3, h4, h5, h6, .font-headline {
     @apply font-sans font-bold;
   }
-}
-
-.text-primary {
-    color: hsl(var(--primary));
 }

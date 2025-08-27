@@ -15,22 +15,16 @@ import {
   MessagesSquare,
   Megaphone,
   Briefcase,
-  Map,
   Tags,
   CalendarDays,
   Bot,
   MessageCircle,
   LayoutGrid,
   Plus,
-  Folder,
-  ChevronLeft,
-  Search,
-  SlidersHorizontal,
   FolderOpen,
   CalendarCheck,
-  Phone,
   HomeIcon,
-  ShoppingBag
+  ShoppingBag,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -288,7 +282,7 @@ function MobileHeader({ type, title }: { type: 'home' | 'detail', title?: string
                 <Button variant="ghost" size="icon" onClick={() => router.back()}>
                     <ChevronLeft className="h-6 w-6" />
                 </Button>
-                <h1 className="text-lg font-semibold font-headline text-center">{title}</h1>
+                <h1 className="text-lg font-semibold font-headline text-center truncate">{title}</h1>
                 <div className="w-10" /> 
             </header>
         )
