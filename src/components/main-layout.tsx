@@ -25,6 +25,7 @@ import {
   CalendarCheck,
   HomeIcon,
   ShoppingBag,
+  ChevronLeft,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
