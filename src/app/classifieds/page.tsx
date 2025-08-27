@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Search, SlidersHorizontal, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 
 export default function ClassifiedsPage() {
   const recommendations = classifiedAds.slice(0, 4);
@@ -31,22 +32,23 @@ export default function ClassifiedsPage() {
         <div className="p-4 md:p-6 space-y-6">
             {/* Categories */}
             <div>
-                <div className="flex justify-between items-center mb-2">
+                <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-bold font-headline">Navegue pelas categorias</h2>
-                    <Link href="#" className="text-sm font-semibold text-primary flex items-center gap-1">
-                        Ver mais <ChevronRight className="h-4 w-4" />
-                    </Link>
                 </div>
-                <div className="grid grid-cols-4 md:grid-cols-5 gap-4 text-center">
-                    {classifiedCategories.map(category => (
-                        <Link href={category.href} key={category.name}>
-                            <Card className="p-4 flex flex-col items-center justify-center gap-2 hover:bg-muted/50 transition-colors h-full aspect-square shadow-sm">
-                                <category.icon className="h-8 w-8 text-primary" />
-                                <p className="text-xs font-semibold">{category.name}</p>
-                            </Card>
-                        </Link>
-                    ))}
-                </div>
+                 <Carousel opts={{ align: "start" }} className="w-full">
+                    <CarouselContent className="-ml-2">
+                        {classifiedCategories.map(category => (
+                            <CarouselItem key={category.name} className="basis-1/3 sm:basis-1/4 md:basis-1/5 pl-2">
+                                <Link href={category.href} >
+                                    <Card className="p-4 flex flex-col items-center justify-center gap-2 hover:bg-muted/50 transition-colors h-full aspect-square shadow-sm">
+                                        <category.icon className="h-8 w-8 text-primary" />
+                                        <p className="text-xs font-semibold text-center">{category.name}</p>
+                                    </Card>
+                                </Link>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                </Carousel>
             </div>
 
             {/* Recommendations */}
