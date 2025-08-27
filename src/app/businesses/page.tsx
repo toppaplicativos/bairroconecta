@@ -32,7 +32,7 @@ export default function BusinessesPage() {
   const businessItems = businesses.filter(b => b.type === 'business').slice(0, 4);
 
   return (
-    <MainLayout>
+    <MainLayout currentMode="default">
       <div className="flex-1 space-y-6 p-4 md:p-6">
         <div className="flex gap-2 items-center">
             <div className="relative flex-1">
@@ -62,11 +62,11 @@ export default function BusinessesPage() {
                     Ver todas <ArrowRight className="h-4 w-4" />
                 </Link>
             </div>
-            <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 text-center">
+            <div className="grid grid-cols-4 sm:grid-cols-6 gap-4 text-center">
                 {categories.map(category => (
                     <Link href={category.href} key={category.name}>
-                        <Card className="p-3 flex flex-col items-center justify-center gap-2 hover:bg-muted/50 transition-colors h-full aspect-square">
-                            <category.icon className="h-7 w-7 text-primary" />
+                        <Card className="p-4 flex flex-col items-center justify-center gap-2 hover:bg-muted/50 transition-colors h-full aspect-square">
+                            <category.icon className="h-8 w-8 text-primary" />
                             <p className="text-xs font-semibold">{category.name}</p>
                         </Card>
                     </Link>

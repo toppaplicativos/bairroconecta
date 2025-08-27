@@ -49,11 +49,11 @@ export default function PropertiesPage() {
         </div>
 
         <div>
-             <div className="grid grid-cols-4 gap-3 text-center">
+             <div className="grid grid-cols-4 gap-4 text-center">
                 {propertyCategories.map(category => (
                     <Link href={category.href} key={category.name}>
                         <div className="flex flex-col items-center justify-center gap-2">
-                             <Card className="p-4 flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-100 border-0 shadow-sm hover:bg-blue-200 transition-colors">
+                             <Card className="p-4 flex items-center justify-center w-full aspect-square rounded-2xl bg-blue-100 border-0 shadow-sm hover:bg-blue-200 transition-colors">
                                 <category.icon className="h-8 w-8 text-primary" />
                             </Card>
                             <p className="text-xs font-semibold text-muted-foreground">{category.name}</p>
