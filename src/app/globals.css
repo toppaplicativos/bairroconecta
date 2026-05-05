@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    /* Background: Light Gray (#F0F4F8) -> HSL(210, 31%, 96%) */
+    /* Background: Light Gray (#F0F4F8) */
     --background: 210 31% 96%;
     --foreground: 222.2 47.4% 11.2%;
 
@@ -14,18 +14,18 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
     
-    /* Primary: Soft Blue (#77B5FE) -> HSL(212, 98%, 73%) */
+    /* Primary: Soft Blue (#77B5FE) */
     --primary: 212 98% 73%;
     --primary-foreground: 210 40% 10%;
 
-    /* Secondary: Light gray variant */
+    /* Secondary: Muted Grayish Blue */
     --secondary: 210 31% 90%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 31% 94%;
     --muted-foreground: 215.4 16.3% 46.9%;
     
-    /* Accent: Green (#90EE90) -> HSL(120, 73%, 75%) */
+    /* Accent: Green (#90EE90) */
     --accent: 120 73% 75%;
     --accent-foreground: 120 73% 10%;
     
@@ -36,7 +36,7 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 212 98% 73%;
     
-    --radius: 0.75rem;
+    --radius: 1rem;
   }
  
   .dark {
@@ -75,9 +75,17 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground font-sans antialiased selection:bg-primary/30;
   }
   h1, h2, h3, h4, h5, h6, .font-headline {
-    @apply font-sans font-bold text-slate-900;
+    @apply font-sans font-bold tracking-tight text-slate-900;
   }
+}
+
+.glass-morphism {
+  @apply bg-background/80 backdrop-blur-md border-white/20 shadow-xl;
+}
+
+.bottom-nav-shadow {
+  box-shadow: 0 -4px 20px -5px rgba(0, 0, 0, 0.05);
 }
