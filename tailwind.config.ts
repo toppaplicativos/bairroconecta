@@ -1,4 +1,3 @@
-
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -18,9 +17,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-manrope)', 'sans-serif'],
-        body: ['var(--font-manrope)', 'sans-serif'],
-        headline: ['var(--font-manrope)', 'sans-serif'],
+        sans: ['var(--font-pt-sans)', 'sans-serif'],
+        body: ['var(--font-pt-sans)', 'sans-serif'],
+        headline: ['var(--font-pt-sans)', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -55,13 +54,6 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
-        },
-        chart: {
-          '1': 'hsl(var(--chart-1))',
-          '2': 'hsl(var(--chart-2))',
-          '3': 'hsl(var(--chart-3))',
-          '4': 'hsl(var(--chart-4))',
-          '5': 'hsl(var(--chart-5))',
         },
       },
       borderRadius: {
