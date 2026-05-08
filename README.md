@@ -1,3 +1,4 @@
+
 # BairroConecta 🏠🤝
 
 **BairroConecta** é uma plataforma comunitária integrada, desenvolvida para fortalecer os laços entre moradores e o comércio local. O aplicativo funciona como um hub central para todas as necessidades do bairro, desde a busca por um novo lar até a comunicação direta com a ouvidoria municipal.

@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -105,7 +106,7 @@ function BottomNav({ mode }: { mode: keyof typeof bottomNavItems }) {
   const activeColor = navColors[mode] || navColors.default;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 h-20 border-t bg-background/95 backdrop-blur-md bottom-nav-shadow md:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 h-20 border-t bg-background/95 backdrop-blur-sm bottom-nav-shadow md:hidden">
       <div className="grid grid-cols-5 h-full items-center px-2">
         {navItems.map(({ href, label, icon: Icon, isAITrigger, isCentralButton }) => {
           if (isAITrigger) {
