@@ -87,7 +87,7 @@ export default function MerchantMenuPage() {
                 <CardDescription>
                   A lista de todos os itens disponíveis na sua loja.
                 </CardDescription>
-              </Header>
+              </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>

@@ -5,7 +5,7 @@ import { answerNeighborhoodQuestion } from '@/ai/flows/answer-neighborhood-quest
 import { analyzeReport, AnalyzeReportOutput, analyzeAllReports, AllReportsAnalysisOutput } from '@/ai/flows/report-analysis-flow';
 import { triageHealthIssue, HealthTriageOutput } from '@/ai/flows/health-triage-flow';
 import { db } from '@/lib/firebase';
-import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion, getDocs, query, orderBy, getDoc, runTransaction, increment } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion, arrayRemove, getDocs, query, orderBy, getDoc, runTransaction, increment, setDoc } from 'firebase/firestore';
 
 export async function askQuestion(question: string) {
   if (!question) {
@@ -135,7 +135,7 @@ export async function getReportsAnalysis(): Promise<AllReportsAnalysisOutput> {
 
 // Forum Actions
 export async function createPost(
-  data: { title: string; content: string; poll?: { question: string, options: string[] } },
+  data: { title: string; content: string; category?: string; poll?: { question: string, options: string[] } },
   user: { uid: string; displayName: string | null; photoURL: string | null }
 ) {
   if (!user) throw new Error("Usuário não autenticado.");
@@ -143,11 +143,14 @@ export async function createPost(
   const postData: any = {
     title: data.title,
     content: data.content,
+    category: data.category || 'Geral',
     authorId: user.uid,
     authorName: user.displayName || "Anônimo",
     authorAvatar: user.photoURL,
     createdAt: serverTimestamp(),
     repliesCount: 0,
+    likes: [],
+    pinned: false,
     comments: [],
   };
 
@@ -248,6 +251,13 @@ export async function voteOnPoll(postId: string, optionId: number, userId: strin
 }
 
 
+export async function togglePostLike(postId: string, userId: string, liked: boolean) {
+  const postRef = doc(db, "posts", postId);
+  await updateDoc(postRef, {
+    likes: liked ? arrayRemove(userId) : arrayUnion(userId),
+  });
+}
+
 // Business Actions
 export async function addReviewToBusiness(
   businessId: string, 
@@ -284,6 +294,75 @@ export async function addReviewToBusiness(
   } catch (error) {
     console.error("Erro ao adicionar avaliação:", error);
     throw new Error("Não foi possível adicionar a avaliação.");
+  }
+}
+
+// Business Review Actions (writes to business_reviews collection for real-time reads)
+export async function addBusinessReview(
+  businessId: string,
+  review: { rating: number; comment: string },
+  user: { uid: string; displayName: string | null; photoURL: string | null }
+) {
+  if (!businessId || !review || !user) {
+    throw new Error("Dados inválidos.");
+  }
+  const reviewData = {
+    businessId,
+    authorId: user.uid,
+    author: user.displayName || 'Anônimo',
+    avatarUrl: user.photoURL,
+    rating: review.rating,
+    comment: review.comment,
+    createdAt: serverTimestamp(),
+  };
+  await addDoc(collection(db, 'business_reviews'), reviewData);
+}
+
+// Chat Actions
+export async function sendChatMessage(
+  roomId: string,
+  text: string,
+  user: { uid: string; displayName: string | null; photoURL: string | null },
+  replyTo?: { messageId: string; text: string; authorName: string }
+) {
+  const messageData: any = {
+    text,
+    authorId: user.uid,
+    authorName: user.displayName || 'Anônimo',
+    authorAvatar: user.photoURL,
+    createdAt: serverTimestamp(),
+    reactions: {},
+    type: 'text',
+  };
+  if (replyTo) messageData.replyTo = replyTo;
+
+  const messagesRef = collection(db, 'chatRooms', roomId, 'messages');
+  const docRef = await addDoc(messagesRef, messageData);
+
+  await setDoc(doc(db, 'chatRooms', roomId), {
+    lastMessage: {
+      text,
+      authorName: user.displayName || 'Anônimo',
+      createdAt: serverTimestamp(),
+    },
+    messageCount: increment(1),
+  }, { merge: true });
+
+  return docRef.id;
+}
+
+export async function toggleMessageReaction(
+  roomId: string,
+  messageId: string,
+  emoji: string,
+  userId: string,
+  hasReacted: boolean
+) {
+  const msgRef = doc(db, 'chatRooms', roomId, 'messages', messageId);
+  if (hasReacted) {
+    await updateDoc(msgRef, { [`reactions.${emoji}`]: arrayRemove(userId) });
+  } else {
+    await updateDoc(msgRef, { [`reactions.${emoji}`]: arrayUnion(userId) });
   }
 }
 

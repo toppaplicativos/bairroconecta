@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/lib/firebase';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -101,7 +102,7 @@ export default function Poll({ postId, pollData }: PollProps) {
         })}
          {!user && (
             <p className="text-muted-foreground text-sm text-center pt-2">
-                 <a href="#" onClick={() => auth.signInWithRedirect(new (require('firebase/auth').GoogleAuthProvider)())} className="text-primary underline">Faça login</a> para participar da votação.
+                 <a href="#" onClick={(e) => { e.preventDefault(); signInWithPopup(auth, new GoogleAuthProvider()); }} className="text-primary underline">Faça login</a> para participar da votação.
             </p>
         )}
       </CardContent>

@@ -3,7 +3,7 @@ import {googleAI} from '@genkit-ai/googleai';
 
 export const ai = genkit({
   plugins: [
-    googleAI(),
+    googleAI({ apiKey: process.env.GOOGLE_GENAI_API_KEY }),
   ],
   logLevel: 'debug',
   enableTracingAndMetrics: true,

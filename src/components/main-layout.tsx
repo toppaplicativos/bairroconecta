@@ -167,6 +167,7 @@ function BottomNav({ mode }: { mode: keyof typeof bottomNavItems }) {
 
 function MobileHeader({ type, title }: { type: 'home' | 'detail', title?: string }) {
     const router = useRouter();
+    const pathname = usePathname();
 
     if (type === 'detail') {
         return (

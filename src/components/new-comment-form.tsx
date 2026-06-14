@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/lib/firebase";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { addCommentToPost } from "@/app/actions";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
@@ -70,7 +71,7 @@ export default function NewCommentForm({ postId }: NewCommentFormProps) {
     if (!user) {
         return (
             <p className="text-muted-foreground text-sm text-center p-4 border rounded-lg">
-                <a href="#" onClick={() => auth.signInWithRedirect(new (require('firebase/auth').GoogleAuthProvider)())} className="text-primary underline">Faça login</a> para participar da discussão.
+                <a href="#" onClick={(e) => { e.preventDefault(); signInWithPopup(auth, new GoogleAuthProvider()); }} className="text-primary underline">Faça login</a> para participar da discussão.
             </p>
         )
     }

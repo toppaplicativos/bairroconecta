@@ -1,7 +1,16 @@
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  serverExternalPackages: [
+    'genkit',
+    '@genkit-ai/core',
+    '@genkit-ai/googleai',
+    '@genkit-ai/next',
+    'handlebars',
+    'dotprompt',
+    '@opentelemetry/sdk-node',
+    '@opentelemetry/exporter-jaeger',
+  ],
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -31,6 +40,12 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'randomuser.me',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.mapbox.com',
         port: '',
         pathname: '/**',
       }

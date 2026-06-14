@@ -1,8 +1,8 @@
-
 'use client';
+
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Star, Send, Loader2 } from "lucide-react";
+import { Star, Send, Loader2, LogIn } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,13 +10,17 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "@/lib/firebase";
+import { auth, googleProvider } from "@/lib/firebase";
+import { signInWithPopup } from "firebase/auth";
 import { cn } from "@/lib/utils";
-import { addReviewToBusiness } from "@/app/actions";
+import { addBusinessReview } from "@/app/actions";
 
 const reviewSchema = z.object({
-  rating: z.number().min(1, "Por favor, selecione pelo menos uma estrela."),
-  comment: z.string().min(10, "Seu comentário deve ter pelo menos 10 caracteres.").max(500, "O comentário é muito longo."),
+  rating: z.number().min(1, "Selecione pelo menos uma estrela."),
+  comment: z
+    .string()
+    .min(10, "O comentário deve ter pelo menos 10 caracteres.")
+    .max(500, "O comentário é muito longo."),
 });
 
 type ReviewFormValues = z.infer<typeof reviewSchema>;
@@ -33,51 +37,48 @@ export default function NewReviewForm({ businessId }: NewReviewFormProps) {
 
   const form = useForm<ReviewFormValues>({
     resolver: zodResolver(reviewSchema),
-    defaultValues: {
-      rating: 0,
-      comment: "",
-    },
+    defaultValues: { rating: 0, comment: "" },
   });
 
+  const handleLogin = () => signInWithPopup(auth, googleProvider).catch(console.error);
+
   const onSubmit = async (data: ReviewFormValues) => {
-    if (!user) {
-      toast({
-        variant: "destructive",
-        title: "Usuário não autenticado",
-        description: "Você precisa fazer login para deixar uma avaliação.",
-      });
-      return;
-    }
+    if (!user) return;
     setIsSubmitting(true);
     try {
-        await addReviewToBusiness(businessId, data, {
-            uid: user.uid,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-        });
-        toast({
-            title: "Avaliação Enviada!",
-            description: "Obrigado pelo seu feedback. Ele é muito importante para nós.",
-        });
-        form.reset();
-    } catch (error) {
-        console.error("Erro ao enviar avaliação:", error);
-        toast({
-            variant: "destructive",
-            title: "Erro ao Enviar",
-            description: "Não foi possível registrar sua avaliação. Tente novamente.",
-        });
+      await addBusinessReview(businessId, data, {
+        uid: user.uid,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+      });
+      toast({
+        title: "Avaliação enviada!",
+        description: "Obrigado pelo seu feedback.",
+      });
+      form.reset();
+    } catch {
+      toast({
+        variant: "destructive",
+        title: "Erro ao enviar",
+        description: "Não foi possível registrar sua avaliação. Tente novamente.",
+      });
     } finally {
-        setIsSubmitting(false);
+      setIsSubmitting(false);
     }
   };
-  
+
   if (!user) {
     return (
-        <p className="text-muted-foreground text-sm text-center p-4 border rounded-lg">
-            <a href="#" onClick={() => auth.signInWithRedirect(new (require('firebase/auth').GoogleAuthProvider)())} className="text-primary underline">Faça login</a> para deixar sua avaliação.
+      <div className="flex flex-col items-center gap-3 py-4 text-center">
+        <p className="text-sm text-muted-foreground">
+          Faça login para deixar sua avaliação
         </p>
-    )
+        <Button variant="outline" onClick={handleLogin} className="gap-2">
+          <LogIn className="h-4 w-4" />
+          Entrar com Google
+        </Button>
+      </div>
+    );
   }
 
   return (
@@ -90,13 +91,18 @@ export default function NewReviewForm({ businessId }: NewReviewFormProps) {
             <FormItem>
               <FormLabel className="text-center block">Sua nota</FormLabel>
               <FormControl>
-                <div className="flex justify-center gap-1" onMouseLeave={() => setHoverRating(0)}>
-                  {[1, 2, 3, 4, 5].map((star) => (
+                <div
+                  className="flex justify-center gap-2"
+                  onMouseLeave={() => setHoverRating(0)}
+                >
+                  {[1, 2, 3, 4, 5].map(star => (
                     <Star
                       key={star}
                       className={cn(
-                        "w-8 h-8 cursor-pointer transition-colors",
-                        star <= (hoverRating || field.value) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+                        "w-9 h-9 cursor-pointer transition-all duration-150 hover:scale-110",
+                        star <= (hoverRating || field.value)
+                          ? "text-yellow-400 fill-yellow-400"
+                          : "text-gray-300"
                       )}
                       onMouseEnter={() => setHoverRating(star)}
                       onClick={() => field.onChange(star)}
@@ -116,9 +122,10 @@ export default function NewReviewForm({ businessId }: NewReviewFormProps) {
               <FormLabel>Seu comentário</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Conte como foi sua experiência com este estabelecimento..."
-                  rows={4}
+                  placeholder="Conte como foi sua experiência..."
+                  rows={3}
                   disabled={isSubmitting}
+                  className="resize-none"
                   {...field}
                 />
               </FormControl>
@@ -127,17 +134,11 @@ export default function NewReviewForm({ businessId }: NewReviewFormProps) {
           )}
         />
         <div className="flex justify-end">
-          <Button type="submit" disabled={isSubmitting}>
-             {isSubmitting ? (
-                <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Enviando...
-                </>
+          <Button type="submit" disabled={isSubmitting} className="gap-2">
+            {isSubmitting ? (
+              <><Loader2 className="h-4 w-4 animate-spin" /> Enviando...</>
             ) : (
-                <>
-                    <Send className="mr-2 h-4 w-4" />
-                    Enviar Avaliação
-                </>
+              <><Send className="h-4 w-4" /> Enviar avaliação</>
             )}
           </Button>
         </div>
