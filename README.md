@@ -24,7 +24,7 @@
 
 - **Frontend**: Next.js 15 (App Router), React, Tailwind CSS.
 - **UI Components**: Shadcn UI, Lucide Icons.
-- **Backend/Database**: Firebase Firestore, Firebase Authentication, Firebase Storage.
+- **Backend/Database**: Supabase (Postgres/Auth/Storage) como backend principal. O Firebase ainda existe em telas antigas durante a migração.
 - **Inteligência Artificial**: Genkit (Google AI / Gemini).
 - **Mapas**: React Map GL / Mapbox.
 
@@ -38,7 +38,7 @@
    ```bash
    npm install
    ```
-3. Configure as variáveis de ambiente em um arquivo `.env` com suas chaves do Firebase e Gemini.
+3. Configure as variáveis de ambiente em um arquivo `.env.local` com suas chaves do Supabase, Mapbox e Gemini. Veja `.env.example`.
 4. Inicie o servidor de desenvolvimento:
    ```bash
    npm run dev
