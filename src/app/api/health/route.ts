@@ -1,19 +1,24 @@
+import { getIntegrationReadiness } from '@/config/env';
+import { product } from '@/config/product';
+
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  return Response.json({
-    ok: true,
-    service: 'bairroconecta-web',
-    runtime: 'nextjs',
-    timestamp: new Date().toISOString(),
-    integrations: {
-      supabaseConfigured: Boolean(
-        process.env.NEXT_PUBLIC_SUPABASE_URL &&
-          process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
-      ),
-      databaseConfigured: Boolean(process.env.SUPABASE_DATABASE_URL),
-      mapboxConfigured: Boolean(process.env.NEXT_PUBLIC_MAPBOX_TOKEN),
-      googleAiConfigured: Boolean(process.env.GOOGLE_GENAI_API_KEY),
+  const integrations = getIntegrationReadiness();
+
+  return Response.json(
+    {
+      ok: true,
+      service: 'meu-bairro-web',
+      product: product.name,
+      runtime: 'nextjs',
+      timestamp: new Date().toISOString(),
+      integrations,
     },
-  });
+    {
+      headers: {
+        'Cache-Control': 'no-store, max-age=0',
+      },
+    }
+  );
 }
