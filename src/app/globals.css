@@ -128,7 +128,7 @@
   }
 
   .app-panel-interactive {
-    @apply app-panel transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-float;
+    @apply rounded-2xl border border-border/80 bg-card shadow-panel transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-float;
   }
 
   .app-kicker {
