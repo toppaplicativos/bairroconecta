@@ -1,55 +1,48 @@
 'use client';
 
-import { Suspense, useState, useMemo } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import MainLayout from "@/components/main-layout";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Slider } from "@/components/ui/slider";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
+import { Suspense, useMemo, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {
-  Search, SlidersHorizontal, ArrowRight, Shirt, Pizza,
-  Watch, Armchair, ShoppingBag, Tag, Scissors, Pill, X, Bike
-} from "lucide-react";
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
-import { businesses } from "@/lib/data";
-import { getOpenStatus } from "@/lib/business-utils";
-import BusinessCard from "@/components/business-card";
-import Autoplay from "embla-carousel-autoplay";
+  Armchair,
+  ArrowRight,
+  Bike,
+  Map,
+  Pill,
+  Pizza,
+  Scissors,
+  Search,
+  Shirt,
+  ShoppingBag,
+  SlidersHorizontal,
+  Store,
+  Tag,
+  Watch,
+  X,
+} from 'lucide-react';
+
+import BusinessCard from '@/components/business-card';
+import MainLayout from '@/components/main-layout';
+import { PageContainer } from '@/components/system/page-container';
+import { SectionHeading } from '@/components/system/section-heading';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Slider } from '@/components/ui/slider';
+import { Switch } from '@/components/ui/switch';
+import { getOpenStatus } from '@/lib/business-utils';
+import { businesses } from '@/lib/data';
 
 const categories = [
-  { name: "Restaurantes", icon: Pizza,     color: "bg-orange-100 text-orange-600" },
-  { name: "Moda",         icon: Shirt,     color: "bg-pink-100 text-pink-600" },
-  { name: "Farmácias",    icon: Pill,      color: "bg-blue-100 text-blue-600" },
-  { name: "Eletrônicos",  icon: Watch,     color: "bg-purple-100 text-purple-600" },
-  { name: "Mercados",     icon: ShoppingBag, color: "bg-green-100 text-green-600" },
-  { name: "Salões de Beleza", icon: Scissors, color: "bg-rose-100 text-rose-600" },
-  { name: "Móveis",       icon: Armchair,  color: "bg-amber-100 text-amber-600" },
-  { name: "Outros",       icon: Tag,       color: "bg-gray-100 text-gray-600" },
-];
-
-const promoSlides = [
-  {
-    title: "Semana do Bairro",
-    subtitle: "Até 30% de desconto nos restaurantes locais",
-    cta: "Ver ofertas",
-    gradient: "from-violet-600 to-primary",
-  },
-  {
-    title: "Novos no Bairro",
-    subtitle: "Conheça os comércios que acabaram de abrir",
-    cta: "Explorar",
-    gradient: "from-emerald-600 to-teal-400",
-  },
-  {
-    title: "Delivery Rápido",
-    subtitle: "Peça agora e receba em até 45 minutos",
-    cta: "Pedir agora",
-    gradient: "from-orange-500 to-red-500",
-  },
+  { name: 'Restaurantes', icon: Pizza, tone: 'bg-orange-50 text-orange-700' },
+  { name: 'Moda', icon: Shirt, tone: 'bg-pink-50 text-pink-700' },
+  { name: 'Farmácias', icon: Pill, tone: 'bg-blue-50 text-blue-700' },
+  { name: 'Eletrônicos', icon: Watch, tone: 'bg-violet-50 text-violet-700' },
+  { name: 'Mercados', icon: ShoppingBag, tone: 'bg-emerald-50 text-emerald-700' },
+  { name: 'Salões de Beleza', icon: Scissors, tone: 'bg-rose-50 text-rose-700' },
+  { name: 'Móveis', icon: Armchair, tone: 'bg-amber-50 text-amber-700' },
+  { name: 'Outros', icon: Tag, tone: 'bg-slate-100 text-slate-700' },
 ];
 
 function BusinessesContent() {
@@ -65,31 +58,33 @@ function BusinessesContent() {
   const activeFiltersCount =
     (openNowOnly ? 1 : 0) + (minRating > 0 ? 1 : 0) + (selectedCategory ? 1 : 0);
 
-  const businessItems = businesses.filter(b => b.type === 'business');
+  const businessItems = useMemo(() => businesses.filter((business) => business.type === 'business'), []);
 
   const filtered = useMemo(() => {
-    return businessItems.filter(b => {
+    return businessItems.filter((business) => {
       const matchText =
         searchText === '' ||
-        b.name.toLowerCase().includes(searchText.toLowerCase()) ||
-        b.category.toLowerCase().includes(searchText.toLowerCase());
-      const matchCat = !selectedCategory || b.category === selectedCategory;
-      const matchOpen = !openNowOnly || getOpenStatus(b).isOpen;
-      const matchRating = b.rating >= minRating;
-      return matchText && matchCat && matchOpen && matchRating;
+        business.name.toLowerCase().includes(searchText.toLowerCase()) ||
+        business.category.toLowerCase().includes(searchText.toLowerCase());
+      const matchCategory = !selectedCategory || business.category === selectedCategory;
+      const matchOpen = !openNowOnly || getOpenStatus(business).isOpen;
+      const matchRating = business.rating >= minRating;
+
+      return matchText && matchCategory && matchOpen && matchRating;
     });
-  }, [businessItems, searchText, selectedCategory, openNowOnly, minRating]);
+  }, [businessItems, minRating, openNowOnly, searchText, selectedCategory]);
 
   const openNow = useMemo(
-    () => businessItems.filter(b => getOpenStatus(b).isOpen),
+    () => businessItems.filter((business) => getOpenStatus(business).isOpen).slice(0, 6),
     [businessItems]
   );
+
   const topRated = useMemo(
     () => [...businessItems].sort((a, b) => b.rating - a.rating).slice(0, 4),
     [businessItems]
   );
 
-  const isFiltering = !!(searchText || selectedCategory || openNowOnly || minRating > 0);
+  const isFiltering = Boolean(searchText || selectedCategory || openNowOnly || minRating > 0);
 
   const clearFilters = () => {
     setSearchText('');
@@ -99,233 +94,246 @@ function BusinessesContent() {
   };
 
   return (
-    <MainLayout currentMode="default">
-      <div className="flex-1 space-y-5 p-4 md:p-6 pb-24">
+    <MainLayout>
+      <PageContainer>
+        <SectionHeading
+          eyebrow="Comércio local"
+          title="Descubra negócios que fazem parte da rotina do bairro"
+          description="Busca por categoria, disponibilidade e reputação com foco no que está perto de você."
+          action={{ label: 'Explorar no mapa', href: '/map' }}
+        />
 
-        {/* Search + Filter */}
-        <div className="flex gap-2 items-center">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <div className="mt-6 flex flex-col gap-3 rounded-2xl border border-border/80 bg-card p-3 shadow-panel sm:flex-row sm:items-center sm:p-4">
+          <div className="relative min-w-0 flex-1">
+            <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <Input
-              placeholder="Buscar comércios..."
-              className="pl-9 bg-card border-border rounded-xl"
+              placeholder="Nome, categoria ou tipo de comércio..."
+              className="h-11 border-0 bg-slate-50 pl-10 shadow-none focus-visible:bg-white"
               value={searchText}
-              onChange={e => setSearchText(e.target.value)}
+              onChange={(event) => setSearchText(event.target.value)}
             />
           </div>
+
           <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
             <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className="relative bg-card border-border rounded-xl flex-shrink-0">
+              <Button variant="outline" className="relative h-11 gap-2 px-4">
                 <SlidersHorizontal className="h-4 w-4" />
-                {activeFiltersCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                Filtros
+                {activeFiltersCount > 0 ? (
+                  <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white">
                     {activeFiltersCount}
                   </span>
-                )}
+                ) : null}
               </Button>
             </SheetTrigger>
-            <SheetContent side="bottom" className="rounded-t-2xl pb-8">
-              <SheetHeader className="mb-4">
+            <SheetContent side="right" className="w-full sm:max-w-md">
+              <SheetHeader className="mb-6 text-left">
                 <SheetTitle>Filtrar comércios</SheetTitle>
               </SheetHeader>
-              <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="open-now" className="font-semibold text-base">Abertos agora</Label>
+
+              <div className="space-y-7">
+                <div className="flex items-center justify-between rounded-xl border p-4">
+                  <div>
+                    <Label htmlFor="open-now" className="font-semibold">Abertos agora</Label>
+                    <p className="mt-1 text-xs text-muted-foreground">Mostrar apenas quem está atendendo.</p>
+                  </div>
                   <Switch id="open-now" checked={openNowOnly} onCheckedChange={setOpenNowOnly} />
                 </div>
+
                 <div className="space-y-3">
-                  <Label className="font-semibold text-base">
-                    Avaliação mínima: {minRating > 0 ? `${minRating}★` : 'Qualquer'}
-                  </Label>
-                  <Slider
-                    min={0} max={5} step={0.5}
-                    value={[minRating]}
-                    onValueChange={([v]) => setMinRating(v)}
-                  />
+                  <div className="flex items-center justify-between">
+                    <Label className="font-semibold">Avaliação mínima</Label>
+                    <span className="text-xs font-bold text-primary">{minRating > 0 ? `${minRating}★` : 'Qualquer'}</span>
+                  </div>
+                  <Slider min={0} max={5} step={0.5} value={[minRating]} onValueChange={([value]) => setMinRating(value)} />
                 </div>
-                <div className="space-y-2">
-                  <Label className="font-semibold text-base">Categoria</Label>
+
+                <div className="space-y-3">
+                  <Label className="font-semibold">Categoria</Label>
                   <div className="flex flex-wrap gap-2">
-                    {categories.map(cat => (
+                    {categories.map((category) => (
                       <Badge
-                        key={cat.name}
-                        variant={selectedCategory === cat.name ? 'default' : 'outline'}
-                        className="cursor-pointer"
+                        key={category.name}
+                        variant={selectedCategory === category.name ? 'default' : 'outline'}
+                        className="cursor-pointer rounded-lg px-3 py-1.5"
                         onClick={() => {
                           router.push(
-                            selectedCategory === cat.name
+                            selectedCategory === category.name
                               ? '/businesses'
-                              : `/businesses?categoria=${encodeURIComponent(cat.name)}`
+                              : `/businesses?categoria=${encodeURIComponent(category.name)}`
                           );
-                          setFilterOpen(false);
                         }}
                       >
-                        {cat.name}
+                        {category.name}
                       </Badge>
                     ))}
                   </div>
                 </div>
-                <Button
-                  variant="ghost"
-                  className="w-full"
-                  onClick={() => { clearFilters(); setFilterOpen(false); }}
-                >
-                  Limpar filtros
-                </Button>
+
+                <div className="flex gap-2 border-t pt-5">
+                  <Button variant="outline" className="flex-1" onClick={clearFilters}>
+                    Limpar
+                  </Button>
+                  <Button className="flex-1" onClick={() => setFilterOpen(false)}>
+                    Aplicar
+                  </Button>
+                </div>
               </div>
             </SheetContent>
           </Sheet>
+
+          <Button asChild className="h-11 gap-2 px-4">
+            <a href="/map">
+              <Map className="h-4 w-4" />
+              Mapa
+            </a>
+          </Button>
         </div>
 
-        {/* Active filter pills */}
-        {isFiltering && (
-          <div className="flex items-center gap-2 flex-wrap -mt-2">
-            {selectedCategory && (
-              <Badge variant="secondary" className="gap-1 pl-2 pr-1">
+        {isFiltering ? (
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            {selectedCategory ? (
+              <Badge variant="secondary" className="gap-1 rounded-lg px-2.5 py-1.5">
                 {selectedCategory}
-                <button onClick={() => router.push('/businesses')} className="ml-0.5">
-                  <X className="w-3 h-3" />
+                <button onClick={() => router.push('/businesses')} aria-label="Remover categoria">
+                  <X className="h-3 w-3" />
                 </button>
               </Badge>
-            )}
-            {openNowOnly && (
-              <Badge variant="secondary" className="gap-1 pl-2 pr-1">
+            ) : null}
+            {openNowOnly ? (
+              <Badge variant="secondary" className="gap-1 rounded-lg px-2.5 py-1.5">
                 Aberto agora
-                <button onClick={() => setOpenNowOnly(false)} className="ml-0.5">
-                  <X className="w-3 h-3" />
+                <button onClick={() => setOpenNowOnly(false)} aria-label="Remover filtro abertos agora">
+                  <X className="h-3 w-3" />
                 </button>
               </Badge>
-            )}
-            {minRating > 0 && (
-              <Badge variant="secondary" className="gap-1 pl-2 pr-1">
+            ) : null}
+            {minRating > 0 ? (
+              <Badge variant="secondary" className="gap-1 rounded-lg px-2.5 py-1.5">
                 {minRating}★+
-                <button onClick={() => setMinRating(0)} className="ml-0.5">
-                  <X className="w-3 h-3" />
+                <button onClick={() => setMinRating(0)} aria-label="Remover avaliação mínima">
+                  <X className="h-3 w-3" />
                 </button>
               </Badge>
-            )}
-            <button onClick={clearFilters} className="text-xs text-muted-foreground underline">
+            ) : null}
+            <button onClick={clearFilters} className="text-xs font-semibold text-slate-500 hover:text-slate-900">
               Limpar tudo
             </button>
           </div>
-        )}
+        ) : null}
 
-        {/* Filtered results */}
-        {isFiltering ? (
-          <div>
-            <p className="text-sm text-muted-foreground mb-4">
-              {filtered.length} resultado{filtered.length !== 1 ? 's' : ''}
-            </p>
+        {!isFiltering ? (
+          <>
+            <section className="mt-5 rounded-2xl border border-slate-200 bg-slate-950 p-5 text-white shadow-panel sm:p-6">
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10 text-blue-300">
+                    <Store className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400">Descoberta local</p>
+                    <h2 className="mt-1 text-xl font-semibold text-white">Compre perto. Fortaleça perto.</h2>
+                    <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
+                      Uma vitrine organizada do comércio da região, sem misturar anúncio genérico com o que realmente existe no bairro.
+                    </p>
+                  </div>
+                </div>
+                <Button variant="outline" className="border-white/15 bg-white/10 text-white hover:bg-white/15 hover:text-white">
+                  <Bike className="h-4 w-4" />
+                  Delivery local
+                </Button>
+              </div>
+            </section>
+
+            <section className="mt-8">
+              <SectionHeading title="Categorias" description="Comece pelo que você precisa resolver agora." />
+              <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 xl:grid-cols-8">
+                {categories.map(({ name, icon: Icon, tone }) => (
+                  <button
+                    key={name}
+                    onClick={() => router.push(`/businesses?categoria=${encodeURIComponent(name)}`)}
+                    className="group rounded-2xl border border-border/80 bg-card p-3 text-left shadow-panel transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-float"
+                  >
+                    <span className={`flex h-10 w-10 items-center justify-center rounded-xl ${tone}`}>
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <span className="mt-3 block text-xs font-semibold leading-4 text-slate-800">{name}</span>
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            {openNow.length > 0 ? (
+              <section className="mt-10">
+                <SectionHeading
+                  title="Abertos agora"
+                  description="Opções que já podem te atender."
+                  action={{ label: 'Filtrar todos', href: '/businesses' }}
+                />
+                <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+                  {openNow.map((business) => (
+                    <BusinessCard key={business.id} business={business} />
+                  ))}
+                </div>
+              </section>
+            ) : null}
+
+            <section className="mt-10">
+              <SectionHeading title="Mais bem avaliados" description="Reputação em destaque para facilitar a escolha." />
+              <div className="mt-5 grid grid-cols-2 gap-4 lg:grid-cols-4">
+                {topRated.map((business) => (
+                  <BusinessCard key={business.id} business={business} />
+                ))}
+              </div>
+            </section>
+
+            <section className="mt-10">
+              <SectionHeading title="Todos os comércios" description="Explore o catálogo local completo." />
+              <div className="mt-5 grid grid-cols-2 gap-4 lg:grid-cols-4 2xl:grid-cols-5">
+                {businessItems.map((business) => (
+                  <BusinessCard key={business.id} business={business} />
+                ))}
+              </div>
+            </section>
+          </>
+        ) : (
+          <section className="mt-8">
+            <div className="mb-4 flex items-center justify-between gap-4">
+              <p className="text-sm font-medium text-slate-500">
+                {filtered.length} resultado{filtered.length !== 1 ? 's' : ''}
+              </p>
+              <button onClick={clearFilters} className="flex items-center gap-1 text-xs font-semibold text-primary">
+                Limpar busca
+                <ArrowRight className="h-3.5 w-3.5" />
+              </button>
+            </div>
+
             {filtered.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {filtered.map(b => <BusinessCard key={b.id} business={b} />)}
+              <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 2xl:grid-cols-5">
+                {filtered.map((business) => (
+                  <BusinessCard key={business.id} business={business} />
+                ))}
               </div>
             ) : (
-              <div className="text-center py-16 text-muted-foreground">
-                <p className="text-lg font-semibold">Nenhum comércio encontrado</p>
-                <p className="text-sm mt-1">Tente ajustar os filtros</p>
-                <Button variant="ghost" className="mt-4" onClick={clearFilters}>
+              <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
+                <Search className="mx-auto h-8 w-8 text-slate-300" />
+                <h3 className="mt-4 text-base font-semibold text-slate-900">Nenhum comércio encontrado</h3>
+                <p className="mt-1 text-sm text-slate-500">Tente remover algum filtro ou buscar outro termo.</p>
+                <Button variant="outline" className="mt-5" onClick={clearFilters}>
                   Limpar filtros
                 </Button>
               </div>
             )}
-          </div>
-        ) : (
-          <>
-            {/* Promo Carousel */}
-            <Carousel
-              opts={{ loop: true }}
-              plugins={[Autoplay({ delay: 4500, stopOnInteraction: true })]}
-            >
-              <CarouselContent>
-                {promoSlides.map((slide, i) => (
-                  <CarouselItem key={i}>
-                    <div className={`w-full h-36 rounded-2xl bg-gradient-to-r ${slide.gradient} p-5 flex flex-col justify-between text-white`}>
-                      <div>
-                        <p className="text-[10px] font-bold uppercase tracking-widest opacity-75">Destaque</p>
-                        <h3 className="text-xl font-bold mt-0.5 leading-tight">{slide.title}</h3>
-                        <p className="text-sm opacity-90 mt-0.5">{slide.subtitle}</p>
-                      </div>
-                      <button className="self-start bg-white/20 backdrop-blur-sm border border-white/30 text-white text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-white/30 transition-colors">
-                        {slide.cta} →
-                      </button>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
-
-            {/* Categories */}
-            <div>
-              <h2 className="text-lg font-bold mb-3">Categorias</h2>
-              <div className="grid grid-cols-4 gap-2">
-                {categories.map(cat => (
-                  <button
-                    key={cat.name}
-                    onClick={() => router.push(`/businesses?categoria=${encodeURIComponent(cat.name)}`)}
-                    className="flex flex-col items-center gap-1.5 p-2.5 rounded-2xl hover:bg-muted/70 transition-colors"
-                  >
-                    <div className={`p-2.5 rounded-xl ${cat.color}`}>
-                      <cat.icon className="h-5 w-5" />
-                    </div>
-                    <p className="text-[10px] font-semibold leading-tight text-center">{cat.name}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Open Now */}
-            {openNow.length > 0 && (
-              <div>
-                <div className="flex justify-between items-center mb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse inline-block" />
-                    <h2 className="text-lg font-bold">Abertos Agora</h2>
-                  </div>
-                  <button
-                    onClick={() => setOpenNowOnly(true)}
-                    className="text-sm text-primary font-semibold flex items-center gap-1"
-                  >
-                    Ver todos <ArrowRight className="h-4 w-4" />
-                  </button>
-                </div>
-                <Carousel opts={{ align: 'start' }}>
-                  <CarouselContent className="-ml-3">
-                    {openNow.map(b => (
-                      <CarouselItem key={b.id} className="pl-3 basis-3/5 sm:basis-2/5 md:basis-1/4">
-                        <BusinessCard business={b} />
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                </Carousel>
-              </div>
-            )}
-
-            {/* Top Rated */}
-            <div>
-              <h2 className="text-lg font-bold mb-3">⭐ Mais Avaliados</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {topRated.map(b => <BusinessCard key={b.id} business={b} />)}
-              </div>
-            </div>
-
-            {/* All */}
-            <div>
-              <h2 className="text-lg font-bold mb-3">Todos os Comércios</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {businessItems.map(b => <BusinessCard key={b.id} business={b} />)}
-              </div>
-            </div>
-          </>
+          </section>
         )}
-      </div>
+      </PageContainer>
     </MainLayout>
   );
 }
 
 export default function BusinessesPage() {
   return (
-    <Suspense fallback={<div className="flex items-center justify-center h-screen text-muted-foreground">Carregando...</div>}>
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">Carregando comércio local...</div>}>
       <BusinessesContent />
     </Suspense>
   );
