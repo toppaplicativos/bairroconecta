@@ -1,34 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   Bell,
   Bot,
   ChevronLeft,
-  Command,
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
   Plus,
-  Search,
   Sparkles,
   User,
 } from 'lucide-react';
 
 import AIAssistant from '@/components/ai-assistant';
 import { MeuBairroMark } from '@/components/brand/meu-bairro-mark';
+import { CommandMenu } from '@/components/system/command-menu';
+import { IconButton } from '@/components/system/icon-button';
 import { ThemeToggle } from '@/components/system/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
-import {
-  isNavigationItemActive,
-  mobileNavigation,
-  navigationGroups,
-} from '@/config/navigation';
+import { isNavigationItemActive, mobileNavigation, navigationGroups } from '@/config/navigation';
 
 type MainLayoutProps = {
   children: React.ReactNode;
@@ -36,6 +32,8 @@ type MainLayoutProps = {
   headerType?: 'home' | 'detail';
   headerTitle?: string;
 };
+
+const SIDEBAR_STORAGE_KEY = 'meu-bairro-sidebar-collapsed';
 
 function BrandMark({ compact = false }: { compact?: boolean }) {
   return (
@@ -63,6 +61,7 @@ function AIAssistantButton({ compact = false }: { compact?: boolean }) {
             'h-10 rounded-xl border-primary/20 bg-primary/10 text-primary shadow-none hover:bg-primary/15 hover:text-primary',
             compact ? 'w-10 px-0' : 'gap-2 px-3'
           )}
+          aria-label="Abrir assistente do bairro"
         >
           <Sparkles className="h-4 w-4" />
           {!compact ? <span className="text-xs font-bold">Assistente IA</span> : null}
@@ -88,37 +87,35 @@ function DesktopSidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
 
   return (
     <aside
+      aria-label="Navegação principal"
       className={cn(
-        'sticky top-0 hidden h-screen shrink-0 flex-col border-r border-border/80 bg-card lg:flex',
+        'sticky top-0 hidden h-screen shrink-0 flex-col border-r border-border/80 bg-card transition-[width] duration-200 lg:flex',
         collapsed ? 'w-[76px]' : 'w-[268px]'
       )}
     >
       <div className={cn('flex h-[72px] items-center border-b border-border/70', collapsed ? 'justify-center px-3' : 'justify-between px-5')}>
         <BrandMark compact={collapsed} />
         {!collapsed ? (
-          <Button variant="ghost" size="icon" className="h-9 w-9 rounded-xl text-muted-foreground hover:bg-muted hover:text-foreground" onClick={onToggle}>
-            <PanelLeftClose className="h-4 w-4" />
-          </Button>
+          <IconButton icon={PanelLeftClose} label="Recolher menu" className="h-9 w-9" onClick={onToggle} />
         ) : null}
       </div>
 
       {collapsed ? (
-        <button
+        <IconButton
+          icon={PanelLeftOpen}
+          label="Expandir menu"
+          className="mx-auto mt-3 h-9 w-9"
           onClick={onToggle}
-          className="mx-auto mt-3 flex h-9 w-9 items-center justify-center rounded-xl text-muted-foreground transition hover:bg-muted hover:text-foreground"
-          aria-label="Expandir menu"
-        >
-          <PanelLeftOpen className="h-4 w-4" />
-        </button>
+        />
       ) : null}
 
-      <div className="flex-1 overflow-y-auto px-3 py-4">
+      <div className="flex-1 overflow-y-auto px-3 py-4 app-scrollbar">
         {navigationGroups.map((group) => (
           <div key={group.label} className="mb-5 last:mb-0">
             {!collapsed ? (
               <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">{group.label}</p>
             ) : null}
-            <nav className="space-y-1">
+            <nav className="space-y-1" aria-label={group.label}>
               {group.items.map((item) => {
                 const active = isNavigationItemActive(pathname, item.href);
                 const Icon = item.icon;
@@ -127,8 +124,9 @@ function DesktopSidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
                     key={item.href}
                     href={item.href}
                     title={collapsed ? item.label : undefined}
+                    aria-current={active ? 'page' : undefined}
                     className={cn(
-                      'group flex items-center rounded-xl text-sm transition',
+                      'group flex items-center rounded-xl text-sm transition active:scale-[0.99]',
                       collapsed ? 'mx-auto h-11 w-11 justify-center' : 'gap-3 px-3 py-2.5',
                       active
                         ? 'bg-foreground font-semibold text-background shadow-sm'
@@ -156,7 +154,7 @@ function DesktopSidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
         <Link
           href="/merchant/dashboard"
           className={cn(
-            'flex items-center rounded-xl border border-border bg-muted/50 text-foreground transition hover:bg-muted',
+            'flex items-center rounded-xl border border-border bg-muted/50 text-foreground transition active:scale-[0.99] hover:bg-muted',
             collapsed ? 'h-11 w-11 justify-center' : 'gap-3 px-3 py-3'
           )}
         >
@@ -179,21 +177,21 @@ function MobileDrawer() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl lg:hidden">
+        <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl lg:hidden" aria-label="Abrir menu">
           <Menu className="h-5 w-5" />
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-[86vw] max-w-[340px] border-border bg-card p-0">
         <SheetTitle className="sr-only">Navegação principal</SheetTitle>
-        <div className="flex h-full flex-col bg-card">
+        <div className="flex h-full flex-col bg-card pt-[env(safe-area-inset-top)]">
           <div className="flex h-[72px] items-center border-b border-border/70 px-5">
             <BrandMark />
           </div>
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex-1 overflow-y-auto p-4 app-scrollbar">
             {navigationGroups.map((group) => (
               <div key={group.label} className="mb-6">
                 <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">{group.label}</p>
-                <nav className="space-y-1">
+                <nav className="space-y-1" aria-label={group.label}>
                   {group.items.map((item) => {
                     const active = isNavigationItemActive(pathname, item.href);
                     const Icon = item.icon;
@@ -201,8 +199,9 @@ function MobileDrawer() {
                       <Link
                         key={item.href}
                         href={item.href}
+                        aria-current={active ? 'page' : undefined}
                         className={cn(
-                          'flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold',
+                          'flex min-h-11 items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold transition active:scale-[0.99]',
                           active ? 'bg-foreground text-background' : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                         )}
                       >
@@ -228,7 +227,7 @@ function Topbar({ headerType, headerTitle }: Pick<MainLayoutProps, 'headerType' 
     <header className="sticky top-0 z-40 flex h-[72px] items-center border-b border-border/80 bg-card/90 px-4 backdrop-blur-xl sm:px-6 xl:px-8">
       <div className="flex w-full items-center gap-3">
         {headerType === 'detail' ? (
-          <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl lg:hidden" onClick={() => router.back()}>
+          <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl lg:hidden" onClick={() => router.back()} aria-label="Voltar">
             <ChevronLeft className="h-5 w-5" />
           </Button>
         ) : (
@@ -246,29 +245,16 @@ function Topbar({ headerType, headerTitle }: Pick<MainLayoutProps, 'headerType' 
         </div>
 
         <div className="mx-auto hidden w-full max-w-xl md:block">
-          <div className="flex h-10 items-center gap-2 rounded-xl border border-border bg-muted/60 px-3 transition focus-within:border-primary/30 focus-within:bg-card focus-within:ring-4 focus-within:ring-primary/10">
-            <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
-            <input
-              aria-label="Buscar no Meu Bairro"
-              className="h-full w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
-              placeholder="Buscar imóveis, lojas, serviços, eventos..."
-            />
-            <span className="hidden items-center gap-1 rounded-md border border-border bg-card px-1.5 py-0.5 text-[10px] font-semibold text-muted-foreground xl:flex">
-              <Command className="h-3 w-3" /> K
-            </span>
-          </div>
+          <CommandMenu />
         </div>
 
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
           <AIAssistantButton compact />
           <ThemeToggle />
-          <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-xl text-muted-foreground hover:bg-muted hover:text-foreground" aria-label="Notificações">
-            <Bell className="h-[18px] w-[18px]" />
-            <span className="absolute right-2.5 top-2.5 h-1.5 w-1.5 rounded-full bg-primary ring-2 ring-card" />
-          </Button>
+          <IconButton icon={Bell} label="Notificações" badge />
           <Link
             href="/profile"
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground text-xs font-bold text-background shadow-sm"
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground text-xs font-bold text-background shadow-sm transition active:scale-95"
             aria-label="Abrir perfil"
           >
             MB
@@ -283,7 +269,7 @@ function MobileBottomNavigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card/95 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 shadow-nav backdrop-blur-xl lg:hidden">
+    <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card/90 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 shadow-nav backdrop-blur-2xl lg:hidden" aria-label="Navegação móvel">
       <div className="mx-auto grid max-w-lg grid-cols-5">
         {mobileNavigation.map((item) => {
           const active = isNavigationItemActive(pathname, item.href);
@@ -292,11 +278,13 @@ function MobileBottomNavigation() {
             <Link
               key={item.href}
               href={item.href}
+              aria-current={active ? 'page' : undefined}
               className={cn(
-                'flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl px-1 text-[10px] font-bold transition',
+                'relative flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl px-1 text-[10px] font-bold transition active:scale-95',
                 active ? 'text-primary' : 'text-muted-foreground'
               )}
             >
+              {active ? <span className="absolute inset-x-3 top-0 h-0.5 rounded-full bg-primary" aria-hidden="true" /> : null}
               <Icon className="h-5 w-5" strokeWidth={active ? 2.4 : 1.9} />
               <span>{item.label}</span>
             </Link>
@@ -317,16 +305,31 @@ export default function MainLayout({
   const [collapsed, setCollapsed] = useState(false);
   const isProviderProfile = pathname.startsWith('/services/provider/');
 
+  useEffect(() => {
+    setCollapsed(window.localStorage.getItem(SIDEBAR_STORAGE_KEY) === 'true');
+  }, []);
+
+  const toggleSidebar = () => {
+    setCollapsed((current) => {
+      const next = !current;
+      window.localStorage.setItem(SIDEBAR_STORAGE_KEY, String(next));
+      return next;
+    });
+  };
+
   if (isProviderProfile) {
     return <div className="min-h-screen bg-background">{children}</div>;
   }
 
   return (
     <div className="min-h-screen bg-background lg:flex">
-      <DesktopSidebar collapsed={collapsed} onToggle={() => setCollapsed((value) => !value)} />
+      <a href="#app-content" className="skip-link">Pular para o conteúdo</a>
+      <DesktopSidebar collapsed={collapsed} onToggle={toggleSidebar} />
       <div className="min-w-0 flex-1">
         <Topbar headerType={headerType} headerTitle={headerTitle} />
-        <main className="min-h-[calc(100vh-72px)] pb-24 lg:pb-0">{children}</main>
+        <main id="app-content" tabIndex={-1} className="min-h-[calc(100vh-72px)] pb-24 outline-none lg:pb-0">
+          {children}
+        </main>
       </div>
       <MobileBottomNavigation />
       <div className="fixed bottom-6 right-6 z-30 hidden xl:block">
@@ -342,9 +345,9 @@ export default function MainLayout({
               <DialogTitle>O que você quer publicar?</DialogTitle>
             </DialogHeader>
             <div className="grid gap-2 pt-2">
-              <Link href="/classifieds" className="rounded-xl border border-border p-4 text-sm font-semibold hover:bg-muted">Criar classificado</Link>
-              <Link href="/community" className="rounded-xl border border-border p-4 text-sm font-semibold hover:bg-muted">Publicar na comunidade</Link>
-              <Link href="/ouvidoria" className="rounded-xl border border-border p-4 text-sm font-semibold hover:bg-muted">Registrar ocorrência</Link>
+              <Link href="/classifieds" className="rounded-xl border border-border p-4 text-sm font-semibold transition active:scale-[0.99] hover:bg-muted">Criar classificado</Link>
+              <Link href="/community" className="rounded-xl border border-border p-4 text-sm font-semibold transition active:scale-[0.99] hover:bg-muted">Publicar na comunidade</Link>
+              <Link href="/ouvidoria" className="rounded-xl border border-border p-4 text-sm font-semibold transition active:scale-[0.99] hover:bg-muted">Registrar ocorrência</Link>
             </div>
           </DialogContent>
         </Dialog>
