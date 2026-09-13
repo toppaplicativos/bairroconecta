@@ -20,7 +20,7 @@ import { SectionHeading } from '@/components/system/section-heading';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { properties } from '@/lib/data';
+import { getNearbyProperties, getRecommendedProperties } from '@/features/properties/data';
 
 const propertyCategories = [
   { name: 'Casas', icon: HomeIcon },
@@ -31,8 +31,8 @@ const propertyCategories = [
 
 export default function PropertiesPage() {
   const [openFilters, setOpenFilters] = useState(false);
-  const recommendedProperties = useMemo(() => properties.slice(0, 2), []);
-  const nearbyProperties = useMemo(() => properties.slice(2, 8), []);
+  const recommendedProperties = useMemo(() => getRecommendedProperties(2), []);
+  const nearbyProperties = useMemo(() => getNearbyProperties(2, 6), []);
 
   return (
     <MainLayout currentMode="properties">
