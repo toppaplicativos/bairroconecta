@@ -1,21 +1,26 @@
-
 import type { Metadata } from 'next';
+import { Manrope } from 'next/font/google';
+
 import './globals.css';
-import { Toaster } from "@/components/ui/toaster"
-import { cn } from '@/lib/utils';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { PT_Sans } from 'next/font/google';
+
+import { Toaster } from '@/components/ui/toaster';
+import { cn } from '@/lib/utils';
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manrope',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
-  title: 'BairroConecta',
-  description: 'Sua plataforma completa para a vida no bairro - Imóveis, Comércio, Ouvidoria e Saúde.',
+  title: {
+    default: 'Meu Bairro',
+    template: '%s · Meu Bairro',
+  },
+  description:
+    'A plataforma local para descobrir serviços, comércio, imóveis, comunidade, saúde e serviços públicos do seu bairro.',
 };
-
-const ptSans = PT_Sans({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-pt-sans',
-});
 
 export default function RootLayout({
   children,
@@ -23,8 +28,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${ptSans.variable}`}>
-      <body className={cn("antialiased bg-background font-sans")}>
+    <html lang="pt-BR" className={manrope.variable}>
+      <body className={cn('min-h-screen bg-background font-sans text-foreground antialiased')}>
         {children}
         <Toaster />
       </body>
