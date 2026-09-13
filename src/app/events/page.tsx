@@ -10,7 +10,7 @@ import { PageContainer } from '@/components/system/page-container';
 import { SectionHeading } from '@/components/system/section-heading';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { eventCategories, events } from '@/lib/data';
+import { eventCategories, events } from '@/features/events/data';
 
 export default function EventsPage() {
   const [query, setQuery] = useState('');
