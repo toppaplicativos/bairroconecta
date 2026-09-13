@@ -12,9 +12,9 @@ type MetricCardProps = {
 };
 
 const trendTones = {
-  positive: 'bg-emerald-50 text-emerald-700 ring-emerald-100',
-  neutral: 'bg-slate-100 text-slate-600 ring-slate-200',
-  warning: 'bg-amber-50 text-amber-700 ring-amber-100',
+  positive: 'bg-success/10 text-success ring-success/20',
+  neutral: 'bg-muted text-muted-foreground ring-border',
+  warning: 'bg-warning/10 text-warning ring-warning/20',
 };
 
 export function MetricCard({
@@ -32,7 +32,7 @@ export function MetricCard({
           <p className="text-sm font-medium text-muted-foreground">{label}</p>
           <p className="mt-2 text-3xl font-semibold tracking-[-0.04em] text-foreground">{value}</p>
         </div>
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-foreground">
           <Icon className="h-5 w-5" />
         </div>
       </div>
