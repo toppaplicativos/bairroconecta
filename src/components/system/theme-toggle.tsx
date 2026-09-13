@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { track } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
 
 type ThemePreference = 'light' | 'dark' | 'system';
@@ -56,6 +57,7 @@ export function ThemeToggle() {
     window.localStorage.setItem(STORAGE_KEY, next);
     setPreference(next);
     applyTheme(next);
+    track('theme_change', { preference: next, resolved: resolveTheme(next) });
   };
 
   const ActiveIcon = preference === 'light' ? Sun : preference === 'dark' ? Moon : Monitor;
@@ -79,16 +81,10 @@ export function ThemeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-44 rounded-xl p-1.5">
-        <DropdownMenuLabel className="px-2 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
-          Aparência
-        </DropdownMenuLabel>
+        <DropdownMenuLabel className="px-2 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">Aparência</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {options.map(({ value, label, icon: Icon }) => (
-          <DropdownMenuItem
-            key={value}
-            onSelect={() => setTheme(value)}
-            className="flex cursor-pointer items-center gap-2 rounded-lg px-2.5 py-2"
-          >
+          <DropdownMenuItem key={value} onSelect={() => setTheme(value)} className="flex cursor-pointer items-center gap-2 rounded-lg px-2.5 py-2">
             <Icon className="h-4 w-4 text-muted-foreground" />
             <span className="flex-1 text-sm font-medium">{label}</span>
             <Check className={cn('h-4 w-4 text-primary transition-opacity', preference === value ? 'opacity-100' : 'opacity-0')} />
