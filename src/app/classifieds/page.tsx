@@ -10,7 +10,7 @@ import { PageContainer } from '@/components/system/page-container';
 import { SectionHeading } from '@/components/system/section-heading';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { classifiedAds, classifiedCategories } from '@/lib/data';
+import { classifiedAds, classifiedCategories } from '@/features/classifieds/data';
 
 export default function ClassifiedsPage() {
   const [query, setQuery] = useState('');
