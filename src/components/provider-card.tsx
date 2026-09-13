@@ -1,12 +1,11 @@
-
 'use client';
-import Image from "next/image";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Star, MoreVertical, Share2, Plus, Users, Briefcase } from "lucide-react";
-import { Button } from "./ui/button";
-import { Business } from "@/lib/data";
-import Link from "next/link";
+
+import Image from 'next/image';
+import Link from 'next/link';
+import { Briefcase, Star } from 'lucide-react';
+
+import { Card } from '@/components/ui/card';
+import { Business } from '@/lib/data';
 
 type ProviderCardProps = {
   provider: Business;
@@ -16,48 +15,40 @@ export default function ProviderCard({ provider }: ProviderCardProps) {
   const formattedRating = provider.rating.toFixed(1);
 
   return (
-    <Link href={`/services/provider/${provider.id}`} className="block">
-        <Card className="overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex p-3 gap-3 items-center bg-white border rounded-2xl">
-        <div className="relative w-24 h-24 md:w-28 md:h-28 flex-shrink-0">
-            <Image
+    <Link href={`/services/provider/${provider.id}`} className="group block h-full">
+      <Card className="flex h-full gap-4 overflow-hidden p-3 transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-float sm:p-4">
+        <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-slate-100 sm:h-28 sm:w-28">
+          <Image
             src={provider.imageUrl}
             alt={provider.name}
-            layout="fill"
-            objectFit="cover"
-            className="rounded-xl"
+            fill
+            sizes="112px"
+            className="object-cover transition duration-500 group-hover:scale-[1.03]"
             data-ai-hint={provider.hint}
-            />
-            <Badge variant="secondary" className="absolute top-2 left-2 bg-black/50 text-white border-0">
-            <Star className="w-3 h-3 mr-1 text-yellow-400 fill-yellow-400" />
-            {formattedRating} <span className="text-muted-foreground ml-1">({provider.reviewsCount})</span>
-            </Badge>
-            <Button variant="ghost" size="icon" className="absolute top-1 right-1 h-7 w-7 bg-black/30 text-white hover:bg-black/50 hover:text-white rounded-full">
-                <Share2 className="h-4 w-4" />
-            </Button>
+          />
         </div>
 
-        <div className="flex-1 flex flex-col justify-between self-stretch">
-            <div>
-                <div className="flex justify-between items-start">
-                    <p className="text-sm text-muted-foreground flex items-center gap-1.5">
-                        <Briefcase className="w-3 h-3"/> {provider.experience} anos
-                    </p>
-                    <Button variant="ghost" size="icon" className="h-7 w-7 -mr-2">
-                        <MoreVertical className="h-4 w-4" />
-                    </Button>
-                </div>
-                <h3 className="font-bold text-lg leading-tight font-headline">{provider.name}</h3>
-            </div>
-            
-            {provider.pricePerHour && (
-                <div className="flex items-center justify-between mt-2">
-                    <Button variant="secondary" className="h-8 rounded-full bg-orange-100 text-orange-600 hover:bg-orange-200">
-                        <span className="font-bold">R${provider.pricePerHour}/hr</span>
-                    </Button>
-                </div>
-            )}
+        <div className="min-w-0 flex-1 py-1">
+          <div className="flex items-center justify-between gap-3">
+            <span className="flex items-center gap-1 rounded-lg bg-amber-50 px-2 py-1 text-xs font-bold text-amber-700">
+              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+              {formattedRating}
+              <span className="font-medium text-amber-600/70">({provider.reviewsCount})</span>
+            </span>
+            {provider.pricePerHour ? (
+              <span className="text-xs font-semibold text-slate-500">R$ {provider.pricePerHour}/h</span>
+            ) : null}
+          </div>
+
+          <h3 className="mt-3 truncate text-base font-semibold tracking-[-0.02em] text-slate-950">{provider.name}</h3>
+          <div className="mt-1.5 flex items-center gap-1.5 text-xs text-slate-500">
+            <Briefcase className="h-3.5 w-3.5" />
+            <span>{provider.experience} anos de experiência</span>
+          </div>
+
+          <p className="mt-4 text-xs font-bold text-primary">Ver perfil profissional</p>
         </div>
-        </Card>
+      </Card>
     </Link>
   );
 }

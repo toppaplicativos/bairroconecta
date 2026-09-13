@@ -1,30 +1,70 @@
+import type { Metadata, Viewport } from 'next';
+import { Manrope } from 'next/font/google';
 
-import type { Metadata } from 'next';
 import './globals.css';
-import { Toaster } from "@/components/ui/toaster"
-import { cn } from '@/lib/utils';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { PT_Sans } from 'next/font/google';
 
-export const metadata: Metadata = {
-  title: 'BairroConecta',
-  description: 'Sua plataforma completa para a vida no bairro - Imóveis, Comércio, Ouvidoria e Saúde.',
-};
+import { Toaster } from '@/components/ui/toaster';
+import { product } from '@/config/product';
+import { cn } from '@/lib/utils';
 
-const ptSans = PT_Sans({
+const manrope = Manrope({
   subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-pt-sans',
+  variable: '--font-manrope',
+  display: 'swap',
 });
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const themeBootstrapScript = `
+(function () {
+  try {
+    var key = 'meu-bairro-theme';
+    var preference = localStorage.getItem(key) || 'system';
+    var dark = preference === 'dark' || (preference === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var root = document.documentElement;
+    root.classList.toggle('dark', dark);
+    root.dataset.theme = dark ? 'dark' : 'light';
+    root.dataset.themePreference = preference;
+  } catch (_) {}
+})();
+`;
+
+export const metadata: Metadata = {
+  title: {
+    default: product.name,
+    template: `%s · ${product.name}`,
+  },
+  description: product.description,
+  applicationName: product.name,
+  colorScheme: 'light dark',
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: product.name,
+  },
+  formatDetection: {
+    telephone: false,
+  },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: 'cover',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: product.brand.themeLight },
+    { media: '(prefers-color-scheme: dark)', color: product.brand.themeDark },
+  ],
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR" className={`${ptSans.variable}`}>
-      <body className={cn("antialiased bg-background font-sans")}>
+    <html lang={product.locale} className={manrope.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
+      </head>
+      <body className={cn('min-h-screen bg-background font-sans text-foreground antialiased')}>
         {children}
         <Toaster />
       </body>

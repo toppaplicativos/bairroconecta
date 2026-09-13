@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Meu Bairro">
+  <rect width="512" height="512" rx="116" fill="#0f172a"/>
+  <path d="M256 74c-103 0-186 79.5-186 177.8 0 122.9 140.8 222.4 173.1 243.7a23.6 23.6 0 0 0 25.8 0C301.2 474.2 442 374.7 442 251.8 442 153.5 359 74 256 74Z" fill="#2563eb"/>
+  <path d="M149 253.2 256 167.5l107 85.7v98.1c0 13.2-10.7 23.9-23.9 23.9H172.9c-13.2 0-23.9-10.7-23.9-23.9v-98.1Z" fill="#fff"/>
+  <path d="m127.5 260.2 128.5-103 128.5 103" fill="none" stroke="#fff" stroke-width="35.7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M208.4 375.2v-87.2h95.2v87.2" fill="#2563eb"/>
+  <path d="M240.1 307.8h31.8v31.8h-31.8z" fill="#fff" opacity=".95"/>
+</svg>
