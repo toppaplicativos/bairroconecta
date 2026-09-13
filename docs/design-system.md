@@ -2,6 +2,8 @@
 
 Este documento define a linguagem visual e as regras de composição do produto. O objetivo é impedir que cada módulo crie sua própria interface e garantir que novas áreas possam crescer sem regressão visual.
 
+> O pacote de evolução premium aplicado ao shell, estados, PWA, acessibilidade e arquitetura está registrado em `docs/premium-foundation-29.md`.
+
 ## Princípios
 
 1. **Produto antes de decoração** — hierarquia, legibilidade e fluxo têm prioridade sobre efeitos.
@@ -11,46 +13,10 @@ Este documento define a linguagem visual e as regras de composição do produto.
 5. **Um sistema, vários módulos** — Imóveis, Comércio, Serviços, Saúde, Comunidade, Eventos, Classificados e Ouvidoria usam a mesma base.
 6. **IA contextual** — IA aparece no ponto em que reduz esforço; não como banner obrigatório em toda página.
 7. **Dados antes de marketing** — telas operacionais mostram estado, contexto e ação; copy promocional fica restrita a momentos editoriais claros.
-8. **Sensação de app nativo** — controles, navegação, feedback, touch targets e transições devem parecer parte de um aplicativo, não de uma landing page responsiva.
-9. **Identidade própria** — assets genéricos só entram quando não existe ganho de marca em criar um símbolo próprio.
-
-## Identidade visual e iconografia
-
-### Regra absoluta: sem emojis
-
-Emojis não fazem parte da interface do Meu Bairro. Não usar emojis em:
-
-- títulos;
-- cards;
-- badges;
-- estados vazios;
-- navegação;
-- botões;
-- notificações;
-- métricas;
-- CTAs;
-- ilustrações de interface.
-
-Quando houver necessidade de representação visual, usar nesta ordem:
-
-1. **SVG proprietário do Meu Bairro** quando o elemento fizer parte da identidade ou tiver recorrência relevante;
-2. **Lucide** para ações e conceitos utilitários;
-3. ilustração própria vetorial ou imagem editorial quando um ícone não for suficiente.
-
-### SVG proprietário
-
-O símbolo principal está em `src/components/brand/meu-bairro-mark.tsx`.
-
-Novos assets proprietários devem:
-
-- usar `viewBox` consistente;
-- funcionar em alta densidade sem bitmap;
-- aceitar cor por `currentColor` ou tokens;
-- funcionar em light e dark;
-- evitar excesso de detalhe;
-- manter linguagem geométrica coerente com o símbolo principal.
-
-Não baixar packs aleatórios de ícones para cada módulo.
+8. **Sem emojis de interface** — ações, estados e navegação usam SVG/iconografia vetorial consistente.
+9. **Identidade SVG-first** — elementos com peso de marca recebem assets próprios, não ícones genéricos improvisados.
+10. **Light/dark obrigatório** — toda nova superfície deve funcionar nos dois temas sem overrides locais de página.
+11. **Sensação nativa** — controles têm estados hover/focus/pressed/disabled, alvos touch adequados e respeitam safe-area.
 
 ## Tipografia
 
@@ -82,27 +48,6 @@ Cores de domínio — azul, teal, violeta, âmbar, rosa — podem ser usadas em 
 
 Nunca criar uma nova cor global dentro de uma página sem antes verificar se ela corresponde a um token semântico existente.
 
-## Tema claro e escuro
-
-Light e dark são parte da fundação, não uma etapa posterior.
-
-O produto suporta três preferências:
-
-- `Claro`;
-- `Escuro`;
-- `Sistema`.
-
-A preferência é persistida em `localStorage` e aplicada antes da hidratação para evitar flash de tema incorreto.
-
-Regras obrigatórias:
-
-- componentes compartilhados usam tokens semânticos antes de classes de cor fixa;
-- superfícies não devem depender de `bg-white` ou `text-slate-950` sem uma justificativa editorial;
-- imagens, ilustrações e SVGs próprios devem ser verificáveis nos dois temas;
-- bordas e sombras possuem leitura própria no dark mode;
-- estados hover/focus/selected devem funcionar nos dois temas;
-- `color-scheme` acompanha o tema para controles nativos do navegador.
-
 ## Espaçamento
 
 Base de 4px.
@@ -127,27 +72,6 @@ Base de 4px.
 - Hero/superfícies especiais: até 28px.
 - `rounded-full` somente para badges, avatares e indicadores.
 
-## Cards premium
-
-Cards não são caixas genéricas repetidas. Cada card precisa ter hierarquia interna clara.
-
-Estrutura preferida:
-
-1. contexto/eyebrow ou mídia;
-2. informação principal;
-3. metadata essencial;
-4. estado/reputação quando aplicável;
-5. ação ou affordance discreta.
-
-Regras:
-
-- borda + sombra leve como padrão;
-- hover com deslocamento mínimo apenas em desktop;
-- estado pressionado/touch sem depender de hover;
-- nunca colocar cinco cores, badges e ícones competindo no mesmo card;
-- cards de listagem devem compartilhar alinhamento, altura visual e ritmo;
-- cards operacionais priorizam leitura; cards editoriais podem usar imagem e composição mais expressiva.
-
 ## Sombras
 
 - `shadow-panel`: elevação mínima para superfícies.
@@ -163,8 +87,9 @@ Sombras não substituem bordas; normalmente usamos borda + sombra leve.
 ### Desktop
 
 - sidebar persistente e colapsável;
+- estado de sidebar persistido localmente;
 - grupos de navegação vindos de `src/config/navigation.ts`;
-- topbar com contexto local, busca global, IA, tema, notificações e perfil;
+- topbar com contexto local, command palette, IA, tema, notificações e perfil;
 - conteúdo preserva largura/densidade adequada para produtividade.
 
 ### Mobile
@@ -173,8 +98,7 @@ Sombras não substituem bordas; normalmente usamos borda + sombra leve.
 - drawer para navegação completa;
 - bottom navigation com até cinco destinos primários;
 - safe-area para iOS;
-- ações principais com alvo touch de aproximadamente 44px;
-- feedback de toque e foco sem depender de hover.
+- ações principais com alvo touch de aproximadamente 44px.
 
 O shell não importa Firebase, Supabase ou qualquer SDK de dados. Autenticação e perfil entram por providers/adapters próprios.
 
@@ -184,7 +108,7 @@ O shell não importa Firebase, Supabase ou qualquer SDK de dados. Autenticação
 Controla largura máxima e espaçamento da página.
 
 ### `SectionHeading`
-Padroniza eyebrow, título, descrição e ação contextual.
+Padroniza eyebrow, título, descrição, hierarquia e ação contextual.
 
 ### `MetricCard`
 Métrica com label, valor, helper e estado/trend.
@@ -192,15 +116,29 @@ Métrica com label, valor, helper e estado/trend.
 ### `ModuleCard`
 Entrada para módulos/capabilities do produto.
 
-### `ThemeToggle`
-Alterna Claro / Escuro / Sistema e persiste a preferência.
+### `StatusBadge`
+Status semântico compartilhado entre features.
+
+### `EmptyState`
+Estado vazio compartilhado para listas e módulos.
+
+### `ErrorState`
+Erro contextual recuperável.
+
+### `IconButton`
+Ação compacta com touch target, aria-label e estado opcional.
+
+### `CommandMenu`
+Navegação global do produto com `Cmd/Ctrl + K`.
 
 ### `MainLayout`
-App shell compartilhado: sidebar desktop, topbar, busca global, acesso à IA, tema, navegação mobile e ações rápidas.
+App shell compartilhado: sidebar desktop, topbar, busca global, acesso à IA, navegação mobile e ações rápidas.
 
 ## Componentes UI
 
 `src/components/ui` contém os primitivos de menor nível (Button, Card, Input, Dialog, Sheet, Badge, Tabs etc.). Esses componentes devem receber melhorias globais antes de cada tela criar overrides locais.
+
+`Card` possui variantes globais: `default`, `interactive`, `elevated`, `inset`, `glass` e `flat`.
 
 Antes de criar um componente de tela, verificar nesta ordem:
 
@@ -219,6 +157,8 @@ Quando fizer sentido, cada rota segue esta ordem:
 5. estados de loading, vazio, erro e sucesso;
 6. CTA contextual somente quando houver próximo passo real.
 
+O App Router possui fallbacks globais para `loading`, erro de rota, erro global e 404.
+
 ## Responsividade
 
 - Mobile: barra inferior, menu lateral em Sheet, grids de 1–2 colunas.
@@ -235,8 +175,17 @@ Nenhum layout deve depender de largura fixa de dispositivo específico.
 - estado não depende somente de cor;
 - formulários usam labels/aria quando necessário;
 - alvos touch próximos de 44px;
-- preferências de tema respeitam sistema;
-- assets decorativos não devem poluir a leitura por leitor de tela.
+- `skip-link` para o conteúdo principal;
+- `aria-current` em navegação ativa;
+- respeitar `prefers-reduced-motion`.
+
+## PWA e aparência
+
+- `manifest.ts` define instalação standalone;
+- `icon.svg` é o ícone proprietário do aplicativo;
+- viewport usa `viewport-fit=cover`;
+- theme-color adapta para light/dark;
+- tema pode ser Claro, Escuro ou Sistema e a preferência persiste localmente.
 
 ## Regras para novas telas
 
@@ -250,13 +199,14 @@ Nenhum layout deve depender de largura fixa de dispositivo específico.
 8. Qualquer novo padrão recorrente vira componente em `src/components/system`.
 9. Nenhuma página importa diretamente Firestore/Postgres; dados passam pela boundary da feature/repository.
 10. Não usar `style={{ '--primary': ... }}` para criar um tema exclusivo por módulo.
-11. Não introduzir emoji em nenhum texto de interface.
-12. Toda nova superfície deve ser revisada em light e dark.
-13. Todo novo ícone de marca recorrente deve ser considerado para SVG próprio antes de reutilizar um ícone genérico.
+11. Não usar emojis como ícones.
+12. Novo componente deve ser validado em light e dark.
+13. Capacidades ainda incompletas devem ser controladas por feature flags.
+14. Analytics entra via adapter, nunca SDK espalhado nos componentes.
+15. Variáveis de ambiente devem passar pela camada tipada de `src/config/env.ts`.
 
 ## Anti-patterns proibidos
 
-- emojis em UI;
 - um tema de cor diferente por página;
 - cards gigantes com ícone + texto como única estrutura do produto;
 - sombras pesadas em todos os elementos;
@@ -265,5 +215,6 @@ Nenhum layout deve depender de largura fixa de dispositivo específico.
 - duplicação de navigation/header/footer;
 - copy promocional no lugar de informação operacional;
 - mocks que simulam ação real sem indicar claramente o estado;
-- usar `bg-white`/`text-black` como padrão estrutural ignorando tokens de tema;
-- misturar bibliotecas de ícones sem necessidade.
+- emojis ou caracteres decorativos usados como substitutos de iconografia;
+- hardcode de branco/preto que quebre dark mode;
+- integração de analytics diretamente em features visuais.
