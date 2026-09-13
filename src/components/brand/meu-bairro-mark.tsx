@@ -8,9 +8,11 @@ type MeuBairroMarkProps = {
 /**
  * Proprietary Meu Bairro brand mark.
  * Combines a location silhouette with a compact neighborhood/roof geometry.
- * Keep this asset SVG-first so it remains crisp across app, PWA and native shells.
+ * `--brand-mark-cutout` controls the negative-space color when placed on a badge.
  */
 export function MeuBairroMark({ className, title = 'Meu Bairro' }: MeuBairroMarkProps) {
+  const cutout = 'var(--brand-mark-cutout, #ffffff)';
+
   return (
     <svg
       viewBox="0 0 32 32"
@@ -26,13 +28,18 @@ export function MeuBairroMark({ className, title = 'Meu Bairro' }: MeuBairroMark
       />
       <path
         d="M9.25 14.06 16 8.65l6.75 5.41v6.19a1.5 1.5 0 0 1-1.5 1.5h-10.5a1.5 1.5 0 0 1-1.5-1.5v-6.19Z"
-        fill="white"
-        fillOpacity="0.98"
+        fill={cutout}
       />
-      <path d="M7.9 14.5 16 8l8.1 6.5" stroke="white" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M7.9 14.5 16 8l8.1 6.5"
+        stroke={cutout}
+        strokeWidth="2.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
       <path d="M13 21.75v-5.5h6v5.5" fill="currentColor" />
       <path d="M11.1 13.95v7.8M20.9 13.95v7.8" stroke="currentColor" strokeWidth="1.1" strokeOpacity="0.18" />
-      <path d="M15 17.5h2v2h-2z" fill="white" fillOpacity="0.9" />
+      <path d="M15 17.5h2v2h-2z" fill={cutout} fillOpacity="0.92" />
     </svg>
   );
 }
