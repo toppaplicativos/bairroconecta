@@ -1,10 +1,11 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Manrope } from 'next/font/google';
 
 import './globals.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { Toaster } from '@/components/ui/toaster';
+import { product } from '@/config/product';
 import { cn } from '@/lib/utils';
 
 const manrope = Manrope({
@@ -29,22 +30,37 @@ const themeBootstrapScript = `
 
 export const metadata: Metadata = {
   title: {
-    default: 'Meu Bairro',
-    template: '%s · Meu Bairro',
+    default: product.name,
+    template: `%s · ${product.name}`,
   },
-  description:
-    'A plataforma local para descobrir serviços, comércio, imóveis, comunidade, saúde e serviços públicos do seu bairro.',
-  applicationName: 'Meu Bairro',
+  description: product.description,
+  applicationName: product.name,
   colorScheme: 'light dark',
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: product.name,
+  },
+  formatDetection: {
+    telephone: false,
+  },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: 'cover',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: product.brand.themeLight },
+    { media: '(prefers-color-scheme: dark)', color: product.brand.themeDark },
+  ],
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR" className={manrope.variable} suppressHydrationWarning>
+    <html lang={product.locale} className={manrope.variable} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
       </head>
